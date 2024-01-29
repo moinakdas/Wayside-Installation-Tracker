@@ -88,24 +88,25 @@ The following contains examples of how the `CableSpan()` objects should be refer
 ```python
 #Let Mess001 be a properly initialized CableSpan of the "mess" type (messenger)
 
-Mess001.start = 500
-Mess001.end = 800
-Mess001.track = "E1"
-Mess001.location = "COURT SQAURE"
-Mess001.location = "mess"
+Mess001.start = 50000                                   #Messenger starts at 500+00
+Mess001.end = 80000                                     #Messenger ends at 800+00
+Mess001.track = "E1"                                    #Messenger will be installed on E1 track
+Mess001.location = "COURT SQAURE"                       #Messenger is located in the Court Square Station
+Mess001.location = "mess"                               #Cable span is of Messenger type
 
-Mess001.activities.messSupports.total = 50
-Mess001.activities.messSupports.installed = 25
-Mess001.activities.messClamps.total = 20
-Mess001.activities.messClamps.installed = 15
-Mess001.activities.messWirePull.total = 1
-Mess001.activities.messWirePull.installed = 0
-Mess001.activities.messWireTension.total = 1
-Mess001.activities.messWireTension.installed = 0
-Mess001.activities.messCablesPulled.total = 6
-Mess001.activities.messCablesPulled.installed = 3
-Mess001.activities.messStraps.total = 50
-Mess001.activities.messStraps.installed = 0
+Mess001.activities.messSupports.total = 50              #There are a total of 50 messenger supports to be installed
+Mess001.activities.messSupports.installed = 25          #25 of 50 messenger supports have been installed
+Mess001.activities.messClamps.total = 20                #There are a total of 20 messenger clamps to be installed
+Mess001.activities.messClamps.installed = 15            #15 of 20 messenger clamps are currently installed
+Mess001.activities.messWirePull.total = 1               #Messenger Wire Pull is a "COMPLETE/NOT COMPLETE" activity, hence total will always be 1
+Mess001.activities.messWirePull.installed = 0           #0 denotes that wire pull has not been completed, 1 denotes that it has been completed
+Mess001.activities.messWireTension.total = 1            #Messenger Wire Tension is a "COMPLETE/NOT COMPLETE" activity, hence total will always be 1
+Mess001.activities.messWireTension.installed = 0        #0 denotes that wire tension has not been completed, 1 denotes that it has been completed
+Mess001.activities.messCablesPulled.total = 6           #A total of 6 cables will be pulled
+Mess001.activities.messCablesPulled.installed = 3       #3 of 6 cables will be installed
+Mess001.activities.messStraps.total = 50                #A total of 50 messenger straps will be installed
+Mess001.activities.messStraps.installed = 0             #0 of 50 messenger straps are installed
+Mess001.notes = "INSTALLATION PROJECTED EARLY"          #Note made for specified messenger installation
 
 ```
-
+The above example shows these values being defined. In practice, these values will be read and used in various calculations within the program.
