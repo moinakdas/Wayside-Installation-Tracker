@@ -212,7 +212,7 @@ Each array is then sorted by the stationing of the equipment mentioned (lowest s
 
 | Function Name | Description |
 |---------------|-------------|
-|`searchStationing(equipArray,start,end)`| Takes in the sorted list of equipment to search through (either a `CableSpan` or `Equipment` list), a start `int` stationing, and an end `int` stationing. Returns a list of entries from the given array that lie between the start and end stationing. 
+|`searchStationing(equipArray,start,end)`| Takes in the sorted list of equipment to search through (`equipArray`), a `(int) start` stationing, and an `(int) end` stationing. Returns a list of entries from the given array that lie between the start and end stationing. 
 
 
 
