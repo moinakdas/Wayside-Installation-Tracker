@@ -121,3 +121,4 @@ Axle Counters are represented by the `Equipment()` class. It's attributes are sh
 |`stationing`|`(int)` Stationing of referenced equipment. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
 |`track`|`(string)` The track the equipment is being installed on |
 |`location`| `(string)` The station/tunnel name that the equipment is being installed on |
+|`activities`| `**VARIES**` Represented by its own class depending on `type`
