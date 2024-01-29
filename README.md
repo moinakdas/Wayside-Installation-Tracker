@@ -16,7 +16,16 @@ This program currently supports seven different types of equipment:
 Each piece of equipment is represented within the code as its own class. Class definitions and attrivutes are listed below.
 
 ### CMRS & Cables
+#### Definitions
 The `CableSpan()` class represents the installation of cable/CMRS along portions of track. It's attributes are as follows.
 
+| Attribute | Description |
+|-----------|-------------|
+|start| `(int)` The stationing for the start of the cable/CMRS installation. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
+|end| `(int)` The stationing for the end of the cable/CMRS installation. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
+|track| `(string)` The track the cable/CMRS is being installed on |
+|location| `(string)` The station/tunnel name that the cable is being installed upon |
+|type| `(string)` The type of CMRS being installed |
 
 
+#### Examples
