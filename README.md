@@ -210,6 +210,9 @@ The script takes care of taking data from the properly formatted spreadsheet and
 
 Each array is then sorted by the stationing of the equipment mentioned (lowest stationing -> highest stationing) using MergeSort. This allows for binary search to be utilized when searching for equipment by location.
 
+| Function Name | Description |
+|---------------|-------------|
+|`searchStationing(equipArray,start,end)`| Takes in the sorted list of equipment to search through (either a `CableSpan` or `Equipment` list), a start `int` stationing, and an end `int` stationing. Returns a list of entries from the given array that lie between the start and end stationing. 
 
 
 
