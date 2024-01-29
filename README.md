@@ -148,7 +148,7 @@ The `SignalActivities()` class represents the installation progress of the Signa
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
 
 ### Switch Activities
-The `SwitchActivities()` class represents the installation progress of the Signal (`"SWITCH"`) type of equipment. Its attributes are shown below.
+The `SwitchActivities()` class represents the installation progress of the Switch (`"SWITCH"`) type of equipment. Its attributes are shown below.
 
 | Attribute | Defintions |
 |-----------|------------|
@@ -158,3 +158,24 @@ The `SwitchActivities()` class represents the installation progress of the Signa
 |`LCInstall`|`(BinProgress)` Whether Line Cable was installed |
 |`breakdownTesting`|`(BinProgress)` Whether Breakdown Testing was performed |
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
+
+### WRU Activities 
+
+The `WRUActivities()` class represents the installation progress of the WRU (`"WRU"`) type of equipment. Its attributes are shown below.
+
+| Attribute | Defintions |
+|-----------|------------|
+|`RUInstall`|`(BinProgress)` Whether switch was installed |
+|`JBInstall`|`(BinProgress)` Whether Junction Box was installed |
+|`FBInstall`|`(BinProgress)`|
+|`antennaInstall`|`(BinProgress)`|
+|`antCableInstall`|`(BinProgress)`|
+|`splitterInstall`|`(BinProgress)`|
+|`FCSplice`|`(BinProgress)` |
+|`FTesting`|`(BinProgress)` |
+|`PTesting`|`(BinProgress)` |
+
+### TOPB Activities
+
+
+
