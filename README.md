@@ -177,5 +177,24 @@ The `WRUActivities()` class represents the installation progress of the WRU (`"W
 
 ### TOPB Activities
 
+### Examples
+The following contains an example of how the `Equipment()` class may be referenced
+```python
+#Let AXC001 be an axle counter initialized as Equipment()
+
+AXC001.type = "AXC"                                   #Equipment is an Axle Counter
+AXC001.stationing = 71288                             #Axle Counter is stationed at 712+88
+AXC001.track = "E1"                                   #Axle Counter is on track E1
+AXC001.location = "BERGEN ST"                         #Axle Counter is located in the Bergen Street Station
+AXC001.activities.ACInstall.progress = 1              #Axle Counter has been installed
+AXC001.activities.ACInstall.date = 03-14-2024         #Axle Counter was installed on March 14th, 2024
+AXC001.activities.JBInstall.progress = 1              #Junction Box has been installed
+AXC001.activities.JBInstall.date = 03-14-2024         #Junction Box was installed on March 14th, 2024
+AXC001.activities.LCInstall.progress = 1              #Line Cable has been installed
+AXC001.activities.LCInstall.date = 03-16-2024         #Line Cable was installed on March 16th, 2024
+AXC001.activities.preOpTesting.progress = 0           #Pre-Operation testing not completed
+AXC001.activities.preOpTesting.date = None            #No date availiable as testing not completed
+AXC001.notes = "Pre-Op Testing delayed"               #Note made on specific axle counter installation
+```
 
 
