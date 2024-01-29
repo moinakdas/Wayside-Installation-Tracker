@@ -124,6 +124,14 @@ Axle Counters, Signals, Switches, WRUs, Z-Cases, and TOPBs are represented by th
 |`activities`| `**VARIES**` Represented by its own class depending on `type` |
 |`notes`|`(string)` Any notes taken about specific installation |
 
+### BinProgress Class
+The Activity classes listed below reference the `BinProgress` class. This class serves as a container for the total and installed quantity of material. Its definition is below.
+
+| Attribute | Description |
+|-----------|-------------|
+|`date`| `(string)` Date of reference task completion, written in `MM-DD-YYYY` format |
+|`progress`| `(int)` progress of current task, typically binary where `0` = not completed, `1` = completed |
+
 ### Axle Counter Activities
 The `AxleCounterActivities` class represents the installation progress of the Axle Counter (`"AXC"`) type of equipment. Each attribute in turn is represented by the `BinProgress` class. Its attributes are shown below.
 
