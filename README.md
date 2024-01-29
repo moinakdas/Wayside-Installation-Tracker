@@ -111,14 +111,39 @@ Mess001.notes = "INSTALLATION PROJECTED EARLY"          #Note made for specified
 ```
 The above example shows these values being defined. In practice, these values will be read and used in various calculations within the program.
 
-## Axle Counters
+## Equipment
 ### General Definitions
-Axle Counters are represented by the `Equipment()` class. It's attributes are shown below.
+Axle Counters, Signals, Switches, WRUs, Z-Cases, and TOPBs are represented by the `Equipment()` class. It's attributes are shown below.
 
 | Attribute | Defintions |
 |-----------|------------|
-|`type`| `(string)` Type of equipment installed (In this case, `"AXC"`)|
+|`type`| `(string)` Type of equipment installed (i.e. `"AXC"`,`"SIGNAL"`,`"SWITCH"`,`"WRU"`,`ZCASE`,`"TOPB"`)|
 |`stationing`|`(int)` Stationing of referenced equipment. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
 |`track`|`(string)` The track the equipment is being installed on |
 |`location`| `(string)` The station/tunnel name that the equipment is being installed on |
-|`activities`| `**VARIES**` Represented by its own class depending on `type`
+|`activities`| `**VARIES**` Represented by its own class depending on `type` |
+|`notes`|`(string)` Any notes taken about specific installation |
+
+### Axle Counter Activities
+The `AxleCounterActivities()` class represents the installation progress of the Axle Counter (`"AXC"`) type of equipment. Its attributes are shown below.
+
+| Attribute | Defintions |
+|-----------|------------|
+|`ACInstall`|`(BinProgress)` Whether Axle Counter was installed |
+|`JBInstall`|`(BinProgress)` Whether Junction Box was installed |
+|`LCInstall`|`(BinProgress)` Whether line cable was installed |
+|`breakdownTesting`|`(BinProgress)` Whether breakdown testing was performed |
+|`preOpTesting`|`(BinProgress)` Whether pre-operation testing was performed |
+
+### Signal Activities
+The `SignalActivities()` class represents the installation progress of the Signal (`"SIGNAL"`) type of equipment. Its attributes are shown below.
+
+| Attribute | Defintions |
+|-----------|------------|
+|`sigInstall`|`(BinProgress)` Whether Signal was installed |
+|`JBInstall`|`(BinProgress)` Whether Junction Box was installed |
+|`LCInstall`|`(BinProgress)` Whether line cable was installed |
+|`breakdownTesting`|`(BinProgress)` Whether breakdown testing was performed |
+|`preOpTesting`|`(BinProgress)` Whether pre-operation testing was performed |
+
+
