@@ -1,2 +1,2 @@
-# Wayside-Installation-Tracker
-Program to track progress of wayside equipment installation for Crosstown Partners
+# Wayside Installation Tracker
+The Wayside Installation Tracker is a program used to track the installation of various pieces of wayside equipment for Crosstown Partners under contract S-48012. It analyzes a spreadsheet tabulating the installation of each piece of equipment and provides a high level overview of project progress per installation type. It also organizes said data over different categories (i.e. overall progress can be displayed by station & tunnel, interlocking, or track number).
