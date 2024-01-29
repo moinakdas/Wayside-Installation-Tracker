@@ -214,5 +214,3 @@ Each array is then sorted by the stationing of the equipment mentioned (lowest s
 |---------------|-------------|
 |`searchStationing(equipArray,start,end)`| Takes in the sorted list of equipment to search through (`equipArray`), a `(int) start` stationing, and an `(int) end` stationing. Returns a list of entries from the given array that lie between the start and end stationing. 
 
-
-
