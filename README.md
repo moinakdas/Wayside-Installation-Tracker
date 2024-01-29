@@ -29,6 +29,14 @@ The `CableSpan()` class represents the installation of cable/CMRS along portions
 |`activities`| `**VARIES**` Represented by its own class depending on `type` (see MessActivities, CMRS15Activities, CMRS24Activities, TrayActivities) |
 |`notes`| `(string)` Any notes taken about specific installation |
 
+### Progress Class (Definitions ctd.)
+The Activity classes listed below reference the `progress` class. This class serves as a container for the total and installed quantity of material. Its definition is below.
+
+| Attribute | Description |
+|-----------|-------------|
+|`total`| `(int)` total quantity of referenced material required |
+|`installed`| `(int)` installed quantity of referenced material |
+
 ### Messenger Activities (Definitios ctd.)
 The `MessActivities()` class represents the installation progress of Messenger along the referencing `CableSpan()`. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
 
