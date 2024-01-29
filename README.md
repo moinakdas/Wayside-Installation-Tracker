@@ -30,13 +30,20 @@ The `CableSpan()` class represents the installation of cable/CMRS along portions
 |`notes`| `(string)` Any notes taken about specific installation |
 
 ### Messenger Activities (Definitios ctd.)
-The `MessActivities()` class represents the installation of cable/CMRS along portions of track. It's attributes are as follows. Each entry is in turn represented by the `progress()` class
+The `MessActivities()` class represents the installation of cable/CMRS along portions of track. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
 
 | Attribute | Description |
 |-----------|-------------|
-|`messSupports`| `(progress)` stores total & installed messenger supports |
-|`messClamps`|`(progress)` stores the total & installed messenger clamps |
-|`messWirePull`|`(progress)` stores progress of messenger wire pull (refers to the main wire that cables are hung from, wire that will be tensioned) |
-|`messCablesPulled`|`(progress)`
+|`messSupports`| `(progress)` progress of messenger support installation |
+|`messClamps`|`(progress)` progress of messenger clamp installation |
+|`messWirePull`|`(progress)` progress of messenger wire pull (refers to the main wire that cables are hung from, wire that will be tensioned) |
+|`messCablesPulled`|`(progress)` progress of cables pulled (refers to number of cables pulled in cablespan, NOT length) |
+|`messStraps`|`(progress)` progress of messenger strap installation |
 
+### CMRS15 Activities (Definitions ctd.)
+The `CMRS15Activities()` class represents the installation of cable/CMRS along portions of track. It inherits from the `CMRSActivities()` class (you have eyes, look at the code). Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+
+| Attribute | Description |
+|-----------|-------------|
+|`colClamp`|`(progress)` 
 ### Examples
