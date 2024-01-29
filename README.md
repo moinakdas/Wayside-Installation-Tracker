@@ -17,7 +17,7 @@ Each piece of equipment is represented within the code as its own class. Class d
 
 ## CMRS & Cables
 ### General Definitions
-The `CableSpan()` class represents the installation of cable/CMRS along portions of track. It's attributes are as follows.
+The `CableSpan` class represents the installation of cable/CMRS along portions of track. It's attributes are as follows.
 
 | Attribute | Description |
 |-----------|-------------|
@@ -38,7 +38,7 @@ The Activity classes listed below reference the `progress` class. This class ser
 |`installed`| `(int)` installed quantity of referenced material |
 
 ### Messenger Activities
-The `MessActivities()` class represents the installation progress of Messenger along the referencing `CableSpan()`. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+The `MessActivities` class represents the installation progress of Messenger along the referencing `CableSpan`. Each entry is in turn represented by the `progress` class. It's attributes are as follows. 
 
 | Attribute | Description |
 |-----------|-------------|
@@ -49,7 +49,7 @@ The `MessActivities()` class represents the installation progress of Messenger a
 |`messStraps`| `(progress)` progress of messenger strap installation (number of straps) |
 
 ### 15" CMRS Activities
-The `CMRS15Activities()` class represents the installation progress of 15" CMRS along the referencing `CableSpan()`. It inherits from the `CMRSActivities()` class. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+The `CMRS15Activities` class represents the installation progress of 15" CMRS along the referencing `CableSpan`. It inherits from the `CMRSActivities` class. Each entry is in turn represented by the `progress` class. It's attributes are as follows. 
 
 | Attribute | Description |
 |-----------|-------------|
@@ -61,7 +61,7 @@ The `CMRS15Activities()` class represents the installation progress of 15" CMRS 
 |`CMRSInstall15`|`(progress)` progress of 15" CMRS installed (refers to length of installation along track)|
 
 ### 24" CMRS Activities
-The `CMRS24Activities()` class represents the installation progress of 24" CMRS along the referencing `CableSpan()`. It inherits from the `CMRSActivities()` class. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+The `CMRS24Activities` class represents the installation progress of 24" CMRS along the referencing `CableSpan`. It inherits from the `CMRSActivities` class. Each entry is in turn represented by the `progress` class. It's attributes are as follows. 
 
 | Attribute | Description |
 |-----------|-------------|
@@ -73,7 +73,7 @@ The `CMRS24Activities()` class represents the installation progress of 24" CMRS 
 |`CMRSInstall24`|`(progress)` progress of 24" CMRS installed (by refers to length of installation along track)|
 
 ### Cable Tray Activities
-The `TrayActivities()` class represents the installation progress of Cable Tray along the referencing `CableSpan()`. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+The `TrayActivities` class represents the installation progress of Cable Tray along the referencing `CableSpan`. Each entry is in turn represented by the `progress` class. It's attributes are as follows. 
 
 | Attribute | Description |
 |-----------|-------------|
@@ -83,7 +83,7 @@ The `TrayActivities()` class represents the installation progress of Cable Tray 
 |`cablePull`|`(progress)` progress of cables pulled (by number of cables pulled, NOT length)|
 
 ### Examples 
-The following contains examples of how the `CableSpan()` objects should be referenced
+The following contains examples of how the `CableSpan` objects should be referenced
 
 ```python
 #Let Mess001 be a properly initialized CableSpan of the "mess" type (messenger)
@@ -113,7 +113,7 @@ The above example shows these values being defined. In practice, these values wi
 
 ## Equipment
 ### General Definitions
-Axle Counters, Signals, Switches, WRUs, Z-Cases, and TOPBs are represented by the `Equipment()` class. It's attributes are shown below.
+Axle Counters, Signals, Switches, WRUs, Z-Cases, and TOPBs are represented by the `Equipment` class. It's attributes are shown below.
 
 | Attribute | Defintions |
 |-----------|------------|
@@ -125,7 +125,7 @@ Axle Counters, Signals, Switches, WRUs, Z-Cases, and TOPBs are represented by th
 |`notes`|`(string)` Any notes taken about specific installation |
 
 ### Axle Counter Activities
-The `AxleCounterActivities()` class represents the installation progress of the Axle Counter (`"AXC"`) type of equipment. Its attributes are shown below.
+The `AxleCounterActivities` class represents the installation progress of the Axle Counter (`"AXC"`) type of equipment. Each attribute in turn is represented by the `BinProgress` class. Its attributes are shown below.
 
 | Attribute | Defintions |
 |-----------|------------|
@@ -136,7 +136,7 @@ The `AxleCounterActivities()` class represents the installation progress of the 
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
 
 ### Signal Activities
-The `SignalActivities()` class represents the installation progress of the Signal (`"SIGNAL"`) type of equipment. Its attributes are shown below.
+The `SignalActivities` class represents the installation progress of the Signal (`"SIGNAL"`) type of equipment. Each attribute in turn is represented by the `BinProgress` class.Its attributes are shown below.
 
 | Attribute | Defintions |
 |-----------|------------|
@@ -148,7 +148,7 @@ The `SignalActivities()` class represents the installation progress of the Signa
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
 
 ### Switch Activities
-The `SwitchActivities()` class represents the installation progress of the Switch (`"SWITCH"`) type of equipment. Its attributes are shown below.
+The `SwitchActivities` class represents the installation progress of the Switch (`"SWITCH"`) type of equipment. Each attribute in turn is represented by the `BinProgress` class. Its attributes are shown below.
 
 | Attribute | Defintions |
 |-----------|------------|
@@ -161,7 +161,7 @@ The `SwitchActivities()` class represents the installation progress of the Switc
 
 ### WRU Activities 
 
-The `WRUActivities()` class represents the installation progress of the WRU (`"WRU"`) type of equipment. Its attributes are shown below.
+The `WRUActivities` class represents the installation progress of the WRU (`"WRU"`) type of equipment. Each attribute in turn is represented by the `BinProgress` class. Its attributes are shown below.
 
 | Attribute | Defintions |
 |-----------|------------|
@@ -178,9 +178,9 @@ The `WRUActivities()` class represents the installation progress of the WRU (`"W
 ### TOPB Activities
 
 ### Examples
-The following contains an example of how the `Equipment()` class may be referenced
+The following contains an example of how the `Equipment` class may be referenced
 ```python
-#Let AXC001 be an axle counter initialized as Equipment()
+#Let AXC001 be an axle counter initialized as Equipment
 
 AXC001.type = "AXC"                                   #Equipment is an Axle Counter
 AXC001.stationing = 71288                             #Axle Counter is stationed at 712+88
