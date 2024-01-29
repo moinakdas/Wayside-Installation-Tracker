@@ -34,16 +34,32 @@ The `MessActivities()` class represents the installation of cable/CMRS along por
 
 | Attribute | Description |
 |-----------|-------------|
-|`messSupports`| `(progress)` progress of messenger support installation |
-|`messClamps`|`(progress)` progress of messenger clamp installation |
-|`messWirePull`|`(progress)` progress of messenger wire pull (refers to the main wire that cables are hung from, wire that will be tensioned) |
-|`messCablesPulled`|`(progress)` progress of cables pulled (refers to number of cables pulled in cablespan, NOT length) |
-|`messStraps`|`(progress)` progress of messenger strap installation |
+|`messSupports`| `(progress)` progress of messenger support installation (number of supports) |
+|`messClamps`| `(progress)` progress of messenger clamp installation (number of clamps) |
+|`messWirePull` | `(progress)` progress of messenger wire pull (refers to the main wire that cables are hung from, wire that will be tensioned) |
+|`messCablesPulled`| `(progress)` progress of cables pulled (refers to number of cables pulled in cablespan, NOT length) |
+|`messStraps`| `(progress)` progress of messenger strap installation (number of straps) |
 
-### CMRS15 Activities (Definitions ctd.)
-The `CMRS15Activities()` class represents the installation of cable/CMRS along portions of track. It inherits from the `CMRSActivities()` class (you have eyes, look at the code). Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+### 15" CMRS Activities (Definitions ctd.)
+The `CMRS15Activities()` class represents the installation of cable/CMRS along portions of track. It inherits from the `CMRSActivities()` class. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
 
 | Attribute | Description |
 |-----------|-------------|
-|`colClamp`|`(progress)` 
+|`colClamp`|`(progress)` progress of column clamp installations (number of column clamps)| 
+|`stationBrackets`| `(progress)` progress station bracket installations (number of station brackets) |
+|`grounding`| `(progress)` progress of grounding |
+|`obsBracket`| `(progress)` progress of obstruction bracket installation (number of obstruction brackets) |
+|`cablesPulled`| `(progress)` progress of cables pulled (refers to number of cables pulled in cablespan, NOT length) |
+
+### 24" CMRS Activities (Definitions ctd.)
+The `CMRS24Activities()` class represents the installation of cable/CMRS along portions of track. It inherits from the `CMRSActivities()` class. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+
+| Attribute | Description |
+|-----------|-------------|
+|`colClamp`|`(progress)` progress of column clamp installations (number of column clamps)| 
+|`stationBrackets`| `(progress)` progress station bracket installations (number of station brackets) |
+|`grounding`| `(progress)` progress of grounding |
+|`obsBracket`| `(progress)` progress of obstruction bracket installation (number of obstruction brackets) |
+|`cablesPulled`| `(progress)` progress of cables pulled (refers to number of cables pulled in cablespan, NOT length) |
+
 ### Examples
