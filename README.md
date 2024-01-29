@@ -3,7 +3,7 @@ The Wayside Installation Tracker is a program used to track the installation of 
 
 # Install
 
-# Usage
+# Class Structure
 This program currently supports seven different types of equipment:
 - CMRS & Cables
 - Axle Counters
@@ -204,5 +204,12 @@ AXC001.activities.preOpTesting.progress = 0           #Pre-Operation testing not
 AXC001.activities.preOpTesting.date = None            #No date availiable as testing not completed
 AXC001.notes = "Pre-Op Testing delayed"               #Note made on specific axle counter installation
 ```
+## Library Operation
+
+The script takes care of taking data from the properly formatted spreadsheet and internalizing it within its own class structure. It generates a series of arrays, one for each equipment type (one array corresponds to a sheet in the workbook).
+
+Each array is then sorted by the stationing of the equipment mentioned (lowest stationing -> highest stationing) using MergeSort. This allows for binary search to be utilized when searching for equipment by location.
+
+
 
 
