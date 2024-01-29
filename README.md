@@ -24,7 +24,7 @@ The `CableSpan()` class represents the installation of cable/CMRS along portions
 |`start`| `(int)` The stationing for the start of the cable/CMRS installation. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
 |`end`| `(int)` The stationing for the end of the cable/CMRS installation. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
 |`track`| `(string)` The track the cable/CMRS is being installed on |
-|`location`| `(string)` The station/tunnel name that the cable is being installed upon |
+|`location`| `(string)` The station/tunnel name that the cable is being installed on |
 |`type`| `(string)` The type of CMRS being installed |
 |`activities`| `**VARIES**` Represented by its own class depending on `type` (see MessActivities, CMRS15Activities, CMRS24Activities, TrayActivities) |
 |`notes`| `(string)` Any notes taken about specific installation |
@@ -110,3 +110,14 @@ Mess001.notes = "INSTALLATION PROJECTED EARLY"          #Note made for specified
 
 ```
 The above example shows these values being defined. In practice, these values will be read and used in various calculations within the program.
+
+## Axle Counters
+### General Definitions
+Axle Counters are represented by the `Equipment()` class. It's attributes are shown below.
+
+| Attribute | Defintions |
+|-----------|------------|
+|`type`| `(string)` Type of equipment installed (In this case, `"AXC"`)|
+|`stationing`|`(int)` Stationing of referenced equipment. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
+|`track`|`(string)` The track the equipment is being installed on |
+|`location`| `(string)` The station/tunnel name that the equipment is being installed on |
