@@ -131,9 +131,9 @@ The `AxleCounterActivities()` class represents the installation progress of the 
 |-----------|------------|
 |`ACInstall`|`(BinProgress)` Whether Axle Counter was installed |
 |`JBInstall`|`(BinProgress)` Whether Junction Box was installed |
-|`LCInstall`|`(BinProgress)` Whether line cable was installed |
-|`breakdownTesting`|`(BinProgress)` Whether breakdown testing was performed |
-|`preOpTesting`|`(BinProgress)` Whether pre-operation testing was performed |
+|`LCInstall`|`(BinProgress)` Whether Line Cable was installed |
+|`breakdownTesting`|`(BinProgress)` Whether Breakdown Testing was performed |
+|`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
 
 ### Signal Activities
 The `SignalActivities()` class represents the installation progress of the Signal (`"SIGNAL"`) type of equipment. Its attributes are shown below.
@@ -142,8 +142,19 @@ The `SignalActivities()` class represents the installation progress of the Signa
 |-----------|------------|
 |`sigInstall`|`(BinProgress)` Whether Signal was installed |
 |`JBInstall`|`(BinProgress)` Whether Junction Box was installed |
-|`LCInstall`|`(BinProgress)` Whether line cable was installed |
-|`breakdownTesting`|`(BinProgress)` Whether breakdown testing was performed |
-|`preOpTesting`|`(BinProgress)` Whether pre-operation testing was performed |
+|`SMInstall`|`(BinProgress)` |
+|`LCInstall`|`(BinProgress)` Whether Line Cable was installed |
+|`breakdownTesting`|`(BinProgress)` Whether Breakdown Testing was performed |
+|`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
 
+### Switch Activities
+The `SwitchActivities()` class represents the installation progress of the Signal (`"SWITCH"`) type of equipment. Its attributes are shown below.
 
+| Attribute | Defintions |
+|-----------|------------|
+|`switchInstall`|`(BinProgress)` Whether switch was installed |
+|`JBInstall`|`(BinProgress)` Whether Junction Box was installed |
+|`SCInstall`|`(BinProgress)` Whether Switch Cable was installed |
+|`LCInstall`|`(BinProgress)` Whether Line Cable was installed |
+|`breakdownTesting`|`(BinProgress)` Whether Breakdown Testing was performed |
+|`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
