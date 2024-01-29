@@ -29,7 +29,7 @@ The `CableSpan()` class represents the installation of cable/CMRS along portions
 |`activities`| `**VARIES**` Represented by its own class depending on `type` (see MessActivities, CMRS15Activities, CMRS24Activities, TrayActivities) |
 |`notes`| `(string)` Any notes taken about specific installation |
 
-### Progress Class (Definitions ctd.)
+### Progress Class
 The Activity classes listed below reference the `progress` class. This class serves as a container for the total and installed quantity of material. Its definition is below.
 
 | Attribute | Description |
@@ -37,7 +37,7 @@ The Activity classes listed below reference the `progress` class. This class ser
 |`total`| `(int)` total quantity of referenced material required |
 |`installed`| `(int)` installed quantity of referenced material |
 
-### Messenger Activities (Definitios ctd.)
+### Messenger Activities
 The `MessActivities()` class represents the installation progress of Messenger along the referencing `CableSpan()`. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
 
 | Attribute | Description |
@@ -48,7 +48,7 @@ The `MessActivities()` class represents the installation progress of Messenger a
 |`messCablesPulled`| `(progress)` progress of cables pulled (refers to number of cables pulled in cablespan, NOT length) |
 |`messStraps`| `(progress)` progress of messenger strap installation (number of straps) |
 
-### 15" CMRS Activities (Definitions ctd.)
+### 15" CMRS Activities
 The `CMRS15Activities()` class represents the installation progress of 15" CMRS along the referencing `CableSpan()`. It inherits from the `CMRSActivities()` class. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
 
 | Attribute | Description |
@@ -60,7 +60,7 @@ The `CMRS15Activities()` class represents the installation progress of 15" CMRS 
 |`cablesPulled`| `(progress)` progress of cables pulled (refers to number of cables pulled in cablespan, NOT length) |
 |`CMRSInstall15`|`(progress)` progress of 15" CMRS installed (refers to length of installation along track)|
 
-### 24" CMRS Activities (Definitions ctd.)
+### 24" CMRS Activities
 The `CMRS24Activities()` class represents the installation progress of 24" CMRS along the referencing `CableSpan()`. It inherits from the `CMRSActivities()` class. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
 
 | Attribute | Description |
@@ -82,4 +82,30 @@ The `TrayActivities()` class represents the installation progress of Cable Tray 
 |`coreDrilling`|`(progress)` progress of core drilling|
 |`cablePull`|`(progress)` progress of cables pulled (by number of cables pulled, NOT length)|
 
-### Examples
+### Examples 
+The following contains examples of how the `CableSpan()` objects should be referenced
+
+```python
+#Let Mess001 be a properly initialized CableSpan of the "mess" type (messenger)
+
+Mess001.start = 500
+Mess001.end = 800
+Mess001.track = "E1"
+Mess001.location = "COURT SQAURE"
+Mess001.location = "mess"
+
+Mess001.activities.messSupports.total = 50
+Mess001.activities.messSupports.installed = 25
+Mess001.activities.messClamps.total = 20
+Mess001.activities.messClamps.installed = 15
+Mess001.activities.messWirePull.total = 1
+Mess001.activities.messWirePull.installed = 0
+Mess001.activities.messWireTension.total = 1
+Mess001.activities.messWireTension.installed = 0
+Mess001.activities.messCablesPulled.total = 6
+Mess001.activities.messCablesPulled.installed = 3
+Mess001.activities.messStraps.total = 50
+Mess001.activities.messStraps.installed = 0
+
+```
+
