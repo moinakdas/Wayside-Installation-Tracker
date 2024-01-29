@@ -30,7 +30,7 @@ The `CableSpan()` class represents the installation of cable/CMRS along portions
 |`notes`| `(string)` Any notes taken about specific installation |
 
 ### Messenger Activities (Definitios ctd.)
-The `MessActivities()` class represents the installation of cable/CMRS along portions of track. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+The `MessActivities()` class represents the installation progress of Messenger along the referencing `CableSpan()`. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
 
 | Attribute | Description |
 |-----------|-------------|
@@ -41,7 +41,7 @@ The `MessActivities()` class represents the installation of cable/CMRS along por
 |`messStraps`| `(progress)` progress of messenger strap installation (number of straps) |
 
 ### 15" CMRS Activities (Definitions ctd.)
-The `CMRS15Activities()` class represents the installation of cable/CMRS along portions of track. It inherits from the `CMRSActivities()` class. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+The `CMRS15Activities()` class represents the installation progress of 15" CMRS along the referencing `CableSpan()`. It inherits from the `CMRSActivities()` class. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
 
 | Attribute | Description |
 |-----------|-------------|
@@ -50,16 +50,28 @@ The `CMRS15Activities()` class represents the installation of cable/CMRS along p
 |`grounding`| `(progress)` progress of grounding |
 |`obsBracket`| `(progress)` progress of obstruction bracket installation (number of obstruction brackets) |
 |`cablesPulled`| `(progress)` progress of cables pulled (refers to number of cables pulled in cablespan, NOT length) |
+|`CMRSInstall15`|`(progress)` progress of 15" CMRS installed (refers to length of installation along track)|
 
 ### 24" CMRS Activities (Definitions ctd.)
-The `CMRS24Activities()` class represents the installation of cable/CMRS along portions of track. It inherits from the `CMRSActivities()` class. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+The `CMRS24Activities()` class represents the installation progress of 24" CMRS along the referencing `CableSpan()`. It inherits from the `CMRSActivities()` class. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
 
 | Attribute | Description |
 |-----------|-------------|
-|`colClamp`|`(progress)` progress of column clamp installations (number of column clamps)| 
-|`stationBrackets`| `(progress)` progress station bracket installations (number of station brackets) |
+|`colClamp`|`(progress)` progress of column clamp installations (by number of column clamps)| 
+|`stationBrackets`| `(progress)` progress station bracket installations (by number of station brackets) |
 |`grounding`| `(progress)` progress of grounding |
-|`obsBracket`| `(progress)` progress of obstruction bracket installation (number of obstruction brackets) |
-|`cablesPulled`| `(progress)` progress of cables pulled (refers to number of cables pulled in cablespan, NOT length) |
+|`obsBracket`| `(progress)` progress of obstruction bracket installation (by number of obstruction brackets) |
+|`cablesPulled`| `(progress)` progress of cables pulled (by refers to number of cables pulled in cablespan, NOT length) |
+|`CMRSInstall24`|`(progress)` progress of 24" CMRS installed (by refers to length of installation along track)|
+
+### Cable Tray Activities
+The `TrayActivities()` class represents the installation progress of Cable Tray along the referencing `CableSpan()`. Each entry is in turn represented by the `progress()` class. It's attributes are as follows. 
+
+| Attribute | Description |
+|-----------|-------------|
+|`trayBrackets`|`(progress)` progress of cable tray bracket installation (by number of tray brackets installed) |
+|`installingTray`|`(progress)` progress of cable tray installation (by length of cable tray installed)|
+|`coreDrilling`|`(progress)` progress of core drilling|
+|`cablePull`|`(progress)` progress of cables pulled (by number of cables pulled, NOT length)|
 
 ### Examples
