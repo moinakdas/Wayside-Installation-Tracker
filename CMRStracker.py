@@ -6,7 +6,7 @@ import os
 #============================= REMOVE DURING DEBUGGING ==========================================
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
-workbook = load_workbook(filename="C:\\Users\\mdas\\Documents\\CMRSTracker\\dashboard.xlsx",  data_only=True)
+workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
 #================================================================================================
 #========================================================================================================================================================================
 #====================================================== CLASS DEFINITIONS, SEE GITHUB REPO FOR DETAILS ==================================================================
@@ -42,6 +42,64 @@ class CableSpan:
     def __str__(self):
         return str(self.type).upper() + " " + str(self.start) + " to " + str(self.end)
     
+    #returns the (unweighted) progress of the current cablespan as a decimal between 0 and 1. Returns -1 if totals are undefined
+    def getProgress(self):
+        if self.activities == None:
+            raise ValueError("CableSpan does not have an activity defined")
+        
+        match type(self.activities).__name__:
+            case "MessActivities":
+                if (progress := self.activities.messSupports.getProgress()) is None \
+                    or (progress := self.activities.messClamps.getProgress()) is None \
+                    or (progress := self.activities.messWirePull.getProgress()) is None \
+                    or (progress := self.activities.messWireTension.getProgress()) is None \
+                    or (progress := self.activities.messCablesPulled.getProgress()) is None \
+                    or (progress := self.activities.messStraps.getProgress()) is None:
+                    return -1
+                return (self.activities.messClamps.getProgress() + self.activities.messWirePull.getProgress() +
+                        self.activities.messWireTension.getProgress() + self.activities.messCablesPulled.getProgress() +
+                        self.activities.messStraps.getProgress()) / 6
+            
+            case "CMRS15Activities":
+                if (progress := self.activities.colClamp.getProgress()) is None \
+                        or (progress := self.activities.stationBrackets.getProgress()) is None \
+                        or (progress := self.activities.grounding.getProgress()) is None \
+                        or (progress := self.activities.obsBracket.getProgress()) is None \
+                        or (progress := self.activities.cablesPulled.getProgress()) is None \
+                        or (progress := self.activities.CMRSInstall15) is None:
+                    return -1
+                #print(self.activities.colClamp.getProgress())
+                #print(self.activities.stationBrackets.getProgress())
+                #print(self.activities.grounding.getProgress())
+                #print(self.activities.obsBracket.getProgress())
+                #print(self.activities.cablesPulled.getProgress())
+
+                return (self.activities.CMRSInstall15.getProgress() + self.activities.colClamp.getProgress() + self.activities.stationBrackets.getProgress() + self.activities.grounding.getProgress() +
+                        self.activities.obsBracket.getProgress() + self.activities.cablesPulled.getProgress()) / 6
+            
+            case "CMRS24Activities":
+                if (progress := self.activities.colClamp.getProgress()) is None \
+                        or (progress := self.activities.stationBrackets.getProgress()) is None \
+                        or (progress := self.activities.grounding.getProgress()) is None \
+                        or (progress := self.activities.obsBracket.getProgress()) is None \
+                        or (progress := self.activities.cablesPulled.getProgress()) is None \
+                        or (progress := self.activities.CMRSInstall24) is None:
+                    return -1
+                return (self.activities.CMRSInstall24.getProgress() + self.activities.colClamp.getProgress() + self.activities.stationBrackets.getProgress() + self.activities.grounding.getProgress() +
+                        self.activities.obsBracket.getProgress() + self.activities.cablesPulled.getProgress()) / 5
+
+            case "TrayActivities":
+                if (progress := self.activities.trayBrackets.getProgress()) is None \
+                        or (progress := self.activities.installingTray.getProgress()) is None \
+                        or (progress := self.activities.coreDrilling.getProgress()) is None \
+                        or (progress := self.activities.cablePull.getProgress()) is None:
+                    return -1
+                return (self.activities.trayBrackets.getProgress() + self.activities.installingTray.getProgress() + self.activities.coreDrilling.getProgress() +
+                        self.activities.cablePull.getProgress()) / 4
+
+            case _: #dump out 
+                raise ValueError("Unknown activity type")
+            
 class MessActivities:
     def __init__(self, messSupports, messClamps, messWirePull, messWireTension, messCablesPulled,messStraps):
         self.messSupports = messSupports
@@ -50,6 +108,7 @@ class MessActivities:
         self.messWireTension = messWireTension
         self.messCablesPulled = messCablesPulled
         self.messStraps = messStraps
+
         
 class CMRSActivities:
     def __init__(self, colClamp, stationBrackets, grounding, obsBracket, cablesPulled):
@@ -81,11 +140,14 @@ class progress:
         self.total = total
         self.install = install
 
+    #returns progress as a decimal between 0 and 1. If self.install is undefined, automatically default to 0
     def getProgress(self):
-        if self.total == None or self.install == None:
+        if self.total == None:
             return None
         if self.total > 0:
-            return self.install/self.total * 100
+            if self.install == None:
+                self.install = 0
+            return self.install/self.total
         else:
             raise ValueError("the \"total\" of this activity is either 0 or not defined")
 
@@ -137,6 +199,7 @@ class WRUActivities:
 
 #============================================================ END CLASS DEFINITIONS ============================================================================
 
+# takes a string and returns an int, if None is passed, None is returned
 def toNum(intVal):
     if intVal == None:
         return None
@@ -145,10 +208,11 @@ def toNum(intVal):
     except ValueError:
         return None
 
+# reads a block of CMRS data, corresponding to one entry, and converts it to a CableSpan object. Returns a CableSpan object. 
 def readCMRSBlock(startingRow):
-    sheet = workbook["CMRS"]
-    match sheet.cell(startingRow,5).value:
-        case "Steel Mess Supports":
+    sheet = workbook["CMRS"] #Open CMRS workbook
+    match sheet.cell(startingRow,5).value: #Read the entry on the "activity" column
+        case "Steel Mess Supports": #This is the first entry for messenger supports
             MessengerSpan = CableSpan(toNum(sheet.cell(startingRow,1).value),toNum(sheet.cell(startingRow,2).value),str(sheet.cell(startingRow,3).value),str(sheet.cell(startingRow,4).value),"mess",None,None)
             
             sMSupp = progress(toNum(sheet.cell(startingRow,6).value),toNum(sheet.cell(startingRow,7).value))
@@ -257,4 +321,13 @@ def readAXCBlock(startingRow):
 
 #============================================================================ CODE EXECUTION START =================================================================
 
-#readCMRSWorksheet()
+readCMRSWorksheet()
+
+print(CMRSObjectList[4].start)
+print(CMRSObjectList[4].getProgress())
+# Debugger/ printer
+#for i in range(len(CMRSObjectList)):
+#    if CMRSObjectList[i] != None:
+#        print(CMRSObjectList[i].start)
+#    else:
+#        print("NoneType")
