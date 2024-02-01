@@ -326,8 +326,13 @@ readCMRSWorksheet()
 print(CMRSObjectList[4].start)
 print(CMRSObjectList[4].getProgress())
 # Debugger/ printer
-#for i in range(len(CMRSObjectList)):
-#    if CMRSObjectList[i] != None:
-#        print(CMRSObjectList[i].start)
-#    else:
-#        print("NoneType")
+validCount = 0
+totalProgress = 0
+for i in range(len(CMRSObjectList)):
+    if CMRSObjectList[i] != None:
+        if CMRSObjectList[i].getProgress() != -1:
+            validCount += 1
+            totalProgress += CMRSObjectList[i].getProgress()
+
+print(totalProgress/validCount)
+print(str(validCount) + " OF " + str(len(CMRSObjectList)) + " ENTRIES SUCCESSFULL ")
