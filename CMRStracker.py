@@ -20,14 +20,31 @@ class BinProgress:
         self.progress = progress
 
 class Equipment:
-    def __init__(self,type,stationing,track,location,activities,notes):
-        self.type = type
+    def __init__(self,stationing,track,location,activities,notes):
         self.stationing = stationing
         self.track = track
         self.location = location
         self.activities = activities
         self.notes = notes
 
+class AXC(Equipment):
+    def __init__(self,stationing,track,location,activities,notes,REFDWG):
+        self.stationing = stationing
+        self.track = track
+        self.location = location
+        self.activities = activities
+        self.notes = notes
+        self.REFDWG = REFDWG
+
+class Signal(Equipment):
+    def __init__(self,stationing,track,signalType,location,activities,notes):
+        super().__init__(stationing,track,location,activities,notes)
+        self.signalType = signalType
+
+class Switch(Equipment):
+    def __init__(self,name,stationing,track,location,activities,notes):
+        super().__init__(stationing,track,location,activities,notes)
+        self.name = name
 #====================================================== CMRS CLASSES ==============================================================================================
 class CableSpan:
     def __init__(self,start,end,track,location,type,activities,notes):
@@ -149,7 +166,8 @@ class progress:
                 self.install = 0
             return self.install/self.total
         else:
-            raise ValueError("the \"total\" of this activity is either 0 or not defined")
+            return None
+            #raise ValueError("the \"total\" of this activity is 0")
 
 #========================================================================== AXLE COUNTER ============================================================================
 
@@ -287,52 +305,90 @@ def readCMRSWorksheet():
                 case "tray":
                     currRowIndex += 4
 
+def readAXCBlock(startingRow):
+    sheet = workbook["AXLE COUNTER"]
+    axcObj = AXC(toNum(sheet.cell(startingRow,1).value),toNum(sheet.cell(startingRow,2).value),str(sheet.cell(startingRow,3).value),None,None,None)
+
+    AC = BinProgress(toNum(sheet.cell(startingRow,5).value),toNum(sheet.cell(startingRow,6).value))
+    JB = BinProgress(toNum(sheet.cell(startingRow+1,5).value),toNum(sheet.cell(startingRow+1,6).value))
+    LC = BinProgress(toNum(sheet.cell(startingRow+2,5).value),toNum(sheet.cell(startingRow+2,6).value))
+    EC = BinProgress(toNum(sheet.cell(startingRow+3,5).value),toNum(sheet.cell(startingRow+3,6).value))
+    POT = BinProgress(toNum(sheet.cell(startingRow+4,5).value),toNum(sheet.cell(startingRow+4,6).value))
+
+    axcObj.activities = AxleCounterActivities(AC,JB,LC,EC,POT)
+    return axcObj
+
 AXCObjectList = []
 
-def readAXCBlock(startingRow):
-    sheet = workbook["AXLE COUNTER"]
-    equipObj = Equipment("AXC",toNum(sheet.cell(startingRow,1).value),toNum(sheet.cell(startingRow,2).value),str(sheet.cell(startingRow,3).value),None,None)
+def readAXCWorksheet():
+    currRowIndex = 2
+    while currRowIndex <= 387:
+        AXCObjectList.append(readAXCBlock(currRowIndex))
+        currRowIndex += 5
 
-    AC = BinProgress(toNum(sheet.cell(startingRow,5).value),toNum(sheet.cell(startingRow,6).value))
-    JB = BinProgress(toNum(sheet.cell(startingRow+1,5).value),toNum(sheet.cell(startingRow+1,6).value))
-    LC = BinProgress(toNum(sheet.cell(startingRow+2,5).value),toNum(sheet.cell(startingRow+2,6).value))
-    EC = BinProgress(toNum(sheet.cell(startingRow+3,5).value),toNum(sheet.cell(startingRow+3,6).value))
-    POT = BinProgress(toNum(sheet.cell(startingRow+4,5).value),toNum(sheet.cell(startingRow+4,6).value))
+def readSignalBlock(startingRow):
+    sheet = workbook["SIGNALS"]
+    signalObj = Signal(toNum(sheet.cell(startingRow,1).value),str(sheet.cell(startingRow,2).value),str(sheet.cell(startingRow,3).value),str(sheet.cell(startingRow,4).value),None,None)
 
-    equipObj.activities = AxleCounterActivities(AC,JB,LC,EC,POT)
-    return equipObj
+    SI = BinProgress(toNum(sheet.cell(startingRow,6).value),toNum(sheet.cell(startingRow,7).value))
+    JB = BinProgress(toNum(sheet.cell(startingRow+1,6).value),toNum(sheet.cell(startingRow+1,7).value))
+    SM = BinProgress(toNum(sheet.cell(startingRow+2,6).value),toNum(sheet.cell(startingRow+2,7).value))
+    LC = BinProgress(toNum(sheet.cell(startingRow+3,6).value),toNum(sheet.cell(startingRow+3,7).value))
+    BT = BinProgress(toNum(sheet.cell(startingRow+4,6).value),toNum(sheet.cell(startingRow+4,7).value))
+    POT = BinProgress(toNum(sheet.cell(startingRow+5,6).value),toNum(sheet.cell(startingRow+5,7).value))
+    
+    signalObj.activities = SignalActivities(SI,JB,SM,LC,BT,POT)
+    return signalObj
 
-def readAXCBlock(startingRow):
-    sheet = workbook["AXLE COUNTER"]
-    equipObj = Equipment("AXC",toNum(sheet.cell(startingRow,1).value),toNum(sheet.cell(startingRow,2).value),str(sheet.cell(startingRow,3).value),None,None)
+SignalObjectList = []
 
-    AC = BinProgress(toNum(sheet.cell(startingRow,5).value),toNum(sheet.cell(startingRow,6).value))
-    JB = BinProgress(toNum(sheet.cell(startingRow+1,5).value),toNum(sheet.cell(startingRow+1,6).value))
-    LC = BinProgress(toNum(sheet.cell(startingRow+2,5).value),toNum(sheet.cell(startingRow+2,6).value))
-    EC = BinProgress(toNum(sheet.cell(startingRow+3,5).value),toNum(sheet.cell(startingRow+3,6).value))
-    POT = BinProgress(toNum(sheet.cell(startingRow+4,5).value),toNum(sheet.cell(startingRow+4,6).value))
+def readSignalWorksheet():
+    currRowIndex = 2
+    while currRowIndex <= 194:
+        SignalObjectList.append(readSignalBlock(currRowIndex))
+        currRowIndex += 6
 
-    equipObj.activities = AxleCounterActivities(AC,JB,LC,EC,POT)
-    return equipObj
-#def readAXCWorksheet():
-#    currRowIndex = 2
-#    while currRowIndex <= 397:
+def readSwitchBlock(startingRow):
+    sheet = workbook["SWITCH"]
+    switchObj = Switch(str(sheet.cell(startingRow,1).value),toNum(sheet.cell(startingRow,2).value),str(sheet.cell(startingRow,3).value),str(sheet.cell(startingRow,4).value),None,None)
 
+    SI = BinProgress(toNum(sheet.cell(startingRow,4).value),toNum(sheet.cell(startingRow,5).value))
+    JB = BinProgress(toNum(sheet.cell(startingRow+1,4).value),toNum(sheet.cell(startingRow+1,5).value))
+    SC = BinProgress(toNum(sheet.cell(startingRow+2,4).value),toNum(sheet.cell(startingRow+2,5).value))
+    LC = BinProgress(toNum(sheet.cell(startingRow+3,4).value),toNum(sheet.cell(startingRow+3,5).value))
+    BT = BinProgress(toNum(sheet.cell(startingRow+4,4).value),toNum(sheet.cell(startingRow+4,5).value))
+    POT = BinProgress(toNum(sheet.cell(startingRow+5,4).value),toNum(sheet.cell(startingRow+5,5).value))
 
+    switchObj.activities = SwitchActivities(SI,JB,SC,LC,BT,POT)
+    return switchObj
+
+#def readSwitchWorksheet():
+
+#============================================================================ INITIALIZE ===========================================================================
+        
+def initializeObjects():
+    readCMRSWorksheet()
+    readAXCWorksheet()
+    readSignalWorksheet()
+
+    workbook.close()
 #============================================================================ CODE EXECUTION START =================================================================
+initializeObjects()
 
-readCMRSWorksheet()
-
-print(CMRSObjectList[4].start)
-print(CMRSObjectList[4].getProgress())
+"""
+#print(CMRSObjectList[4].start)
+#print(CMRSObjectList[4].getProgress())
 # Debugger/ printer
 validCount = 0
 totalProgress = 0
 for i in range(len(CMRSObjectList)):
     if CMRSObjectList[i] != None:
-        if CMRSObjectList[i].getProgress() != -1:
-            validCount += 1
-            totalProgress += CMRSObjectList[i].getProgress()
+        print(CMRSObjectList[i].start)
+        if CMRSObjectList[i].getProgress() != None:
+            if CMRSObjectList[i].getProgress() != -1:
+                validCount += 1
+                totalProgress += CMRSObjectList[i].getProgress()
 
 print(totalProgress/validCount)
 print(str(validCount) + " OF " + str(len(CMRSObjectList)) + " ENTRIES SUCCESSFULL ")
+"""
