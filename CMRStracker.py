@@ -27,6 +27,8 @@ class Equipment:
         self.activities = activities
         self.notes = notes
 
+        
+
 class AXC(Equipment):
     def __init__(self,stationing,track,location,activities,notes,REFDWG):
         self.stationing = stationing
@@ -36,15 +38,82 @@ class AXC(Equipment):
         self.notes = notes
         self.REFDWG = REFDWG
 
+    def getProgress(self):
+        if (self.activities.ACInstall.progress is None) \
+            or (self.activities.JBInstall.progress is None) \
+            or (self.activities.LCInstall.progress is None) \
+            or (self.activities.preOpTesting.progress is None):
+            return -1
+        return (self.activities.ACInstall.progress + self.activities.JBInstall.progress + self.activities.LCInstall.progress + self.activities.preOpTesting.progress)/4
+
 class Signal(Equipment):
     def __init__(self,stationing,track,signalType,location,activities,notes):
         super().__init__(stationing,track,location,activities,notes)
         self.signalType = signalType
+    
+    def getProgress(self):
+        if (self.activities.sigInstall.progress is None) \
+            or (self.activities.JBInstall.progress is None) \
+            or (self.activities.SMInstall.progress is None) \
+            or (self.activities.LCInstall.progress is None) \
+            or (self.activities.preOpTesting.progress is None):
+            return -1
+        return (self.activities.sigInstall.progress + self.activities.JBInstall.progress + self.activities.SMInstall.progress + self.activities.LCInstall.progress + self.activities.preOpTesting.progress)/5
 
 class Switch(Equipment):
     def __init__(self,name,stationing,track,location,activities,notes):
         super().__init__(stationing,track,location,activities,notes)
         self.name = name
+
+    def getProgress(self):
+        if (self.activities.switchInstall.progress is None) \
+            or (self.activities.JBInstall.progress is None) \
+            or (self.activities.SCInstall.progress is None) \
+            or (self.activities.LCInstall.progress is None) \
+            or (self.activities.breakdownTesting.progress is None) \
+            or (self.activities.preOpTesting.progress is None):
+            return -1
+        return (self.activities.switchInstall.progress + self.activities.JBInstall.progress + self.activities.SCInstall.progress + self.activities.LCInstall.progress + self.activities.breakdownTesting.progress + self.activities.preOpTesting.progress)/6
+
+class WRU(Equipment):
+    def __init__(self,stationing,track,location,activities,notes):
+        super().__init__(stationing,track,location,activities,notes)
+    
+    def getProgress(self):
+        if (self.activities.RUInstall.progress is None) \
+            or (self.activities.JBInstall.progress is None) \
+            or (self.activities.FBInstall.progress is None) \
+            or (self.activities.antennaInstall.progress is None) \
+            or (self.activities.antCableInstall.progress is None) \
+            or (self.activities.splitterInstall.progress is None) \
+            or (self.activities.FCSplice.progress is None) \
+            or (self.activities.FTesting.progress is None) \
+            or (self.activities.PTesting.progress is None):
+            return -1
+        return (self.activities.RUInstall.progress + self.activities.JBInstall.progress + self.activities.FBInstall.progress + self.activities.antennaInstall.progress + self.activities.antCableInstall.progress + self.activities.splitterInstall.progress + self.activities.FCSplice.progress + self.activities.FTesting.progress + self.activities.PTesting.progress)/6
+
+class ZCase(Equipment):
+    def __init__(self,stationing,track,location,activities,notes):
+        super().__init__(stationing,track,location,activities,notes)
+
+    def getProgress(self):
+        if (self.activities.caseInstall.progress is None) \
+            or (self.activities.cableConnect.progress is None) \
+            or (self.activities.preOpTesting.progress is None):
+            return -1
+        return (self.activities.caseInstall.progress + self.activities.cableConnect.progress + self.activities.preOpTesting.progress)/3
+
+class TOPB(Equipment):
+    def __init__(self,stationing,track,location,activities,notes):
+        super().__init__(stationing,track,location,activities,notes)
+
+    def getProgress(self):
+        if (self.activities.TOPBInstall.progress is None) \
+            or (self.activities.cableConnect.progress is None) \
+            or (self.activities.preOpTesting.progress is None):
+            return -1
+        return (self.activities.TOPBInstall.progress + self.activities.cableConnect.progress + self.activities.preOpTesting.progress)/3
+
 #====================================================== CMRS CLASSES ==============================================================================================
 class CableSpan:
     def __init__(self,start,end,track,location,type,activities,notes):
@@ -215,6 +284,22 @@ class WRUActivities:
         self.FTesting = FTesting
         self.PTesting = PTesting
 
+# ==================================================================== ZCase =======================================================================================
+
+class ZCaseActivities:
+    def __init__(self, caseInstall, cableConnect, preOpTesting):
+        self.caseInstall = caseInstall
+        self.cableConnect = cableConnect
+        self.preOpTesting = preOpTesting
+
+# ==================================================================== TOPB ====================================================================================
+    
+class TOPBActivities:
+    def __init__(self, TOPBInstall, cableConnect, preOpTesting):
+        self.TOPBInstall = TOPBInstall
+        self.cableConnect = cableConnect
+        self.preOpTesting = preOpTesting
+
 #============================================================ END CLASS DEFINITIONS ============================================================================
 
 # takes a string and returns an int, if None is passed, None is returned
@@ -352,43 +437,126 @@ def readSwitchBlock(startingRow):
     sheet = workbook["SWITCH"]
     switchObj = Switch(str(sheet.cell(startingRow,1).value),toNum(sheet.cell(startingRow,2).value),str(sheet.cell(startingRow,3).value),str(sheet.cell(startingRow,4).value),None,None)
 
-    SI = BinProgress(toNum(sheet.cell(startingRow,4).value),toNum(sheet.cell(startingRow,5).value))
-    JB = BinProgress(toNum(sheet.cell(startingRow+1,4).value),toNum(sheet.cell(startingRow+1,5).value))
-    SC = BinProgress(toNum(sheet.cell(startingRow+2,4).value),toNum(sheet.cell(startingRow+2,5).value))
-    LC = BinProgress(toNum(sheet.cell(startingRow+3,4).value),toNum(sheet.cell(startingRow+3,5).value))
-    BT = BinProgress(toNum(sheet.cell(startingRow+4,4).value),toNum(sheet.cell(startingRow+4,5).value))
-    POT = BinProgress(toNum(sheet.cell(startingRow+5,4).value),toNum(sheet.cell(startingRow+5,5).value))
+    SI = BinProgress(toNum(sheet.cell(startingRow,6).value),toNum(sheet.cell(startingRow,7).value))
+    JB = BinProgress(toNum(sheet.cell(startingRow+1,6).value),toNum(sheet.cell(startingRow+1,7).value))
+    SC = BinProgress(toNum(sheet.cell(startingRow+2,6).value),toNum(sheet.cell(startingRow+2,7).value))
+    LC = BinProgress(toNum(sheet.cell(startingRow+3,6).value),toNum(sheet.cell(startingRow+3,7).value))
+    BT = BinProgress(toNum(sheet.cell(startingRow+4,6).value),toNum(sheet.cell(startingRow+4,7).value))
+    POT = BinProgress(toNum(sheet.cell(startingRow+5,6).value),toNum(sheet.cell(startingRow+5,7).value))
 
     switchObj.activities = SwitchActivities(SI,JB,SC,LC,BT,POT)
     return switchObj
 
-#def readSwitchWorksheet():
+SwitchObjectList = []
+
+def readSwitchWorksheet():
+    currRowIndex = 2
+    while currRowIndex <= 134:
+        SwitchObjectList.append(readSwitchBlock(currRowIndex))
+        currRowIndex += 6
+
+def readWRUBlock(startingRow):
+    sheet = workbook["WRU"]
+    WRUObj = WRU(toNum(sheet.cell(startingRow,1).value),str(sheet.cell(startingRow,2).value),str(sheet.cell(startingRow,3).value),None,None)
+
+    RU = BinProgress(toNum(sheet.cell(startingRow,5).value),toNum(sheet.cell(startingRow,6).value))
+    JB = BinProgress(toNum(sheet.cell(startingRow+1,5).value),toNum(sheet.cell(startingRow+1,6).value))
+    FB = BinProgress(toNum(sheet.cell(startingRow+2,5).value),toNum(sheet.cell(startingRow+2,6).value))
+    ANT = BinProgress(toNum(sheet.cell(startingRow+3,5).value),toNum(sheet.cell(startingRow+3,6).value))
+    AC = BinProgress(toNum(sheet.cell(startingRow+4,5).value),toNum(sheet.cell(startingRow+4,6).value))
+    SPL = BinProgress(toNum(sheet.cell(startingRow+1,5).value),toNum(sheet.cell(startingRow+1,6).value))
+    FCS = BinProgress(toNum(sheet.cell(startingRow+2,5).value),toNum(sheet.cell(startingRow+2,6).value))
+    FT = BinProgress(toNum(sheet.cell(startingRow+3,5).value),toNum(sheet.cell(startingRow+3,6).value))
+    PT = BinProgress(toNum(sheet.cell(startingRow+4,5).value),toNum(sheet.cell(startingRow+4,6).value))
+
+    WRUObj.activities = WRUActivities(RU,JB,FB,ANT,AC,SPL,FCS,FT,PT)
+    return WRUObj
+
+WRUObjectList = []
+
+def readWRUWorksheet():
+    currRowIndex = 2
+    while currRowIndex < 721:
+        WRUObjectList.append(readWRUBlock(currRowIndex))
+        currRowIndex += 9
+
+def readZCaseBlock(startingRow):
+    sheet = workbook["Z-CASE"]
+    ZCaseObj = ZCase(toNum(sheet.cell(startingRow,1).value),str(sheet.cell(startingRow,2).value),str(sheet.cell(startingRow,3).value),None,None)
+
+    CI = BinProgress(toNum(sheet.cell(startingRow,5).value),toNum(sheet.cell(startingRow,6).value))
+    CCT = BinProgress(toNum(sheet.cell(startingRow+1,5).value),toNum(sheet.cell(startingRow+1,6).value))
+    POT = BinProgress(toNum(sheet.cell(startingRow+2,5).value),toNum(sheet.cell(startingRow+2,6).value))
+
+    ZCaseObj.activities = ZCaseActivities(CI,CCT,POT)
+    return ZCaseObj
+
+ZCaseObjectList = []
+
+def readZCaseWorksheet():
+    currRowIndex = 2
+    while currRowIndex < 41:
+        ZCaseObjectList.append(readZCaseBlock(currRowIndex))
+        currRowIndex += 3
+
+def readTOPBBlock(startingRow):
+    sheet = workbook["TOPB"]
+    TOPBObj = TOPB(toNum(sheet.cell(startingRow,1).value),str(sheet.cell(startingRow,2).value),str(sheet.cell(startingRow,3).value),None,None)
+
+    CI = BinProgress(toNum(sheet.cell(startingRow,5).value),toNum(sheet.cell(startingRow,6).value))
+    CCT = BinProgress(toNum(sheet.cell(startingRow+1,5).value),toNum(sheet.cell(startingRow+1,6).value))
+    POT = BinProgress(toNum(sheet.cell(startingRow+2,5).value),toNum(sheet.cell(startingRow+2,6).value))
+
+    TOPBObj.activities = TOPBActivities(CI,CCT,POT)
+    return TOPBObj
+
+TOPBObjectList = []
+
+def readTOPBWorksheet():
+    currRowIndex = 2
+    while currRowIndex < 20:
+        TOPBObjectList.append(readTOPBBlock(currRowIndex))
+        currRowIndex += 3
 
 #============================================================================ INITIALIZE ===========================================================================
-        
+
 def initializeObjects():
     readCMRSWorksheet()
     readAXCWorksheet()
     readSignalWorksheet()
-
+    readSwitchWorksheet()
+    readWRUWorksheet()
+    readZCaseWorksheet()
+    readTOPBWorksheet()
     workbook.close()
+
+#============================================================================ USABLE FUNCTIONALITIES ===============================================================
+
+#CURRENTLY DOES NOT WORK FOR Z-CASES | DIVISION BY ZERO ERROR
+def calcOverallProgress(objList):
+    #assumes objList contains all the same objLists
+    #only includes objects with valid progresses in calculation
+    validCount = 0
+    totalProgress = 0
+    for i in range(len(objList)):
+        if objList[i] != None:
+            if objList[i].getProgress() != None:
+                if objList[i].getProgress() != -1:
+                    validCount += 1
+                    totalProgress += objList[i].getProgress()
+
+    print(str(validCount) + " OF " + str(len(objList)) + " ENTRIES SUCCESSFULL ")
+    return totalProgress/validCount    
+
 #============================================================================ CODE EXECUTION START =================================================================
 initializeObjects()
+# CMRSObjectList
+# AXCObjectList
+# SignalObjectList
+# SwitchObjectList
+# WRUObjectList
+# ZCaseObjectList
+# TOPBObjectList
 
-"""
-#print(CMRSObjectList[4].start)
-#print(CMRSObjectList[4].getProgress())
-# Debugger/ printer
-validCount = 0
-totalProgress = 0
-for i in range(len(CMRSObjectList)):
-    if CMRSObjectList[i] != None:
-        print(CMRSObjectList[i].start)
-        if CMRSObjectList[i].getProgress() != None:
-            if CMRSObjectList[i].getProgress() != -1:
-                validCount += 1
-                totalProgress += CMRSObjectList[i].getProgress()
+#print(calcOverallProgress(ZCaseObjectList))
 
-print(totalProgress/validCount)
-print(str(validCount) + " OF " + str(len(CMRSObjectList)) + " ENTRIES SUCCESSFULL ")
-"""
