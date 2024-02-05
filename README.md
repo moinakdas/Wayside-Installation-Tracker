@@ -152,7 +152,6 @@ The `SignalActivities` class represents the installation progress of the Signal 
 |`JBInstall`|`(BinProgress)` Whether Junction Box was installed |
 |`SMInstall`|`(BinProgress)` |
 |`LCInstall`|`(BinProgress)` Whether Line Cable was installed |
-|`breakdownTesting`|`(BinProgress)` Whether Breakdown Testing was performed |
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
 
 ### Switch Activities
