@@ -18,7 +18,7 @@ window.onload = function() {
         event.preventDefault();
         const delta = event.deltaY * -0.01;
         const oldScale = scale;
-        scale = Math.min(Math.max(0.1, scale + delta), 10);
+        scale = Math.max(Math.min(Math.max(0.1, scale + delta), 10), 1);
         const mousePositionX = event.clientX - canvas.getBoundingClientRect().left;
         const mousePositionY = event.clientY - canvas.getBoundingClientRect().top;
         offsetX -= (mousePositionX * (scale - oldScale));
