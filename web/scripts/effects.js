@@ -18,11 +18,17 @@ window.onload = function() {
         event.preventDefault();
         const delta = event.deltaY * -0.01;
         const oldScale = scale;
-        scale = Math.max(Math.min(Math.max(0.1, scale + delta), 10), 1);
+        scale = Math.max(Math.min(Math.max(0.1, scale + delta), 10), Math.max(window.innerHeight/1000,window.innerWidth/1900));
         const mousePositionX = event.clientX - canvas.getBoundingClientRect().left;
         const mousePositionY = event.clientY - canvas.getBoundingClientRect().top;
-        offsetX -= (mousePositionX * (scale - oldScale));
-        offsetY -= (mousePositionY * (scale - oldScale));
+        //offsetX -= (mousePositionX * (scale - oldScale));
+        //offsetY -= (mousePositionY * (scale - oldScale));
+        const newOffsetX = offsetX - (mousePositionX * (scale - oldScale));
+        const newOffsetY = offsetY - (mousePositionY * (scale - oldScale));
+        const maxOffsetX = Math.min(0, canvas.width - image.width * scale);
+        const maxOffsetY = Math.min(0, canvas.height - image.height * scale);
+        offsetX = Math.max(Math.min(newOffsetX, 0), maxOffsetX);
+        offsetY = Math.max(Math.min(newOffsetY, 0), maxOffsetY);
         draw();
     }
 
@@ -35,8 +41,17 @@ window.onload = function() {
         function handleMouseMove(event) {
             const deltaX = event.clientX - startX;
             const deltaY = event.clientY - startY;
-            offsetX = startOffsetX + deltaX;
-            offsetY = startOffsetY + deltaY;
+            const newOffsetX = startOffsetX + deltaX;
+            const newOffsetY = startOffsetY + deltaY;
+
+            // Calculate the maximum allowed offset based on the current scale
+            const maxOffsetX = Math.min(0, canvas.width - image.width * scale);
+            const maxOffsetY = Math.min(0, canvas.height - image.height * scale);
+
+            // Apply the constraints to the new offset values
+            offsetX = Math.max(Math.min(newOffsetX, 0), maxOffsetX);
+            offsetY = Math.max(Math.min(newOffsetY, 0), maxOffsetY);
+
             draw();
         }
     
