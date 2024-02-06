@@ -566,6 +566,6 @@ initializeObjects()
 
 eel.init('web')
 try:
-    eel.start("index.html")
+    eel.start("index.html",size=(960,540))
 except (SystemExit, MemoryError, KeyboardInterrupt):
     os.system("taskkill /F /IM python.exe /T")

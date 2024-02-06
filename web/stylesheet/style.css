@@ -1,0 +1,52 @@
+body{
+    overflow: hidden;
+    background-color: #373D46;
+    padding: 0px;
+    margin: 0px;
+    font-family: 'Zen Kaku Gothic Antique';
+}
+
+#sideNavBar{
+    background-color: #272830;
+    position: absolute;
+    left: 0px;
+    height: 100vh;
+    width: 14vw;
+    filter: drop-shadow(1.2vw 0px 1vw rgba(0,0,0,0.25));
+}
+
+.navBarEntry{
+    width: 60%;
+    margin-left: 20%;
+    margin-top: 18%;
+    height: 3%;
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 0px;
+}
+
+.imageHolder{
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+
+}
+
+.textHolder{
+    width: 80%;
+    font-size: 1vw;
+    color: #A7ADB2;
+    display: flex;
+    align-items: center;
+}
+
+.entryIcon{
+    transform: translate(-50%,0%);
+}
+
+#navDivider{
+    width: 70%;
+    border: 0.5px solid #A7ADB2;
+    margin-top: 12%;
+}
