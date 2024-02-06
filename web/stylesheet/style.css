@@ -13,6 +13,7 @@ body{
     height: 100vh;
     width: 14vw;
     filter: drop-shadow(1.2vw 0px 1vw rgba(0,0,0,0.25));
+    z-index: 2000;
 }
 
 .navBarEntry{
@@ -49,4 +50,14 @@ body{
     width: 70%;
     border: 0.5px solid #A7ADB2;
     margin-top: 12%;
+}
+
+#canvas {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #2E333C;
 }
