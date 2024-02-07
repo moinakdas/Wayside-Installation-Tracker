@@ -4,79 +4,91 @@
     <title>Wayside Installation Tracker</title>
     <meta name ="viewport" content="width=device-width, initial-scale=1.0">
     <link rel = "stylesheet" href = "stylesheet/style.css">
-    <script src = "/eel.js"></script>
-    <script src = "scripts/effects.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.min.js"></script>
+    <script src = "scripts/map_effects.js"></script>
+    <script src = "scripts/graphic_effects.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Heebo:wght@100;200;300;400;500;600;700;800;900&family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
     <div id = "sideNavBar">
-        <div class = "navBarEntry" style = "margin-top: 25%;">
+        <div class = "navBarEntry" style = "margin-top: 25%;" id = "option1" data-highlight-color="#8AF581">
             <div class = "imageHolder">
                 <img src = "images/icons/map_icon.png" class = "entryIcon" style = "height: 1.5vw;">
+                <img src="images/icons/map_icon_color.png" class="recoloredIcon" style="height: 1.5vw;" id = "icon1">
             </div>
-            <div class = "textHolder">
+            <div class = "textHolder" id = "entryText1">
                 Map
             </div>
         </div>
         <hr id = "navDivider">
-        <div class = "navBarEntry">
+        <div class = "navBarEntry" id = "option2" data-highlight-color="#F17C7C">
             <div class = "imageHolder">
-                <img src = "images/icons/cmrs_icon.png" class = "entryIcon" style = "height: 0.8vw;">
+                <img src = "images/icons/cmrs_icon.png" class = "entryIcon" style = "height: 0.8vw;" >
+                <img src="images/icons/cmrs_icon_color.png" class="recoloredIcon" style="height: 0.8vw;" id = "icon2">
             </div>
-            <div class = "textHolder">
+            <div class = "textHolder" id = "entryText2">
                 CMS
             </div>
         </div>
-        <div class = "navBarEntry">
+        <div class = "navBarEntry" id = "option3" data-highlight-color="#F5AA81">
             <div class = "imageHolder">
                 <img src = "images/icons/axc_icon.png" class = "entryIcon" style = "height: 1.6vw">
+                <img src="images/icons/axc_icon_color.png" class="recoloredIcon" style="height: 1.6vw;" id = "icon3">
             </div>
-            <div class = "textHolder">
+            <div class = "textHolder" id = "entryText3">
                 Axle Counter
             </div>
         </div>
-        <div class = "navBarEntry">
+        <div class = "navBarEntry" id = "option4" data-highlight-color="#F5E981">
             <div class = "imageHolder">
                 <img src = "images/icons/signal_icon.png" class = "entryIcon" style = "height: 1.4vw">
+                <img src="images/icons/signal_icon_color.png" class="recoloredIcon" style="height: 1.4vw;" id = "icon4">
             </div>
-            <div class = "textHolder">
+            <div class = "textHolder" id = "entryText4">
                 Signals
             </div>
         </div>
-        <div class = "navBarEntry">
+        <div class = "navBarEntry" id = "option5" data-highlight-color="#81F5B6">
             <div class = "imageHolder">
                 <img src = "images/icons/switches_icon.png" class = "entryIcon" style = "height: 1.4vw">
+                <img src="images/icons/switches_icon_color.png" class="recoloredIcon" style="height: 1.4vw;" id = "icon5">
             </div>
-            <div class = "textHolder">
+            <div class = "textHolder" id = "entryText5">
                 Switches
             </div>
         </div>
-        <div class = "navBarEntry">
+        <div class = "navBarEntry" id = "option6" data-highlight-color="#81EEF5">
             <div class = "imageHolder">
                 <img src = "images/icons/WRU_icon.png" class = "entryIcon" style = "height: 1.2vw">
+                <img src="images/icons/WRU_icon_color.png" class="recoloredIcon" style="height: 1.2vw;" id = "icon6">
             </div>
-            <div class = "textHolder">
+            <div class = "textHolder" id = "entryText6">
                 WRUs
             </div>
         </div>
-        <div class = "navBarEntry">
+        <div class = "navBarEntry" id = "option7" data-highlight-color="#8A81F5">
             <div class = "imageHolder">
                 <img src = "images/icons/zcase_icon.png" class = "entryIcon" style = "height: 1.2vw;">
+                <img src="images/icons/zcase_icon_color.png" class="recoloredIcon" style="height: 1.2vw;" id = "icon7">
             </div>
-            <div class = "textHolder">
+            <div class = "textHolder" id = "entryText7">
                 Z-Case
             </div>
         </div>
-        <div class = "navBarEntry">
+        <div class = "navBarEntry" id = "option8" data-highlight-color="#F381F5">
             <div class = "imageHolder">
                 <img src = "images/icons/topb_icon.png" class = "entryIcon" style = "height: 1.5vw;">
+                <img src="images/icons/topb_icon_color.png" class="recoloredIcon" style="height: 1.5vw;" id = "icon8">
             </div>
-            <div class = "textHolder">
+            <div class = "textHolder" id = "entryText8">
                 TOPB
             </div>
         </div>
     </div>
+    <object id="basemap" type="image/svg+xml" data="images/map_graphics/basemap.svg"></object>
+    <object id="crosstownLine" type="image/svg+xml" data="images/map_graphics/crosstown_line.svg"></object>
     <canvas id="canvas"></canvas>
 </body>

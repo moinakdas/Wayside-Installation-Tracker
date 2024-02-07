@@ -24,14 +24,25 @@ body{
     display: flex;
     flex-wrap: nowrap;
     padding: 0px;
+    user-select: none;
+    cursor: pointer;
 }
 
 .imageHolder{
+    position: relative;
     width: 20%;
     display: flex;
     align-items: center;
     justify-content: left;
 
+}
+
+.recoloredIcon {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translate(-50%,-50%);
+    opacity: 0; /* Adjust opacity as needed for the recolored effect */
 }
 
 .textHolder{
@@ -43,7 +54,10 @@ body{
 }
 
 .entryIcon{
-    transform: translate(-50%,0%);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 0;
 }
 
 #navDivider{
