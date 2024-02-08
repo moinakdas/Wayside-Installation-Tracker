@@ -48,6 +48,51 @@ window.onload = function() {
     let offsetX = 0;
     let offsetY = 0;
 
+    //Initialize station objects for listeners
+    let churchAvenue;
+    let CHU_FOR;
+    let fortHamiltonPkwy;
+    let FOR_15S;
+    let ProspectPark; // 15th street prospect park
+    let PRO_7AV; //15S-7AV
+    let seventhAve;
+    let SEV_4TH; //7AV-4TH
+    let fourthNinthSt; //4th & 9th street
+    let FOU_SMI;
+    let smith9thSt;
+    let SMI_CAR;
+    let carrollSt;
+    let CAR_BER;
+    let bergenSt;
+    let BER_HOY;
+    let hoytSchermerhorn;
+    let HOY_FUL;
+    let fultonStreet;
+    let FUL_CLI;
+    let clintonWashingtonAve;
+    let CLI_CLA;
+    let classonAve;
+    let CLA_BED;
+    let bedfordNostrandAve;
+    let BED_MYR;
+    let myrtleWilloughbyAve;
+    let MYR_FLU;
+    let flushingAveStation;
+    let FLU_BRO;
+    let broadway;
+    let BRO_MET;
+    let metropolitanAvenue;
+    let MET_NAS;
+    let nassauAvenue;
+    let NAS_GRE;
+    let greenpointAve;
+    let GRE_21S;
+    let twentyFirstStStation; //21 St Station
+    let TWE_COU; //21S-COU
+    let courtSquare;
+    let COU_QUE;
+    let queensPlaza;
+
     //let x and y be values from 0 to 1
     // 0 = left edge of basemap, 1 = right edge of basemap
     function strokePathAtCoordinates(ctx, path, x, y) {
@@ -55,6 +100,25 @@ window.onload = function() {
         ctx.translate(offsetX + (basemapImage.width * scale)*x, offsetY + (basemapImage.height * scale)*y); // Move the origin to (x, y)
         ctx.stroke(path); // Stroke the path at the new origin
         ctx.restore(); // Restore the previous state of the context
+    }
+
+    function drawCircle(ctx, x, y, color) {
+        let circlePath = new Path2D();
+        radius = window.innerWidth * 0.006;
+        circlePath.arc(offsetX + (basemapImage.width * scale)*x, offsetY + (basemapImage.height * scale)*y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = color;
+        ctx.strokeStyle = '#FFFFFF'; // Set the border color to blue
+        ctx.lineWidth = window.innerWidth * 0.001; // Set the border width
+        ctx.fill(circlePath); // Fill the circle with the current fill style
+        ctx.stroke(circlePath);
+        return circlePath; // Return the Path2D object for later reference
+    }
+
+    function drawSquare(ctx, x, y, size) {
+        let squarePath = new Path2D();
+        squarePath.rect(offsetX + (basemapImage.width * scale)*x, offsetY + (basemapImage.height * scale)*y, size, size);
+        ctx.fill(squarePath); // Fill the square with the current fill style
+        return squarePath; // Return the Path2D object for later reference
     }
 
     function draw() {
@@ -71,6 +135,31 @@ window.onload = function() {
         ctx.lineWidth = window.innerWidth * 0.003; // Adjust the scale factor as needed
         
         strokePathAtCoordinates(ctx, crosstownLine, 0.406, 0.09) //draw crosstown Line Path
+        
+        //EVERY. SINGLE. STATION.
+        churchAvenue = drawCircle(ctx, 0.4605, 0.824, "#2AA317");
+        fortHamiltonPkwy = drawCircle(ctx,0.47195, 0.77, "#2AA317");
+        ProspectPark = drawCircle(ctx,0.461, 0.705, "#2AA317");
+        seventhAve = drawCircle(ctx,0.456, 0.6616, "#2AA317");
+        fourthNinthSt = drawCircle(ctx,0.43, 0.638, "#2AA317");
+        smith9thSt = drawCircle(ctx,0.41, 0.6115, "#2AA317");
+        carrollSt = drawCircle(ctx,0.4135, 0.565, "#2AA317");
+        bergenSt = drawCircle(ctx,0.4274, 0.52, "#2AA317");
+        hoytSchermerhorn = drawCircle(ctx,0.44685226906829234, 0.509638583272769, "#2AA317");
+        clintonWashingtonAve = drawCircle(ctx,0.477072007865878, 0.5155092312581219, "#2AA317");
+        fultonStreet = drawCircle(ctx,0.5067579253020132, 0.5084055499478555, "#2AA317"); // I love TCE
+        classonAve = drawCircle(ctx,0.5337708632940297, 0.5021698393240124, "#2AA317");
+        bedfordNostrandAve = drawCircle(ctx,0.5540809704924948, 0.4627643005937757, "#2AA317");
+        myrtleWilloughbyAve = drawCircle(ctx,0.5510600799886568, 0.42366909843101247, "#2AA317");
+        flushingAveStation = drawCircle(ctx,0.5503232495978614, 0.3821582773567048, "#2AA317");
+        broadway = drawCircle(ctx,0.5476359562620028, 0.33274281608682654, "#2AA317");
+        metropolitanAvenue = drawCircle(ctx,0.5480436606063197, 0.2504877611036734, "#2AA317");
+        nassauAvenue = drawCircle(ctx,0.5375219517562342, 0.20603025615787235, "#2AA317");
+        greenpointAve = drawCircle(ctx,0.534795900257654, 0.1521445385094818, "#2AA317");
+        twentyFirstStStation = drawCircle(ctx,0.5489780978293515, 0.1106850951575837, "#2AA317");
+        courtSquare = drawCircle(ctx,0.5687257996856262, 0.0907398055017195, "#2AA317");
+
+        //
     }
 
     function handleScroll(event) {
@@ -134,10 +223,10 @@ window.onload = function() {
         // Calculate initial offsets based on image size and canvas size
         const initialOffsetX = (canvas.width - basemapImage.width * scale) / 2;
         const initialOffsetY = (canvas.height - basemapImage.height * scale) / 2;
-
+        
         offsetX = Math.max(Math.min(offsetX, 0), initialOffsetX);
         offsetY = Math.max(Math.min(offsetY, 0), initialOffsetY);
-        
+        scale = 1.1
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         draw();
@@ -160,5 +249,12 @@ window.onload = function() {
         offsetY = Math.max(Math.min(offsetY, 0), maxOffsetY);
 
         draw();
+    });
+
+    canvas.addEventListener('click', function(event) {
+        let rect = canvas.getBoundingClientRect();
+        let mouseX = (event.clientX - offsetX)/(basemapImage.width * scale);
+        let mouseY = (event.clientY - offsetY)/(basemapImage.height * scale);
+        console.log(`Mouse click coordinates: (${mouseX}, ${mouseY})`);
     });
 };
