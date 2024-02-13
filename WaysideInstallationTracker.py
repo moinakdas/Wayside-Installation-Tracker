@@ -652,14 +652,6 @@ def get24CMRSStatsByStation(station):
 
     return CMSStats
 
-def getStats(obj):
-    # Get the dictionary of attributes of the object
-    attributes = vars(obj)
-    
-    # Print each attribute name
-    for attribute in attributes.keys():
-        print(attribute)
-    
     
 
 
@@ -673,9 +665,7 @@ initializeObjects()
 # ZCaseObjectList
 # TOPBObjectList
 
-print_attribute_names(CMRSObjectList[0].activities)
-
-#print(get15CMRSStatsByStation("BRO-NET"))
+print(get15CMRSStatsByStation("BRO-NET"))
 
 
 
