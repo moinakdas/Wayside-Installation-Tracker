@@ -32,8 +32,6 @@ class Equipment:
         self.activities = activities
         self.notes = notes
 
-        
-
 class AXC(Equipment):
     def __init__(self,stationing,track,location,activities,notes,REFDWG):
         self.stationing = stationing
@@ -553,6 +551,118 @@ def calcOverallProgress(objList):
     print(str(validCount) + " OF " + str(len(objList)) + " ENTRIES SUCCESSFULL ")
     return totalProgress/validCount    
 
+def getMessengerStatsByStation(station):
+    #assumes objLists are good
+    #only includes
+    CMSStats = {}
+    messSupportProgress = 0
+    messClampsProgress = 0
+    messWirePullProgress = 0
+    messWireTensionProgress = 0
+    messCablePullProgress = 0
+    messStrapProgress = 0
+
+    total = 0
+    for i in range(len(CMRSObjectList)):
+        if CMRSObjectList[i] != None:
+            if CMRSObjectList[i].location.upper() == station.upper() and CMRSObjectList[i].type == "mess":
+                
+                messSupportProgress += (CMRSObjectList[i].activities.messSupports.install / CMRSObjectList[i].activities.messSupports.total)
+                messClampsProgress += (CMRSObjectList[i].activities.messClamps.install / CMRSObjectList[i].activities.messClamps.total)
+                messWirePullProgress += (CMRSObjectList[i].activities.messWirePull.install / CMRSObjectList[i].activities.messWirePull.total)
+                messWireTensionProgress += (CMRSObjectList[i].activities.messWireTension.install / CMRSObjectList[i].activities.messWireTension.total)
+                messCablePullProgress += (CMRSObjectList[i].activities.messCablesPulled.install / CMRSObjectList[i].activities.messCablesPulled.total)
+                messStrapProgress += (CMRSObjectList[i].activities.messStraps.install / CMRSObjectList[i].activities.messStraps.total)
+                total += 1
+        
+    CMSStats["messSupports"] = messSupportProgress/total
+    CMSStats["messClamps"] = messClampsProgress/total
+    CMSStats["messWirePull"] = messWirePullProgress/total
+    CMSStats["messWireTension"] = messWireTensionProgress/total
+    CMSStats["messCablePull"] = messCablePullProgress/total
+    CMSStats["messStrapProgress"] = messStrapProgress/total
+
+    return CMSStats
+
+def get15CMRSStatsByStation(station):
+    #assumes objLists are good
+    #only includes
+    CMSStats = {}
+    colClampProgress = 0
+    stationBracketsProgress = 0
+    groundingProgress = 0
+    obsBracketProgress = 0
+    cablesPulledProgress = 0
+    CMRSInstallProgress = 0
+
+    total = 0
+    for i in range(len(CMRSObjectList)):
+        if CMRSObjectList[i] != None:
+            if CMRSObjectList[i].location.upper() == station.upper() and CMRSObjectList[i].type == "15CMRS":
+                
+                colClampProgress += (CMRSObjectList[i].activities.colClampProgress.install / CMRSObjectList[i].activities.colClampProgress.total)
+                stationBracketsProgress += (CMRSObjectList[i].activities.stationBracketsProgress.install / CMRSObjectList[i].activities.stationBracketsProgress.total)
+                groundingProgress += (CMRSObjectList[i].activities.groundingProgress.install / CMRSObjectList[i].activities.groundingProgress.total)
+                obsBracketProgress += (CMRSObjectList[i].activities.obsBracketProgress.install / CMRSObjectList[i].activities.obsBracketProgress.total)
+                cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulledProgress.install / CMRSObjectList[i].activities.cablesPulledProgress.total)
+                CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstall15Progress.install / CMRSObjectList[i].activities.CMRSInstall15Progress.total)
+                total += 1
+        
+    CMSStats["colClamp"] = colClampProgress/total
+    CMSStats["stationBrackets"] = stationBracketsProgress/total
+    CMSStats["grounding"] = groundingProgress/total
+    CMSStats["obsBracket"] = obsBracketProgress/total
+    CMSStats["cablesPulled"] = cablesPulledProgress/total
+    CMSStats["CMRSInstall"] = CMRSInstallProgress/total
+
+
+    return CMSStats
+
+def get24CMRSStatsByStation(station):
+    #assumes objLists are good
+    #only includes
+    CMSStats = {}
+    colClampProgress = 0
+    stationBracketsProgress = 0
+    groundingProgress = 0
+    obsBracketProgress = 0
+    cablesPulledProgress = 0
+    CMRSInstallProgress = 0
+
+    total = 0
+    for i in range(len(CMRSObjectList)):
+        if CMRSObjectList[i] != None:
+            if CMRSObjectList[i].location.upper() == station.upper() and CMRSObjectList[i].type == "mess":
+                
+                colClampProgress += (CMRSObjectList[i].activities.colClampProgress.install / CMRSObjectList[i].activities.colClampProgress.total)
+                stationBracketsProgress += (CMRSObjectList[i].activities.stationBracketsProgress.install / CMRSObjectList[i].activities.stationBracketsProgress.total)
+                groundingProgress += (CMRSObjectList[i].activities.groundingProgress.install / CMRSObjectList[i].activities.groundingProgress.total)
+                obsBracketProgress += (CMRSObjectList[i].activities.obsBracketProgress.install / CMRSObjectList[i].activities.obsBracketProgress.total)
+                cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulledProgress.install / CMRSObjectList[i].activities.cablesPulledProgress.total)
+                CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstallProgress.install / CMRSObjectList[i].activities.CMRSInstallProgress.total)
+                total += 1
+        
+    CMSStats["colClamp"] = colClampProgress/total
+    CMSStats["stationBrackets"] = stationBracketsProgress/total
+    CMSStats["grounding"] = groundingProgress/total
+    CMSStats["obsBracket"] = obsBracketProgress/total
+    CMSStats["cablesPulled"] = cablesPulledProgress/total
+    CMSStats["CMRSInstall"] = CMRSInstallProgress/total
+
+
+    return CMSStats
+
+def getStats(obj):
+    # Get the dictionary of attributes of the object
+    attributes = vars(obj)
+    
+    # Print each attribute name
+    for attribute in attributes.keys():
+        print(attribute)
+    
+    
+
+
 #============================================================================ CODE EXECUTION START =================================================================
 initializeObjects()
 # CMRSObjectList
@@ -563,9 +673,17 @@ initializeObjects()
 # ZCaseObjectList
 # TOPBObjectList
 
+print_attribute_names(CMRSObjectList[0].activities)
 
-eel.init('web')
-try:
-    eel.start("index.html",size=(960,540))
-except (SystemExit, MemoryError, KeyboardInterrupt):
-    os.system("taskkill /F /IM python.exe /T")
+#print(get15CMRSStatsByStation("BRO-NET"))
+
+
+
+
+#============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
+# eel.init('web')
+# try:
+#     eel.start("index.html",size=(960,540))
+# except (SystemExit, MemoryError, KeyboardInterrupt):
+#     os.system("taskkill /F /IM python.exe /T")
+

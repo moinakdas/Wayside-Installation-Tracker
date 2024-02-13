@@ -104,7 +104,7 @@ window.onload = function() {
 
     function drawCircle(ctx, x, y, color) {
         let circlePath = new Path2D();
-        radius = window.innerWidth * 0.006;
+        radius = window.innerWidth * 0.008 + scale*0.01;
         circlePath.arc(offsetX + (basemapImage.width * scale)*x, offsetY + (basemapImage.height * scale)*y, radius, 0, Math.PI * 2);
         ctx.fillStyle = color;
         ctx.strokeStyle = '#FFFFFF'; // Set the border color to blue
@@ -114,10 +114,15 @@ window.onload = function() {
         return circlePath; // Return the Path2D object for later reference
     }
 
-    function drawSquare(ctx, x, y, size) {
+    function drawSquare(ctx, x, y, color) {
+        size = window.innerWidth * 0.016 + scale*0.02;
         let squarePath = new Path2D();
-        squarePath.rect(offsetX + (basemapImage.width * scale)*x, offsetY + (basemapImage.height * scale)*y, size, size);
+        squarePath.rect(offsetX + (basemapImage.width * scale)*x - size/2, offsetY + (basemapImage.height * scale)*y - size/2, size, size);
+        ctx.fillStyle = color;
+        ctx.strokeStyle = '#FFFFFF';
+        ctx.lineWidth = window.innerWidth * 0.001;
         ctx.fill(squarePath); // Fill the square with the current fill style
+        ctx.stroke(squarePath);
         return squarePath; // Return the Path2D object for later reference
     }
 
@@ -159,7 +164,27 @@ window.onload = function() {
         twentyFirstStStation = drawCircle(ctx,0.5489780978293515, 0.1106850951575837, "#2AA317");
         courtSquare = drawCircle(ctx,0.5687257996856262, 0.0907398055017195, "#2AA317");
 
-        //
+        //man I should have billed more for this
+        CHU_FOR = drawSquare(ctx,0.46491876904881685, 0.7956096815179841,"red");
+        FOR_15S = drawSquare(ctx,0.46262310606060597, 0.7304966329966331,"red");
+        PRO_7AV = drawSquare(ctx,0.4666761363636365, 0.6819528619528616,"red");
+        SEV_4TH = drawSquare(ctx,0.4439107784375409, 0.6462633589804304,"red");
+        FOU_SMI = drawSquare(ctx,0.4192540759716212, 0.6238145286373771,"red");
+        SMI_CAR = drawSquare(ctx,0.40684346887084366, 0.5906400083650937,"red");
+        CAR_BER = drawSquare(ctx,0.4206486742424242, 0.5413215488215486,"red");
+        BER_HOY = drawSquare(ctx,0.4345785982732891, 0.5005415269090395,"red");
+        HOY_FUL = drawSquare(ctx,0.46314867424242434, 0.5171632996632995,"red");
+        FUL_CLI = drawSquare(ctx,0.49281063840626643, 0.5118752128418604,"red");
+        CLI_CLA = drawSquare(ctx,0.5212310606060606, 0.5051262626262628,"red");
+        CLA_BED = drawSquare(ctx,0.5518268737289064, 0.4927547166001567,"red");
+        BED_MYR = drawSquare(ctx,0.5527888257575756, 0.4448653198653199,"red");
+        MYR_FLU = drawSquare(ctx,0.5503361742424241, 0.4011952861952862,"red");
+        FLU_BRO = drawSquare(ctx,0.5498542902635165, 0.3611496197060289,"red");
+        BRO_MET = drawSquare(ctx,0.5446458401866103, 0.2882566706042146,"red");
+        MET_NAS = drawSquare(ctx,0.5427119630064774, 0.23068039318498396,"red");
+        NAS_GRE = drawSquare(ctx,0.5363837890255512, 0.18193551226217716,"red");
+        GRE_21S = drawSquare(ctx,0.537492645776942, 0.12633570060956173,"red");
+        TWE_COU = drawSquare(ctx,0.5594223484848484, 0.10027777777777777,"red");
     }
 
     function handleScroll(event) {
@@ -250,11 +275,147 @@ window.onload = function() {
 
         draw();
     });
-
+    /*
     canvas.addEventListener('click', function(event) {
         let rect = canvas.getBoundingClientRect();
         let mouseX = (event.clientX - offsetX)/(basemapImage.width * scale);
         let mouseY = (event.clientY - offsetY)/(basemapImage.height * scale);
-        console.log(`Mouse click coordinates: (${mouseX}, ${mouseY})`);
+        console.log(`drawSquare(ctx,${mouseX}, ${mouseY},"red")`);
+    });*/
+
+    canvas.addEventListener('click', function(event) {
+        const rect = canvas.getBoundingClientRect();
+        const x = event.clientX - rect.left;
+        const y = event.clientY - rect.top;
+    
+        // Check if the click is inside any shape
+        switch (true) {
+            // Circle cases
+            case ctx.isPointInPath(churchAvenue, x, y):
+                console.log("Clicked on Church Avenue circle");
+                break;
+            case ctx.isPointInPath(fortHamiltonPkwy, x, y):
+                console.log("Clicked on Fort Hamilton Pkwy circle");
+                break;
+            case ctx.isPointInPath(ProspectPark, x, y):
+                console.log("Clicked on Prospect Park circle");
+                break;
+            case ctx.isPointInPath(seventhAve, x, y):
+                console.log("Clicked on Seventh Ave circle");
+                break;
+            case ctx.isPointInPath(fourthNinthSt, x, y):
+                console.log("Clicked on Fourth Ninth St circle");
+                break;
+            case ctx.isPointInPath(smith9thSt, x, y):
+                console.log("Clicked on Smith 9th St circle");
+                break;
+            case ctx.isPointInPath(carrollSt, x, y):
+                console.log("Clicked on Carroll St circle");
+                break;
+            case ctx.isPointInPath(bergenSt, x, y):
+                console.log("Clicked on Bergen St circle");
+                break;
+            case ctx.isPointInPath(hoytSchermerhorn, x, y):
+                console.log("Clicked on Hoyt-Schermerhorn circle");
+                break;
+            case ctx.isPointInPath(clintonWashingtonAve, x, y):
+                console.log("Clicked on Clinton-Washington Ave circle");
+                break;
+            case ctx.isPointInPath(fultonStreet, x, y):
+                console.log("Clicked on Fulton Street circle");
+                break;
+            case ctx.isPointInPath(classonAve, x, y):
+                console.log("Clicked on Classon Ave circle");
+                break;
+            case ctx.isPointInPath(bedfordNostrandAve, x, y):
+                console.log("Clicked on Bedford-Nostrand Ave circle");
+                break;
+            case ctx.isPointInPath(myrtleWilloughbyAve, x, y):
+                console.log("Clicked on Myrtle-Willoughby Ave circle");
+                break;
+            case ctx.isPointInPath(flushingAveStation, x, y):
+                console.log("Clicked on Flushing Ave Station circle");
+                break;
+            case ctx.isPointInPath(broadway, x, y):
+                console.log("Clicked on Broadway circle");
+                break;
+            case ctx.isPointInPath(metropolitanAvenue, x, y):
+                console.log("Clicked on Metropolitan Avenue circle");
+                break;
+            case ctx.isPointInPath(nassauAvenue, x, y):
+                console.log("Clicked on Nassau Avenue circle");
+                break;
+            case ctx.isPointInPath(greenpointAve, x, y):
+                console.log("Clicked on Greenpoint Ave circle");
+                break;
+            case ctx.isPointInPath(twentyFirstStStation, x, y):
+                console.log("Clicked on Twenty-First St Station circle");
+                break;
+            case ctx.isPointInPath(courtSquare, x, y):
+                console.log("Clicked on Court Square circle");
+                break;
+    
+            // Square cases
+            case ctx.isPointInPath(CHU_FOR, x, y):
+                console.log("Clicked on CHU_FOR square");
+                break;
+            case ctx.isPointInPath(FOR_15S, x, y):
+                console.log("Clicked on FOR_15S square");
+                break;
+            case ctx.isPointInPath(PRO_7AV, x, y):
+                console.log("Clicked on PRO_7AV square");
+                break;
+            case ctx.isPointInPath(SEV_4TH, x, y):
+                console.log("Clicked on SEV_4TH square");
+                break;
+            case ctx.isPointInPath(FOU_SMI, x, y):
+                console.log("Clicked on FOU_SMI square");
+                break;
+            case ctx.isPointInPath(SMI_CAR, x, y):
+                console.log("Clicked on SMI_CAR square");
+                break;
+            case ctx.isPointInPath(CAR_BER, x, y):
+                console.log("Clicked on CAR_BER square");
+                break;
+            case ctx.isPointInPath(BER_HOY, x, y):
+                console.log("Clicked on BER_HOY square");
+                break;
+            case ctx.isPointInPath(HOY_FUL, x, y):
+                console.log("Clicked on HOY_FUL square");
+                break;
+            case ctx.isPointInPath(FUL_CLI, x, y):
+                console.log("Clicked on FUL_CLI square");
+                break;
+            case ctx.isPointInPath(CLI_CLA, x, y):
+                console.log("Clicked on CLI_CLA square");
+                break;
+            case ctx.isPointInPath(CLA_BED, x, y):
+                console.log("Clicked on CLA_BED square");
+                break;
+            case ctx.isPointInPath(BED_MYR, x, y):
+                console.log("Clicked on BED_MYR square");
+                break;
+            case ctx.isPointInPath(MYR_FLU, x, y):
+                console.log("Clicked on MYR_FLU square");
+                break;
+            case ctx.isPointInPath(FLU_BRO, x, y):
+                console.log("Clicked on FLU_BRO square");
+                break;
+            case ctx.isPointInPath(BRO_MET, x, y):
+                console.log("Clicked on BRO_MET square");
+                break;
+            case ctx.isPointInPath(MET_NAS, x, y):
+                console.log("Clicked on MET_NAS square");
+                break;
+            case ctx.isPointInPath(NAS_GRE, x, y):
+                console.log("Clicked on NAS_GRE square");
+                break;
+            case ctx.isPointInPath(GRE_21S, x, y):
+                console.log("Clicked on GRE_21S square");
+                break;
+            case ctx.isPointInPath(TWE_COU, x, y):
+                console.log("Clicked on TWE_COU square");
+                break;
+        }
     });
 };
