@@ -11,7 +11,8 @@ import os
 #============================= REMOVE DURING DEBUGGING ====================================================
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
-workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+#workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
 #================================================================================================
 #========================================================================================================================================================================
 #====================================================== CLASS DEFINITIONS, SEE GITHUB REPO FOR DETAILS ==================================================================
@@ -600,12 +601,12 @@ def get15CMRSStatsByStation(station):
         if CMRSObjectList[i] != None:
             if CMRSObjectList[i].location.upper() == station.upper() and CMRSObjectList[i].type == "15CMRS":
                 
-                colClampProgress += (CMRSObjectList[i].activities.colClampProgress.install / CMRSObjectList[i].activities.colClampProgress.total)
-                stationBracketsProgress += (CMRSObjectList[i].activities.stationBracketsProgress.install / CMRSObjectList[i].activities.stationBracketsProgress.total)
-                groundingProgress += (CMRSObjectList[i].activities.groundingProgress.install / CMRSObjectList[i].activities.groundingProgress.total)
-                obsBracketProgress += (CMRSObjectList[i].activities.obsBracketProgress.install / CMRSObjectList[i].activities.obsBracketProgress.total)
-                cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulledProgress.install / CMRSObjectList[i].activities.cablesPulledProgress.total)
-                CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstall15Progress.install / CMRSObjectList[i].activities.CMRSInstall15Progress.total)
+                colClampProgress += (CMRSObjectList[i].activities.colClamp.install / CMRSObjectList[i].activities.colClamp.total)
+                stationBracketsProgress += (CMRSObjectList[i].activities.stationBrackets.install / CMRSObjectList[i].activities.stationBrackets.total)
+                groundingProgress += (CMRSObjectList[i].activities.grounding.install / CMRSObjectList[i].activities.grounding.total)
+                obsBracketProgress += (CMRSObjectList[i].activities.obsBracket.install / CMRSObjectList[i].activities.obsBracket.total)
+                cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulled.install / CMRSObjectList[i].activities.cablesPulled.total)
+                CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstall15.install / CMRSObjectList[i].activities.CMRSInstall15.total)
                 total += 1
         
     CMSStats["colClamp"] = colClampProgress/total
@@ -632,14 +633,14 @@ def get24CMRSStatsByStation(station):
     total = 0
     for i in range(len(CMRSObjectList)):
         if CMRSObjectList[i] != None:
-            if CMRSObjectList[i].location.upper() == station.upper() and CMRSObjectList[i].type == "mess":
+            if CMRSObjectList[i].location.upper() == station.upper() and CMRSObjectList[i].type == "24CMRS":
                 
-                colClampProgress += (CMRSObjectList[i].activities.colClampProgress.install / CMRSObjectList[i].activities.colClampProgress.total)
-                stationBracketsProgress += (CMRSObjectList[i].activities.stationBracketsProgress.install / CMRSObjectList[i].activities.stationBracketsProgress.total)
-                groundingProgress += (CMRSObjectList[i].activities.groundingProgress.install / CMRSObjectList[i].activities.groundingProgress.total)
-                obsBracketProgress += (CMRSObjectList[i].activities.obsBracketProgress.install / CMRSObjectList[i].activities.obsBracketProgress.total)
-                cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulledProgress.install / CMRSObjectList[i].activities.cablesPulledProgress.total)
-                CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstallProgress.install / CMRSObjectList[i].activities.CMRSInstallProgress.total)
+                colClampProgress += (CMRSObjectList[i].activities.colClamp.install / CMRSObjectList[i].activities.colClamp.total)
+                stationBracketsProgress += (CMRSObjectList[i].activities.stationBrackets.install / CMRSObjectList[i].activities.stationBrackets.total)
+                groundingProgress += (CMRSObjectList[i].activities.grounding.install / CMRSObjectList[i].activities.grounding.total)
+                obsBracketProgress += (CMRSObjectList[i].activities.obsBracket.install / CMRSObjectList[i].activities.obsBracket.total)
+                cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulled.install / CMRSObjectList[i].activities.cablesPulled.total)
+                CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstall24.install / CMRSObjectList[i].activities.CMRSInstall24.total)
                 total += 1
         
     CMSStats["colClamp"] = colClampProgress/total
@@ -652,6 +653,50 @@ def get24CMRSStatsByStation(station):
 
     return CMSStats
 
+def getTrayStatsByStation(station):
+    #assumes objLists are good
+    #only includes
+    CMSStats = {}
+    trayBracketProgress = 0
+    coreDrillingProgress = 0
+    cablePullProgress = 0
+    installingTrayProgress = 0
+
+    total = 0
+    for i in range(len(CMRSObjectList)):
+        if CMRSObjectList[i] != None:
+            if CMRSObjectList[i].location.upper() == station.upper() and CMRSObjectList[i].type == "tray":
+                
+                trayBracketProgress += (CMRSObjectList[i].activities.trayBrackets.install / CMRSObjectList[i].activities.trayBrackets.total)
+                coreDrillingProgress += (CMRSObjectList[i].activities.coreDrilling.install / CMRSObjectList[i].activities.coreDrilling.total)
+                cablePullProgress += (CMRSObjectList[i].activities.cablePull.install / CMRSObjectList[i].activities.cablePull.total)
+                installingTrayProgress += (CMRSObjectList[i].activities.installingTray.install / CMRSObjectList[i].activities.installingTray.total)
+                total += 1
+        
+    CMSStats["trayBracket"] = trayBracketProgress/total
+    CMSStats["coreDrilling"] = coreDrillingProgress/total
+    CMSStats["cablePull"] = cablePullProgress/total
+    CMSStats["installingTray"] = installingTrayProgress/total
+
+    return CMSStats
+
+def calcProgressByStation(station, axc_list):
+    activity_progress = {}
+    count = {}
+    
+    for axc in axc_list:
+        if axc.location == station:
+            for activity_name in dir(axc.activities):
+                if not activity_name.startswith("__"):
+                    value = getattr(axc.activities, activity_name).progress
+                    if value is not None:
+                        activity_progress[activity_name] = activity_progress.get(activity_name, 0) + value
+                        count[activity_name] = count.get(activity_name, 0) + 1
+    
+    for activity_name in activity_progress:
+        activity_progress[activity_name] /= count[activity_name]
+    
+    return activity_progress
     
 
 
@@ -665,15 +710,13 @@ initializeObjects()
 # ZCaseObjectList
 # TOPBObjectList
 
-print(get15CMRSStatsByStation("BRO-NET"))
-
-
+#print(calcProgressByStation("15S-7AV", SignalObjectList))
 
 
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
-# eel.init('web')
-# try:
-#     eel.start("index.html",size=(960,540))
-# except (SystemExit, MemoryError, KeyboardInterrupt):
-#     os.system("taskkill /F /IM python.exe /T")
+eel.init('web')
+try:
+    eel.start("index.html",size=(960,540))
+except (SystemExit, MemoryError, KeyboardInterrupt):
+    os.system("taskkill /F /IM python.exe /T")
 
