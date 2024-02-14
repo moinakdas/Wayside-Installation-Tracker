@@ -7,8 +7,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.min.js"></script>
+    <script src="eel.js"></script>
     <script src = "scripts/map_effects.js"></script>
     <script src = "scripts/graphic_effects.js"></script>
+    <script src = "scripts/statistic_window_effects.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Heebo:wght@100;200;300;400;500;600;700;800;900&family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 </head>
@@ -93,7 +95,64 @@
             <div id = "infoTitle">Crosstown "G" Line</div>
             <div id = "subtitleHeader">Wayside Installation Progress</div>
         </div>
+        <div id = "search-bar-container">
+            <input type = "text" id = "search-bar" placeholder="Search"></input>
+            <input type = "text" id = "stationing-start" placeholder="From"></input>
+            <input type = "text" id = "stationing-end" placeholder="To"></input>
+        </div>
+        <div id = "statistics-container">
+            <div class = "single-stat-container">
+                <div class = "single-stat-title">CMRS</div>
+                <div class = "progress-bar-container">
+                    <div class = "progress-bar"></div>
+                </div>
+                <div class = "percentage-label">50%</div>
+            </div>
+            <div class = "single-stat-container">
+                <div class = "single-stat-title">Axle Counter</div>
+                <div class = "progress-bar-container">
+                    <div class = "progress-bar"></div>
+                </div>
+                <div class = "percentage-label">50%</div>
+            </div>
+            <div class = "single-stat-container">
+                <div class = "single-stat-title">Signals</div>
+                <div class = "progress-bar-container">
+                    <div class = "progress-bar"></div>
+                </div>
+                <div class = "percentage-label">50%</div>
+            </div>
+            <div class = "single-stat-container">
+                <div class = "single-stat-title">Switches</div>
+                <div class = "progress-bar-container">
+                    <div class = "progress-bar"></div>
+                </div>
+                <div class = "percentage-label">50%</div>
+            </div>
+            <div class = "single-stat-container">
+                <div class = "single-stat-title">WRUs</div>
+                <div class = "progress-bar-container">
+                    <div class = "progress-bar"></div>
+                </div>
+                <div class = "percentage-label">50%</div>
+            </div>
+            <div class = "single-stat-container">
+                <div class = "single-stat-title">Z-Cases</div>
+                <div class = "progress-bar-container">
+                    <div class = "progress-bar"></div>
+                </div>
+                <div class = "percentage-label">50%</div>
+            </div>
+            <div class = "single-stat-container">
+                <div class = "single-stat-title">TOPBs</div>
+                <div class = "progress-bar-container">
+                    <div class = "progress-bar"></div>
+                </div>
+                <div class = "percentage-label">50%</div>
+            </div>
+        </div>
     </div>
+
     <object id="basemap" type="image/svg+xml" data="images/map_graphics/basemap.svg"></object>
     <object id="crosstownLine" type="image/svg+xml" data="images/map_graphics/crosstown_line.svg"></object>
     <canvas id="canvas"></canvas>

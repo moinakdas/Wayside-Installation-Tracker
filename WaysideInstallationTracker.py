@@ -7,12 +7,13 @@ import eel
 import sys
 from sys import exit
 import os
+import eel.browsers
 
 #============================= REMOVE DURING DEBUGGING ====================================================
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
-#workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
-workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+#workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
 #================================================================================================
 #========================================================================================================================================================================
 #====================================================== CLASS DEFINITIONS, SEE GITHUB REPO FOR DETAILS ==================================================================
@@ -552,6 +553,39 @@ def calcOverallProgress(objList):
     print(str(validCount) + " OF " + str(len(objList)) + " ENTRIES SUCCESSFULL ")
     return totalProgress/validCount    
 
+#CLIENT FACING
+
+# CMRSObjectList
+# AXCObjectList
+# SignalObjectList
+# SwitchObjectList
+# WRUObjectList
+# ZCaseObjectList
+# TOPBObjectList
+@eel.expose
+def calcOverallProgressByType(equipmentType):
+    match equipmentType:
+        case "CMRS":
+            return calcOverallProgress(CMRSObjectList)
+        case "AXC":
+            return calcOverallProgress(AXCObjectList)
+        case "Signal":
+            return calcOverallProgress(SignalObjectList)
+        case "Switch":
+            return calcOverallProgress(SwitchObjectList)
+        case "WRU":
+            return calcOverallProgress(WRUObjectList)
+        case "ZCase":
+            return calcOverallProgress(ZCaseObjectList)
+        case "TOPB":
+            return calcOverallProgress(TOPBObjectList)
+        case _:
+            return -1 
+    
+
+
+
+
 def getMessengerStatsByStation(station):
     #assumes objLists are good
     #only includes
@@ -712,12 +746,12 @@ initializeObjects()
 # TOPBObjectList
 
 #print(calcProgressByStation("15S-7AV", SignalObjectList))
-
+#print(calcOverallProgress(AXCObjectList))
 
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
-eel.init('web')
-try:
-    eel.start("index.html",size=(960,540))
-except (SystemExit, MemoryError, KeyboardInterrupt):
-    os.system("taskkill /F /IM python.exe /T")
+# eel.init('web')
+# try:
+#     eel.start("index.html",size=(960,540))
+# except (SystemExit, MemoryError, KeyboardInterrupt):
+#     os.system("taskkill /F /IM python.exe /T")
 

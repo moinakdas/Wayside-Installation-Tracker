@@ -94,7 +94,6 @@ body{
     width: 100%;
     top:0;
     left:0;
-    background-color: red;
 }
 
 #infoTitle{
@@ -117,9 +116,119 @@ body{
 
 #search-bar-container{
     position:absolute;
-    height: 20%;
+    height: 10%;
     width: 100%;
     top:20%;
     left:0;
-    background-color: yellow;
+}
+
+#search-bar{
+    position: absolute;
+    height: 50%;
+    width: 30%;
+    left: 5%;
+    top: 50%;
+    transform: translate(0,-50%);
+    border-radius: 0.5vw;
+    background-color: #1F1F26;
+    outline: none;
+    padding-left: 0.5vw;
+    font-size: 0.8vw;
+    color: white;
+    border: none;
+}
+
+#stationing-start{
+    position: absolute;
+    height: 50%;
+    width: 15%;
+    right: 25%;
+    top: 50%;
+    transform: translate(0,-50%);
+    border-radius: 0.5vw;
+    background-color: #1F1F26;
+    outline: none;
+    padding-left: 0.5vw;
+    font-size: 0.8vw;
+    color: white;
+    border: none;
+}
+
+#stationing-end{
+    position: absolute;
+    height: 50%;
+    width: 15%;
+    right: 5%;
+    top: 50%;
+    transform: translate(0,-50%);
+    border-radius: 0.5vw;
+    background-color: #1F1F26;
+    outline: none;
+    padding-left: 0.5vw;
+    font-size: 0.8vw;
+    color: white;
+    border: none;
+}
+
+#statistics-container{
+    position: absolute;
+    height: 70%;
+    width: 100%;
+    left: 0%;
+    bottom: 0%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.single-stat-container{
+    position: relative;
+    height: 2.5vw;
+    width: 90%;
+    display: block;
+}
+
+.single-stat-title{
+    position: absolute;
+    height: 2vw;
+    top: 1.2vw;
+    left: 0vw;
+    transform: translate(0,-50%);
+    font-size: 1vw;
+    font-weight: 500;
+    color: #787E86;
+}
+
+.progress-bar-container{
+    position: absolute;
+    height: 0.25vw;
+    width: 80%;
+    top: 2vw;
+    left: 0vw;
+    transform: translate(0,-50%);
+    background-color: #1F1F26;
+    border-radius: 0.125vw;
+}
+
+.progress-bar{
+    position: absolute;
+    height: 100%;
+    width: 50%;
+    top:0;
+    left: 0;
+    background-color: #21BF57;
+    border-radius: 0.125vw;
+}
+
+.percentage-label{
+    position: absolute;
+    top:2vw;
+    right: 0;
+    width: 16%;
+    height: 1vw;
+    transform: translate(0,-60%);
+    color: #787E86;
+    font-size: 1vw;
+    line-height: 1vw;
+    font-weight: 500;
 }
