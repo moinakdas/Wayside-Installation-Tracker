@@ -680,6 +680,7 @@ def getTrayStatsByStation(station):
 
     return CMSStats
 
+@eel.expose
 def calcProgressByStation(station, axc_list):
     activity_progress = {}
     count = {}
