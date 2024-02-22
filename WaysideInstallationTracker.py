@@ -749,9 +749,9 @@ initializeObjects()
 #print(calcOverallProgress(AXCObjectList))
 
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
-# eel.init('web')
-# try:
-#     eel.start("index.html",size=(960,540))
-# except (SystemExit, MemoryError, KeyboardInterrupt):
-#     os.system("taskkill /F /IM python.exe /T")
+eel.init('web')
+try:
+    eel.start("index.html",size=(960,540))
+except (SystemExit, MemoryError, KeyboardInterrupt):
+    os.system("taskkill /F /IM python.exe /T")
 
