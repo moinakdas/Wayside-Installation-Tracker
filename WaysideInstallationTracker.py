@@ -12,8 +12,8 @@ import eel.browsers
 #============================= REMOVE DURING DEBUGGING ====================================================
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
-workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
-#workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+#workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
 #================================================================================================
 #========================================================================================================================================================================
 #====================================================== CLASS DEFINITIONS, SEE GITHUB REPO FOR DETAILS ==================================================================
@@ -551,9 +551,9 @@ def calcOverallProgress(objList):
                     totalProgress += objList[i].getProgress()
 
     print(str(validCount) + " OF " + str(len(objList)) + " ENTRIES SUCCESSFULL ")
+    if validCount == 0:
+        return 0
     return totalProgress/validCount    
-
-#CLIENT FACING
 
 # CMRSObjectList
 # AXCObjectList
@@ -569,22 +569,19 @@ def calcOverallProgressByType(equipmentType):
             return calcOverallProgress(CMRSObjectList)
         case "AXC":
             return calcOverallProgress(AXCObjectList)
-        case "Signal":
+        case "SIGNAL":
             return calcOverallProgress(SignalObjectList)
-        case "Switch":
+        case "SWITCH":
             return calcOverallProgress(SwitchObjectList)
         case "WRU":
             return calcOverallProgress(WRUObjectList)
         case "ZCase":
-            return calcOverallProgress(ZCaseObjectList)
+            return 0
+            #return calcOverallProgress(ZCaseObjectList)
         case "TOPB":
             return calcOverallProgress(TOPBObjectList)
         case _:
             return -1 
-    
-
-
-
 
 def getMessengerStatsByStation(station):
     #assumes objLists are good
@@ -687,6 +684,20 @@ def get24CMRSStatsByStation(station):
 
     return CMSStats
 
+def getCableSpanProgressByStation(station):
+    total = 0
+    validCount = 0
+    for i in range(len(CMRSObjectList)):
+        if CMRSObjectList[i] != None:
+            if CMRSObjectList[i].location == station:
+                total += CMRSObjectList[i].getProgress()
+                validCount += 1
+    if validCount == 0:
+        return 0
+    return total/validCount
+
+
+
 def getTrayStatsByStation(station):
     #assumes objLists are good
     #only includes
@@ -706,7 +717,9 @@ def getTrayStatsByStation(station):
                 cablePullProgress += (CMRSObjectList[i].activities.cablePull.install / CMRSObjectList[i].activities.cablePull.total)
                 installingTrayProgress += (CMRSObjectList[i].activities.installingTray.install / CMRSObjectList[i].activities.installingTray.total)
                 total += 1
-        
+    
+    if total == 0:
+        return 0
     CMSStats["trayBracket"] = trayBracketProgress/total
     CMSStats["coreDrilling"] = coreDrillingProgress/total
     CMSStats["cablePull"] = cablePullProgress/total
@@ -714,12 +727,11 @@ def getTrayStatsByStation(station):
 
     return CMSStats
 
-@eel.expose
-def calcProgressByStation(station, axc_list):
+def calcProgressByStation(station, objList):
     activity_progress = {}
     count = {}
     
-    for axc in axc_list:
+    for axc in objList:
         if axc.location == station:
             for activity_name in dir(axc.activities):
                 if not activity_name.startswith("__"):
@@ -732,9 +744,31 @@ def calcProgressByStation(station, axc_list):
         activity_progress[activity_name] /= count[activity_name]
     
     return activity_progress
-    
 
-
+@eel.expose
+def calcProgressByLocation(location, equipmentType):
+    match equipmentType:
+        case "CMRS":
+            return getCableSpanProgressByStation(location)
+        case "AXC":
+            return average_dict_values(calcProgressByStation(location,AXCObjectList))
+        case "SIGNAL":
+            return average_dict_values(calcProgressByStation(location,SignalObjectList))
+        case "SWITCH":
+            return average_dict_values(calcProgressByStation(location,SwitchObjectList))
+        case "WRU":
+            return average_dict_values(calcProgressByStation(location,WRUObjectList))
+        case "ZCase":
+            return average_dict_values(calcProgressByStation(location,ZCaseObjectList))
+        case "TOPB":
+            return average_dict_values(calcProgressByStation(location,TOPBObjectList))
+        case _:
+            return -1 
+        
+def average_dict_values(d):
+    if not d:
+        return 0
+    return sum(d.values()) / len(d)
 #============================================================================ CODE EXECUTION START =================================================================
 initializeObjects()
 # CMRSObjectList
@@ -745,13 +779,13 @@ initializeObjects()
 # ZCaseObjectList
 # TOPBObjectList
 
-#print(calcProgressByStation("15S-7AV", SignalObjectList))
-#print(calcOverallProgress(AXCObjectList))
+#print(average_dict_values(calcProgressByStation("15S-7AV", AXCObjectList)))
+print(getCableSpanProgressByStation("COU-QUE"))
 
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
-# eel.init('web')
-# try:
-#     eel.start("index.html",size=(960,540))
-# except (SystemExit, MemoryError, KeyboardInterrupt):
-#     os.system("taskkill /F /IM python.exe /T")
+eel.init('web')
+try:
+    eel.start("index.html",size=(960,540))
+except (SystemExit, MemoryError, KeyboardInterrupt):
+    os.system("taskkill /F /IM python.exe /T")
 
