@@ -12,8 +12,8 @@ import eel.browsers
 #============================= REMOVE DURING DEBUGGING ====================================================
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
-#workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
-workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+#workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
 #================================================================================================
 #========================================================================================================================================================================
 #====================================================== CLASS DEFINITIONS, SEE GITHUB REPO FOR DETAILS ==================================================================
@@ -312,7 +312,7 @@ def toNum(intVal):
     if intVal == None:
         return None
     try:
-        return int(intVal)
+        return float(intVal)
     except ValueError:
         return None
 
@@ -546,7 +546,6 @@ def calcOverallProgress(objList):
     for i in range(len(objList)):
         if objList[i] != None:
             if objList[i].getProgress() != None:
-                print(objList[i].getProgress())
                 if objList[i].getProgress() != -1:
                     validCount += 1
                     totalProgress += objList[i].getProgress()
@@ -577,8 +576,7 @@ def calcOverallProgressByType(equipmentType):
         case "WRU":
             return calcOverallProgress(WRUObjectList)
         case "ZCase":
-            return 0
-            #return calcOverallProgress(ZCaseObjectList)
+            return calcOverallProgress(ZCaseObjectList)
         case "TOPB":
             return calcOverallProgress(TOPBObjectList)
         case _:
@@ -780,17 +778,8 @@ initializeObjects()
 # ZCaseObjectList
 # TOPBObjectList
 
-#print(average_dict_values(calcProgressByStation("15S-7AV", AXCObjectList)))
-#print(getCableSpanProgressByStation("COU-QUE"))
-
-#print(calcOverallProgressByType("CMRS"))
-#print(calcOverallProgressByType("AXC"))
-print(AXCObjectList[0].activities.ACInstall.progress)
-#print(calcOverallProgressByType("SIGNAL"))
-#print(calcOverallProgressByType("SWITCH"))
-#print(calcOverallProgressByType("WRU"))
-#print(calcOverallProgressByType("ZCase"))
-#print(calcOverallProgressByType("TOPB"))
+print(average_dict_values(calcProgressByStation("CAR-BER",AXCObjectList)))
+print("==================================\n\n\n")
 
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
 eel.init('web')
