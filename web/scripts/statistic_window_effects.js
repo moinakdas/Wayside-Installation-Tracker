@@ -33,8 +33,14 @@ function setOverallProgress(location) {
             break;
         default:
             eel.calcProgressByLocation(location,"CMRS")().then((r) => {
-                document.querySelector('.percentage-label').innerHTML = formatPercent(r);
-                document.querySelector(".progress-bar").style.width = formatPercent(r);
+                if( r == -1){
+                    document.querySelector('.single-stat-container').style.display = "none";
+                }else{
+                    document.querySelector('.single-stat-container').style.display = "block";
+                    document.querySelector('.percentage-label').innerHTML = formatPercent(r);
+                    document.querySelector(".progress-bar").style.width = formatPercent(r);
+                }
+                
             });
             eel.calcProgressByLocation(location,"AXC")().then((r) => {
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r);

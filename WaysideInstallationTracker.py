@@ -12,8 +12,8 @@ import eel.browsers
 #============================= REMOVE DURING DEBUGGING ====================================================
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
-workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
-#workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+#workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
 #================================================================================================
 #========================================================================================================================================================================
 #====================================================== CLASS DEFINITIONS, SEE GITHUB REPO FOR DETAILS ==================================================================
@@ -692,7 +692,7 @@ def getCableSpanProgressByStation(station):
                 total += CMRSObjectList[i].getProgress()
                 validCount += 1
     if validCount == 0:
-        return 0
+        return -1
     return total/validCount
 
 
@@ -768,6 +768,60 @@ def average_dict_values(d):
     if not d:
         return 0
     return sum(d.values()) / len(d)
+
+def statioingToLocation(stationing):
+    if stationing > 55696 and stationing < 56356:
+        return "CHURCH"
+    elif stationing < 58488:
+        return "CHU-FOR"
+    elif stationing < 59190:
+        return "FORT HAMILTON"
+    elif stationing < 62570:
+        return "FOR-15S"
+    elif stationing < 63230:
+        return "PROSPECT PARK"
+    elif stationing < 65396:
+        return "15S-7AV"
+    elif stationing < 66056:
+        return "7TH AV"
+    elif stationing < 68383:
+        return "7AV-4TH"
+    elif stationing < 69091:
+        return "4TH & 9TH"
+    elif stationing < 70511:
+        return "4TH-SMI"
+    elif stationing < 71232:
+        return "SMITH & 9TH STREET"
+    elif stationing < 73289:
+        return "SMI-CAR"
+    elif stationing < 73899:
+        return "CARROLL"
+    elif stationing < 75682:
+        return "CAR-BER"
+    elif stationing < 76342:   
+        return "BERGEN"
+    elif stationing < 95182: 
+        return None               #STATIOINGS ARE INACCURATE HERE, INCLUDE WARNINGS
+    elif stationing < 95842:
+        return "CLINTON WASHINGTON"
+    elif stationing < 95842:
+        return "CLINTON WASHINGTON"
+    elif stationing < 95842:
+        return "CLINTON WASHINGTON"
+    elif stationing < 95842:
+        return "CLINTON WASHINGTON"
+    elif stationing < 95842:
+        return "CLINTON WASHINGTON"
+    elif stationing < 95842:
+        return "CLINTON WASHINGTON"
+    elif stationing < 95842:
+        return "CLINTON WASHINGTON"
+    elif stationing < 95842:
+        return "CLINTON WASHINGTON"
+    elif stationing < 95842:
+        return "CLINTON WASHINGTON"
+    elif stationing < 95842:
+        return "CLINTON WASHINGTON"
 #============================================================================ CODE EXECUTION START =================================================================
 initializeObjects()
 # CMRSObjectList

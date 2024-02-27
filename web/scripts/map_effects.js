@@ -292,129 +292,129 @@ window.onload = function() {
         switch (true) {
             // Circle cases
             case ctx.isPointInPath(churchAvenue, x, y):
-                console.log("Clicked on Church Avenue circle");
+                setOverallProgress("CHURCH");
                 break;
             case ctx.isPointInPath(fortHamiltonPkwy, x, y):
-                console.log("Clicked on Fort Hamilton Pkwy circle");
+                setOverallProgress("FORT HAMILTON");
                 break;
             case ctx.isPointInPath(ProspectPark, x, y):
-                console.log("Clicked on Prospect Park circle");
+                setOverallProgress("15TH STREET PROSPECT PARK");
                 break;
             case ctx.isPointInPath(seventhAve, x, y):
-                console.log("Clicked on Seventh Ave circle");
+                setOverallProgress("7TH AVENUE");
                 break;
             case ctx.isPointInPath(fourthNinthSt, x, y):
-                console.log("Clicked on Fourth Ninth St circle");
+                setOverallProgress("4 9TH STREET");
                 break;
             case ctx.isPointInPath(smith9thSt, x, y):
-                console.log("Clicked on Smith 9th St circle");
+                setOverallProgress("SMITH & 9TH STREET");
                 break;
             case ctx.isPointInPath(carrollSt, x, y):
-                console.log("Clicked on Carroll St circle");
+                setOverallProgress("CARROLL");
                 break;
             case ctx.isPointInPath(bergenSt, x, y):
-                console.log("Clicked on Bergen St circle");
+                setOverallProgress("BERGEN ST");
                 break;
             case ctx.isPointInPath(hoytSchermerhorn, x, y):
-                console.log("Clicked on Hoyt-Schermerhorn circle");
+                setOverallProgress("HOYT SCHERMERHORN");
                 break;
             case ctx.isPointInPath(clintonWashingtonAve, x, y):
-                console.log("Clicked on Clinton-Washington Ave circle");
+                setOverallProgress("CLINTON-WASHINGTON");
                 break;
             case ctx.isPointInPath(fultonStreet, x, y):
-                console.log("Clicked on Fulton Street circle");
+                setOverallProgress("FULTON");
                 break;
             case ctx.isPointInPath(classonAve, x, y):
-                console.log("Clicked on Classon Ave circle");
+                setOverallProgress("CLASSON");
                 break;
             case ctx.isPointInPath(bedfordNostrandAve, x, y):
-                console.log("Clicked on Bedford-Nostrand Ave circle");
+                setOverallProgress("BEDFORD NOSTRAND");
                 break;
             case ctx.isPointInPath(myrtleWilloughbyAve, x, y):
-                console.log("Clicked on Myrtle-Willoughby Ave circle");
+                setOverallProgress("MYRTLE AVE");
                 break;
             case ctx.isPointInPath(flushingAveStation, x, y):
-                console.log("Clicked on Flushing Ave Station circle");
+                setOverallProgress("FLUSHING");
                 break;
             case ctx.isPointInPath(broadway, x, y):
-                console.log("Clicked on Broadway circle");
+                setOverallProgress("BROADWAY");
                 break;
             case ctx.isPointInPath(metropolitanAvenue, x, y):
-                console.log("Clicked on Metropolitan Avenue circle");
+                setOverallProgress("METROPOLITAN");
                 break;
             case ctx.isPointInPath(nassauAvenue, x, y):
-                console.log("Clicked on Nassau Avenue circle");
+                setOverallProgress("NASSAU");
                 break;
             case ctx.isPointInPath(greenpointAve, x, y):
-                console.log("Clicked on Greenpoint Ave circle");
+                setOverallProgress("GREENPOINT");
                 break;
             case ctx.isPointInPath(twentyFirstStStation, x, y):
-                console.log("Clicked on Twenty-First St Station circle");
+                setOverallProgress("21ST STATION");
                 break;
             case ctx.isPointInPath(courtSquare, x, y):
-                console.log("Clicked on Court Square circle");
+                setOverallProgress("COURT SQ");
                 break;
     
             // Square cases
             case ctx.isPointInPath(CHU_FOR, x, y):
-                console.log("Clicked on CHU_FOR square");
+                setOverallProgress("CHU-FOR");
                 break;
             case ctx.isPointInPath(FOR_15S, x, y):
-                console.log("Clicked on FOR_15S square");
+                setOverallProgress("FOR-15S");
                 break;
             case ctx.isPointInPath(PRO_7AV, x, y):
-                console.log("Clicked on PRO_7AV square");
+                setOverallProgress("15S-7AV");
                 break;
             case ctx.isPointInPath(SEV_4TH, x, y):
-                console.log("Clicked on SEV_4TH square");
+                setOverallProgress("7AV-4TH");
                 break;
             case ctx.isPointInPath(FOU_SMI, x, y):
-                console.log("Clicked on FOU_SMI square");
+                setOverallProgress("4TH-SMI");
                 break;
             case ctx.isPointInPath(SMI_CAR, x, y):
-                console.log("Clicked on SMI_CAR square");
+                setOverallProgress("SMI-CAR");
                 break;
             case ctx.isPointInPath(CAR_BER, x, y):
-                console.log("Clicked on CAR_BER square");
+                setOverallProgress("CAR-BER");
                 break;
             case ctx.isPointInPath(BER_HOY, x, y):
-                console.log("Clicked on BER_HOY square");
+                setOverallProgress("BER-HOY");
                 break;
             case ctx.isPointInPath(HOY_FUL, x, y):
-                console.log("Clicked on HOY_FUL square");
+                setOverallProgress("HOY-FUL");
                 break;
             case ctx.isPointInPath(FUL_CLI, x, y):
-                console.log("Clicked on FUL_CLI square");
+                setOverallProgress("FUL-CLI");
                 break;
             case ctx.isPointInPath(CLI_CLA, x, y):
-                console.log("Clicked on CLI_CLA square");
+                setOverallProgress("CLI-CLA");
                 break;
             case ctx.isPointInPath(CLA_BED, x, y):
-                console.log("Clicked on CLA_BED square");
+                setOverallProgress("CLA-BED");
                 break;
             case ctx.isPointInPath(BED_MYR, x, y):
-                console.log("Clicked on BED_MYR square");
+                setOverallProgress("BED-MYR");
                 break;
             case ctx.isPointInPath(MYR_FLU, x, y):
-                console.log("Clicked on MYR_FLU square");
+                setOverallProgress("MYR-FLU");
                 break;
             case ctx.isPointInPath(FLU_BRO, x, y):
-                console.log("Clicked on FLU_BRO square");
+                setOverallProgress("FLU-BRO");
                 break;
             case ctx.isPointInPath(BRO_MET, x, y):
-                console.log("Clicked on BRO_MET square");
+                setOverallProgress("BRO-MET");
                 break;
             case ctx.isPointInPath(MET_NAS, x, y):
-                console.log("Clicked on MET_NAS square");
+                setOverallProgress("MET-NAS");
                 break;
             case ctx.isPointInPath(NAS_GRE, x, y):
-                console.log("Clicked on NAS_GRE square");
+                setOverallProgress("NAS-GRE");
                 break;
             case ctx.isPointInPath(GRE_21S, x, y):
-                console.log("Clicked on GRE_21S square");
+                setOverallProgress("GRE-21S");
                 break;
             case ctx.isPointInPath(TWE_COU, x, y):
-                console.log("Clicked on TWE_COU square");
+                setOverallProgress("21S-COU");
                 break;
         }
     });
