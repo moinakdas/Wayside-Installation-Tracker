@@ -546,6 +546,7 @@ def calcOverallProgress(objList):
     for i in range(len(objList)):
         if objList[i] != None:
             if objList[i].getProgress() != None:
+                print(objList[i].getProgress())
                 if objList[i].getProgress() != -1:
                     validCount += 1
                     totalProgress += objList[i].getProgress()
@@ -780,12 +781,21 @@ initializeObjects()
 # TOPBObjectList
 
 #print(average_dict_values(calcProgressByStation("15S-7AV", AXCObjectList)))
-print(getCableSpanProgressByStation("COU-QUE"))
+#print(getCableSpanProgressByStation("COU-QUE"))
+
+#print(calcOverallProgressByType("CMRS"))
+#print(calcOverallProgressByType("AXC"))
+print(AXCObjectList[0].activities.ACInstall.progress)
+#print(calcOverallProgressByType("SIGNAL"))
+#print(calcOverallProgressByType("SWITCH"))
+#print(calcOverallProgressByType("WRU"))
+#print(calcOverallProgressByType("ZCase"))
+#print(calcOverallProgressByType("TOPB"))
 
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
-eel.init('web')
-try:
-    eel.start("index.html",size=(960,540))
-except (SystemExit, MemoryError, KeyboardInterrupt):
-    os.system("taskkill /F /IM python.exe /T")
+# eel.init('web')
+# try:
+#     eel.start("index.html",size=(960,540))
+# except (SystemExit, MemoryError, KeyboardInterrupt):
+#     os.system("taskkill /F /IM python.exe /T")
 

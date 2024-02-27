@@ -78,4 +78,4 @@ function formatPercent(decimal) {
     return percent.toString() + "%";
 }
 
-setOverallProgress("COU-QUE");
+setOverallProgress("GENERAL");
