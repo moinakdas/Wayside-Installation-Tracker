@@ -134,12 +134,28 @@ function setCMSProgress(location){
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r);
             });
             eel.getCMSProgressByCMSType("tray")().then((r) => {
-                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r);
-                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r);
+                document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r);
+                document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r);
             });
             break;
         default:
-            console.log("dun dun dun");
+            eel.getCMSProgressByStationAndType("mess",location)().then((r) => {
+                console.log(r);
+                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r);
+                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r);
+            });
+            eel.getCMSProgressByStationAndType("15CMRS",location)().then((r) => {
+                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r);
+                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r);
+            });
+            eel.getCMSProgressByStationAndType("24CMRS",location)().then((r) => {
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r);
+            });
+            eel.getCMSProgressByStationAndType("tray",location)().then((r) => {
+                document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r);
+                document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r);
+            });
             break;
     }
 }
@@ -354,7 +370,7 @@ function setStatsByLocation(location){
             setOverallProgress(location);
             break;
         case 1: // CMS
-            console.log("roll");
+            setCMSProgress(location);
             break;
         case 2: // AXC
             setAXCProgress(location);
@@ -380,7 +396,7 @@ function setStatsByLocation(location){
 
 
 function formatPercent(decimal) {
-    if (typeof decimal == 'undefined') {
+    if (typeof decimal == 'undefined' || decimal < 0) {
         return "--";
     }
     const percent = Math.round(decimal * 100);
@@ -388,7 +404,7 @@ function formatPercent(decimal) {
 }
 
 function formatPercentForWidth(decimal){
-    if (typeof decimal == 'undefined') {
+    if (typeof decimal == 'undefined' || decimal < 0) {
         return 0;
     }
     const percent = Math.round(decimal * 100);

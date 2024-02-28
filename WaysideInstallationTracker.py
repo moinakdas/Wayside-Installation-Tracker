@@ -605,7 +605,8 @@ def getMessengerStatsByStation(station):
                 messCablePullProgress += (CMRSObjectList[i].activities.messCablesPulled.install / CMRSObjectList[i].activities.messCablesPulled.total)
                 messStrapProgress += (CMRSObjectList[i].activities.messStraps.install / CMRSObjectList[i].activities.messStraps.total)
                 total += 1
-        
+    if total == 0:
+        return None
     CMSStats["messSupports"] = messSupportProgress/total
     CMSStats["messClamps"] = messClampsProgress/total
     CMSStats["messWirePull"] = messWirePullProgress/total
@@ -638,7 +639,8 @@ def get15CMRSStatsByStation(station):
                 cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulled.install / CMRSObjectList[i].activities.cablesPulled.total)
                 CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstall15.install / CMRSObjectList[i].activities.CMRSInstall15.total)
                 total += 1
-        
+    if total == 0:
+        return None
     CMSStats["colClamp"] = colClampProgress/total
     CMSStats["stationBrackets"] = stationBracketsProgress/total
     CMSStats["grounding"] = groundingProgress/total
@@ -672,7 +674,8 @@ def get24CMRSStatsByStation(station):
                 cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulled.install / CMRSObjectList[i].activities.cablesPulled.total)
                 CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstall24.install / CMRSObjectList[i].activities.CMRSInstall24.total)
                 total += 1
-        
+    if total == 0:
+        return None
     CMSStats["colClamp"] = colClampProgress/total
     CMSStats["stationBrackets"] = stationBracketsProgress/total
     CMSStats["grounding"] = groundingProgress/total
@@ -692,7 +695,7 @@ def getCableSpanProgressByStation(station):
                 total += CMRSObjectList[i].getProgress()
                 validCount += 1
     if validCount == 0:
-        return -1
+        return None
     return total/validCount
 
 
@@ -718,7 +721,7 @@ def getTrayStatsByStation(station):
                 total += 1
     
     if total == 0:
-        return 0
+        return None
     CMSStats["trayBracket"] = trayBracketProgress/total
     CMSStats["coreDrilling"] = coreDrillingProgress/total
     CMSStats["cablePull"] = cablePullProgress/total
@@ -748,7 +751,9 @@ def getOverallMessengerStats():
                 messCablePullProgress += (CMRSObjectList[i].activities.messCablesPulled.install / CMRSObjectList[i].activities.messCablesPulled.total)
                 messStrapProgress += (CMRSObjectList[i].activities.messStraps.install / CMRSObjectList[i].activities.messStraps.total)
                 total += 1
-        
+    if total == 0:
+        return None
+    
     CMSStats["messSupports"] = messSupportProgress/total
     CMSStats["messClamps"] = messClampsProgress/total
     CMSStats["messWirePull"] = messWirePullProgress/total
@@ -781,7 +786,9 @@ def getOverall15CMRSStats():
                 cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulled.install / CMRSObjectList[i].activities.cablesPulled.total)
                 CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstall15.install / CMRSObjectList[i].activities.CMRSInstall15.total)
                 total += 1
-        
+    if total == 0:
+        return None
+    
     CMSStats["colClamp"] = colClampProgress/total
     CMSStats["stationBrackets"] = stationBracketsProgress/total
     CMSStats["grounding"] = groundingProgress/total
@@ -814,7 +821,9 @@ def getOverall24CMRSStats():
                 cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulled.install / CMRSObjectList[i].activities.cablesPulled.total)
                 CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstall24.install / CMRSObjectList[i].activities.CMRSInstall24.total)
                 total += 1
-        
+    if total == 0:
+        return None
+    
     CMSStats["colClamp"] = colClampProgress/total
     CMSStats["stationBrackets"] = stationBracketsProgress/total
     CMSStats["grounding"] = groundingProgress/total
@@ -846,7 +855,7 @@ def getOverallTrayStats():
                 total += 1
     
     if total == 0:
-        return 0
+        return None
     CMSStats["trayBracket"] = trayBracketProgress/total
     CMSStats["coreDrilling"] = coreDrillingProgress/total
     CMSStats["cablePull"] = cablePullProgress/total
@@ -865,7 +874,8 @@ def getCMSProgressByCMSType(cmsType):
             return average_dict_values(getOverallMessengerStats())
         case "tray":
             return average_dict_values(getOverallMessengerStats())
-        
+
+@eel.expose
 def getCMSProgressByStationAndType(cmsType, Station):
     match cmsType:
         case "mess":
@@ -895,7 +905,6 @@ def calcProgressByStation(station, objList):
         activity_progress[activity_name] /= count[activity_name]
     
     return activity_progress
-
 
 def calcGeneralProgressPerAttribute(objList):
     activity_progress = {}

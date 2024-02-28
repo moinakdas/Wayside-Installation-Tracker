@@ -339,13 +339,73 @@ window.onload = function() {
 
         draw();
     });
+    eel.expose
     /*
-    canvas.addEventListener('click', function(event) {
-        let rect = canvas.getBoundingClientRect();
-        let mouseX = (event.clientX - offsetX)/(basemapImage.width * scale);
-        let mouseY = (event.clientY - offsetY)/(basemapImage.height * scale);
-        console.log(`drawSquare(ctx,${mouseX}, ${mouseY},"red")`);
-    });*/
+    function setColor(location){
+        switch(currentMode){
+            case 0: // General
+                total = 0;
+                numElements = 0;
+                eel.calcProgressByLocation(location,"CMRS")().then((r) => {
+                    if(r > 0){
+                        total += r;
+                        numElements++;
+                    }
+                });
+                eel.calcProgressByLocation(location,"AXC")().then((r) => {
+                    if(r > 0){
+                        total += r;
+                        numElements++;
+                    }
+                });
+                eel.calcProgressByLocation(location,"SIGNAL")().then((r) => {
+                    if(r > 0){
+                        total += r;
+                        numElements++;
+                    }
+                });
+                eel.calcProgressByLocation(location,"SWITCH")().then((r) => {
+                    if(r > 0){
+                        total += r;
+                        numElements++;
+                    }
+                });
+                eel.calcProgressByLocation(location,"WRU")().then((r) => {
+                    if(r > 0){
+                        total += r;
+                        numElements++;
+                    }
+                });
+                eel.calcProgressByLocation(location,"ZCase")().then((r) => {
+                    if(r > 0){
+                        total += r;
+                        numElements++;
+                    }
+                });
+                eel.calcProgressByLocation(location,"TOPB")().then((r) => {
+                    if(r > 0){
+                        total += r;
+                        numElements++;
+                    }
+                });
+                break;
+            case 1: // CMS
+                
+                break;
+            case 2: // AXC
+                break;
+            case 3: // SIGNALS
+                break;
+            case 4: // SWITCH
+                break;
+            case 5: // WRUS
+                break;
+            case 6: // Z CASE
+                break;
+            case 7: // TOPB
+                break;
+        }
+    }*/
 
     canvas.addEventListener('click', function(event) {
         const rect = canvas.getBoundingClientRect();
