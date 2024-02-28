@@ -726,11 +726,161 @@ def getTrayStatsByStation(station):
 
     return CMSStats
 
+def getOverallMessengerStats():
+    #assumes objLists are good
+    #only includes
+    CMSStats = {}
+    messSupportProgress = 0
+    messClampsProgress = 0
+    messWirePullProgress = 0
+    messWireTensionProgress = 0
+    messCablePullProgress = 0
+    messStrapProgress = 0
+
+    total = 0
+    for i in range(len(CMRSObjectList)):
+        if CMRSObjectList[i] != None:
+            if CMRSObjectList[i].type == "mess":
+                messSupportProgress += (CMRSObjectList[i].activities.messSupports.install / CMRSObjectList[i].activities.messSupports.total)
+                messClampsProgress += (CMRSObjectList[i].activities.messClamps.install / CMRSObjectList[i].activities.messClamps.total)
+                messWirePullProgress += (CMRSObjectList[i].activities.messWirePull.install / CMRSObjectList[i].activities.messWirePull.total)
+                messWireTensionProgress += (CMRSObjectList[i].activities.messWireTension.install / CMRSObjectList[i].activities.messWireTension.total)
+                messCablePullProgress += (CMRSObjectList[i].activities.messCablesPulled.install / CMRSObjectList[i].activities.messCablesPulled.total)
+                messStrapProgress += (CMRSObjectList[i].activities.messStraps.install / CMRSObjectList[i].activities.messStraps.total)
+                total += 1
+        
+    CMSStats["messSupports"] = messSupportProgress/total
+    CMSStats["messClamps"] = messClampsProgress/total
+    CMSStats["messWirePull"] = messWirePullProgress/total
+    CMSStats["messWireTension"] = messWireTensionProgress/total
+    CMSStats["messCablePull"] = messCablePullProgress/total
+    CMSStats["messStrapProgress"] = messStrapProgress/total
+
+    return CMSStats
+
+def getOverall15CMRSStats():
+    #assumes objLists are good
+    #only includes
+    CMSStats = {}
+    colClampProgress = 0
+    stationBracketsProgress = 0
+    groundingProgress = 0
+    obsBracketProgress = 0
+    cablesPulledProgress = 0
+    CMRSInstallProgress = 0
+
+    total = 0
+    for i in range(len(CMRSObjectList)):
+        if CMRSObjectList[i] != None:
+            if CMRSObjectList[i].type == "15CMRS":
+                
+                colClampProgress += (CMRSObjectList[i].activities.colClamp.install / CMRSObjectList[i].activities.colClamp.total)
+                stationBracketsProgress += (CMRSObjectList[i].activities.stationBrackets.install / CMRSObjectList[i].activities.stationBrackets.total)
+                groundingProgress += (CMRSObjectList[i].activities.grounding.install / CMRSObjectList[i].activities.grounding.total)
+                obsBracketProgress += (CMRSObjectList[i].activities.obsBracket.install / CMRSObjectList[i].activities.obsBracket.total)
+                cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulled.install / CMRSObjectList[i].activities.cablesPulled.total)
+                CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstall15.install / CMRSObjectList[i].activities.CMRSInstall15.total)
+                total += 1
+        
+    CMSStats["colClamp"] = colClampProgress/total
+    CMSStats["stationBrackets"] = stationBracketsProgress/total
+    CMSStats["grounding"] = groundingProgress/total
+    CMSStats["obsBracket"] = obsBracketProgress/total
+    CMSStats["cablesPulled"] = cablesPulledProgress/total
+    CMSStats["CMRSInstall"] = CMRSInstallProgress/total
+
+
+    return CMSStats
+
+def getOverall24CMRSStats():
+    #assumes objLists are good
+    #only includes
+    CMSStats = {}
+    colClampProgress = 0
+    stationBracketsProgress = 0
+    groundingProgress = 0
+    obsBracketProgress = 0
+    cablesPulledProgress = 0
+    CMRSInstallProgress = 0
+
+    total = 0
+    for i in range(len(CMRSObjectList)):
+        if CMRSObjectList[i] != None:
+            if CMRSObjectList[i].type == "24CMRS":
+                colClampProgress += (CMRSObjectList[i].activities.colClamp.install / CMRSObjectList[i].activities.colClamp.total)
+                stationBracketsProgress += (CMRSObjectList[i].activities.stationBrackets.install / CMRSObjectList[i].activities.stationBrackets.total)
+                groundingProgress += (CMRSObjectList[i].activities.grounding.install / CMRSObjectList[i].activities.grounding.total)
+                obsBracketProgress += (CMRSObjectList[i].activities.obsBracket.install / CMRSObjectList[i].activities.obsBracket.total)
+                cablesPulledProgress += (CMRSObjectList[i].activities.cablesPulled.install / CMRSObjectList[i].activities.cablesPulled.total)
+                CMRSInstallProgress += (CMRSObjectList[i].activities.CMRSInstall24.install / CMRSObjectList[i].activities.CMRSInstall24.total)
+                total += 1
+        
+    CMSStats["colClamp"] = colClampProgress/total
+    CMSStats["stationBrackets"] = stationBracketsProgress/total
+    CMSStats["grounding"] = groundingProgress/total
+    CMSStats["obsBracket"] = obsBracketProgress/total
+    CMSStats["cablesPulled"] = cablesPulledProgress/total
+    CMSStats["CMRSInstall"] = CMRSInstallProgress/total
+
+
+    return CMSStats
+
+def getOverallTrayStats():
+    #assumes objLists are good
+    #only includes
+    CMSStats = {}
+    trayBracketProgress = 0
+    coreDrillingProgress = 0
+    cablePullProgress = 0
+    installingTrayProgress = 0
+
+    total = 0
+    for i in range(len(CMRSObjectList)):
+        if CMRSObjectList[i] != None:
+            if CMRSObjectList[i].type == "tray":
+                
+                trayBracketProgress += (CMRSObjectList[i].activities.trayBrackets.install / CMRSObjectList[i].activities.trayBrackets.total)
+                coreDrillingProgress += (CMRSObjectList[i].activities.coreDrilling.install / CMRSObjectList[i].activities.coreDrilling.total)
+                cablePullProgress += (CMRSObjectList[i].activities.cablePull.install / CMRSObjectList[i].activities.cablePull.total)
+                installingTrayProgress += (CMRSObjectList[i].activities.installingTray.install / CMRSObjectList[i].activities.installingTray.total)
+                total += 1
+    
+    if total == 0:
+        return 0
+    CMSStats["trayBracket"] = trayBracketProgress/total
+    CMSStats["coreDrilling"] = coreDrillingProgress/total
+    CMSStats["cablePull"] = cablePullProgress/total
+    CMSStats["installingTray"] = installingTrayProgress/total
+
+    return CMSStats
+
+@eel.expose
+def getCMSProgressByCMSType(cmsType):
+    match cmsType:
+        case "mess":
+            return average_dict_values(getOverallMessengerStats())
+        case "15CMRS":
+            return average_dict_values(getOverallMessengerStats())
+        case "24CMRS":
+            return average_dict_values(getOverallMessengerStats())
+        case "tray":
+            return average_dict_values(getOverallMessengerStats())
+        
+def getCMSProgressByStationAndType(cmsType, Station):
+    match cmsType:
+        case "mess":
+            return average_dict_values(getMessengerStatsByStation(Station))
+        case "15CMRS":
+            return average_dict_values(get15CMRSStatsByStation(Station))
+        case "24CMRS":
+            return average_dict_values(get24CMRSStatsByStation(Station))
+        case "tray":
+            return average_dict_values(getTrayStatsByStation(Station))
+
 #returns dictionary
 def calcProgressByStation(station, objList):
     activity_progress = {}
     count = {}
-    numValidEntries = 0
     
     for axc in objList:
         if axc.location == station or (axc.location != station and stationingToLocation(axc.stationing) == station):
@@ -745,6 +895,44 @@ def calcProgressByStation(station, objList):
         activity_progress[activity_name] /= count[activity_name]
     
     return activity_progress
+
+
+def calcGeneralProgressPerAttribute(objList):
+    activity_progress = {}
+    count = {}
+    
+    for axc in objList:
+        for activity_name in dir(axc.activities):
+            if not activity_name.startswith("__"):
+                value = getattr(axc.activities, activity_name).progress
+                if value is not None:
+                    activity_progress[activity_name] = activity_progress.get(activity_name, 0) + value
+                    count[activity_name] = count.get(activity_name, 0) + 1
+    
+    for activity_name in activity_progress:
+        activity_progress[activity_name] /= count[activity_name]
+    
+    return activity_progress
+
+@eel.expose
+def calcAttributeGeneralProgressByEquipType(equipmentType):
+    match equipmentType:
+        case "CMRS":
+            print("no")
+        case "AXC":
+            return calcGeneralProgressPerAttribute(AXCObjectList)
+        case "SIGNAL":
+            return calcGeneralProgressPerAttribute(SignalObjectList)
+        case "SWITCH":
+            return calcGeneralProgressPerAttribute(SwitchObjectList)
+        case "WRU":
+            return calcGeneralProgressPerAttribute(WRUObjectList)
+        case "ZCase":
+            return calcGeneralProgressPerAttribute(ZCaseObjectList)
+        case "TOPB":
+            return calcGeneralProgressPerAttribute(TOPBObjectList)
+        case _:
+            return -1
 
 @eel.expose
 def getEquipmentAttributesByStation(location, equipmentType):

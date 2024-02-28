@@ -121,6 +121,24 @@ function setOverallProgress(location) {
 function setCMSProgress(location){
     switch(location){
         case "GENERAL":
+            eel.getCMSProgressByCMSType("mess")().then((r) => {
+                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r);
+                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r);
+            });
+            eel.getCMSProgressByCMSType("15CMRS")().then((r) => {
+                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r);
+                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r);
+            });
+            eel.getCMSProgressByCMSType("24CMRS")().then((r) => {
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r);
+            });
+            eel.getCMSProgressByCMSType("tray")().then((r) => {
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r);
+            });
+            break;
+        default:
             console.log("dun dun dun");
             break;
     }
@@ -130,7 +148,19 @@ eel.expose
 function setAXCProgress(location){
     switch(location){
         case "GENERAL":
-            console.log("dun dun dun");
+            eel.calcAttributeGeneralProgressByEquipType("AXC")().then((r) => {
+                console.log(r.ACInstall);
+                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.ACInstall);
+                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.ACInstall);
+                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.LCInstall);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.LCInstall);
+                document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.ECInstall);
+                document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.ECInstall);
+                document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.preOpTesting);
+            });
             break;
         default:
             console.log("Axle Counter hard");
@@ -154,7 +184,20 @@ function setAXCProgress(location){
 function setSignalProgress(location){
     switch(location){
         case "GENERAL":
-            console.log("dun dun dun");
+            eel.calcAttributeGeneralProgressByEquipType("SIGNAL")().then((r) => {
+                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.sigInstall);
+                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.sigInstall);
+                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.SMInstall);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.SMInstall);
+                document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.LCInstall);
+                document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.LCInstall);
+                document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.breakdownTesting);
+                document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.breakdownTesting);
+                document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.preOpTesting);
+            });
             break;
         default:
             console.log("Signal");
@@ -180,11 +223,23 @@ function setSignalProgress(location){
 function setSwitchProgress(location){
     switch(location){
         case "GENERAL":
-            console.log("dun dun dun");
+            eel.calcAttributeGeneralProgressByEquipType("SWITCH")().then((r) => {
+                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.switchInstall);
+                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.switchInstall);
+                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.SCInstall);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.SCInstall);
+                document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.LCInstall);
+                document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.LCInstall);
+                document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.breakdownTesting);
+                document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.breakdownTesting);
+                document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.preOpTesting);
+            });
             break;
         default:
             eel.getEquipmentAttributesByStation(location,"SWITCH")().then((r) => {
-                console.log(r);
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.switchInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.switchInstall);
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
@@ -205,11 +260,25 @@ function setSwitchProgress(location){
 function setWRUProgress(location){
     switch(location){
         case "GENERAL":
-            console.log("dun dun dun");
+            eel.calcAttributeGeneralProgressByEquipType("WRU")().then((r) => {
+                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.RUInstall);
+                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.RUInstall);
+                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.FBInstall);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.FBInstall);
+                document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.antennaInstall);
+                document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.antennaInstall);
+                document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.antCableInstall);
+                document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.antCableInstall);
+                document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.splitterInstall);
+                document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.splitterInstall);
+                document.querySelectorAll('.percentage-label')[6].innerHTML = formatPercent(r.FTesting);
+                document.querySelectorAll(".progress-bar")[6].style.width = formatPercentForWidth(r.FTesting);
+            });
             break;
         default:
             eel.getEquipmentAttributesByStation(location,"WRU")().then((r) => {
-                console.log(r);
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.RUInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.RUInstall);
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
@@ -232,25 +301,48 @@ function setWRUProgress(location){
 function setZCaseProgress(location){
     switch(location){
         case "GENERAL":
-            console.log("dun dun dun");
+            eel.calcAttributeGeneralProgressByEquipType("ZCase")().then((r) => {
+                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.caseInstall);
+                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.caseInstall);
+                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.cableConnect);
+                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.cableConnect);
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.preOpTesting);
+            });
             break;
         default:
             eel.getEquipmentAttributesByStation(location,"ZCase")().then((r) => {
-                console.log(r);
-                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.RUInstall);
-                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.RUInstall);
-                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
-                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
-                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.FBInstall);
-                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.FBInstall);
-                document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.antennaInstall);
-                document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.antennaInstall);
-                document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.antCableInstall);
-                document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.antCableInstall);
-                document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.splitterInstall);
-                document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.splitterInstall);
-                document.querySelectorAll('.percentage-label')[6].innerHTML = formatPercent(r.FTesting);
-                document.querySelectorAll(".progress-bar")[6].style.width = formatPercentForWidth(r.FTesting);
+                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.caseInstall);
+                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.caseInstall);
+                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.cableConnect);
+                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.cableConnect);
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.preOpTesting);
+            });
+            break;
+    }
+}
+
+function setTOPBProgress(location){
+    switch(location){
+        case "GENERAL":
+            eel.calcAttributeGeneralProgressByEquipType("ZCase")().then((r) => {
+                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.TOPBInstall);
+                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.TOPBInstall);
+                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.cableConnect);
+                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.cableConnect);
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.preOpTesting);
+            });
+            break;
+        default:
+            eel.getEquipmentAttributesByStation(location,"TOPB")().then((r) => {
+                document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.TOPBInstall);
+                document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.TOPBInstall);
+                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.cableConnect);
+                document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.cableConnect);
+                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.preOpTesting);
             });
             break;
     }
@@ -280,6 +372,7 @@ function setStatsByLocation(location){
             setZCaseProgress(location);
             break;
         case 7: // TOPB
+            setTOPBProgress(location);
             break;
     }
         
@@ -354,6 +447,17 @@ function setMode(modeNum){
             currentMode = 1;
             setColorIcon(0,1,0,0,0,0,0,0);
             setColorText(false,true,false,false,false,false,false,false);
+            document.querySelectorAll(".single-stat-container")[0].style.display = "Block";
+            document.querySelectorAll(".single-stat-title")[0].innerHTML = "Messenger Installation";
+            document.querySelectorAll(".single-stat-container")[1].style.display = "Block";
+            document.querySelectorAll(".single-stat-title")[1].innerHTML = "15\" CMRS Installation";
+            document.querySelectorAll(".single-stat-container")[2].style.display = "Block";
+            document.querySelectorAll(".single-stat-title")[2].innerHTML = "24\" CMRS Installation";
+            document.querySelectorAll(".single-stat-container")[3].style.display = "Block";
+            document.querySelectorAll(".single-stat-title")[3].innerHTML = "Cable Tray Installation";
+            document.querySelectorAll(".single-stat-container")[4].style.display = "None";
+            document.querySelectorAll(".single-stat-container")[5].style.display = "None";
+            document.querySelectorAll(".single-stat-container")[6].style.display = "None";
             break;
         case 2: // AXLE COUNTER
             currentMode = 2;
@@ -371,6 +475,7 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-title")[4].innerHTML = "Pre-Operation Testing";
             document.querySelectorAll(".single-stat-container")[5].style.display = "None";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            setAXCProgress("GENERAL");
             break;
         case 3: // SIGNALS
             currentMode = 3;
@@ -389,6 +494,7 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-container")[5].style.display = "Block";
             document.querySelectorAll(".single-stat-title")[5].innerHTML = "Pre-Operation Testing";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            setSignalProgress("GENERAL");
             break;
         case 4: // SWITCHES
             currentMode = 4;
@@ -407,6 +513,7 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-container")[5].style.display = "Block";
             document.querySelectorAll(".single-stat-title")[5].innerHTML = "Pre-Operation Testing";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            setSwitchProgress("GENERAL");
             break;
         case 5: //WRUS
             currentMode = 5;
@@ -426,6 +533,7 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-title")[5].innerHTML = "Splitter Installation";
             document.querySelectorAll(".single-stat-container")[6].style.display = "Block";
             document.querySelectorAll(".single-stat-title")[6].innerHTML = "Fiber Cable Splicing";
+            setWRUProgress("GENERAL");
             // MORE TO BE ADDED
             break;
         case 6: // Z CASE
@@ -442,6 +550,7 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-container")[4].style.display = "None";
             document.querySelectorAll(".single-stat-container")[5].style.display = "None";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            setZCaseProgress("GENERAL");
             break;
         case 7: // TOPB
             currentMode = 7;
@@ -457,6 +566,7 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-container")[4].style.display = "None";
             document.querySelectorAll(".single-stat-container")[5].style.display = "None";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            setTOPBProgress("GENERAL");
             break;
     } 
 }
