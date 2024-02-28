@@ -1114,7 +1114,7 @@ print("==================================\n\n\n")
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
 eel.init('web')
 try:
-    eel.start("index.html",size=(960*1.5,540*1.5))
+    eel.start("index.html",size=(960*1.5,540*1.5),icon="web\\images\\icons\\WIPLogo.png")
 except (SystemExit, MemoryError, KeyboardInterrupt):
     os.system("taskkill /F /IM python.exe /T")
 

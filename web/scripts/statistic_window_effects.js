@@ -350,6 +350,10 @@ eel.expose
 function setAXCProgress(location){
     switch(location){
         case "GENERAL":
+            eel.calcOverallProgressByType("AXC")().then((r) => {
+                document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
+                document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+            });
             eel.calcAttributeGeneralProgressByEquipType("AXC")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.ACInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.ACInstall);
@@ -375,6 +379,37 @@ function setAXCProgress(location){
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.ECInstall);
                 document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.preOpTesting);
+
+                let avg = 0;
+                let numValid = 0;
+                if(r.ACInstall > 0 || typeof r.ACInstall != 'undefined'){
+                    avg += r.ACInstall;
+                    numValid += 1;
+                }
+                if(r.JBInstall > 0 || typeof r.JBInstall != 'undefined'){
+                    avg += r.JBInstall;
+                    numValid += 1;
+                }
+                if(r.LCInstall > 0 || typeof r.LCInstall != 'undefined'){
+                    avg += r.LCInstall;
+                    numValid += 1;
+                }
+                if(r.ECInstall > 0 || typeof r.ECInstall != 'undefined'){
+                    avg += r.ECInstall;
+                    numValid += 1;
+                }
+                if(r.preOpTesting > 0 || typeof r.preOpTesting != 'undefined'){
+                    avg += r.preOpTesting;
+                    numValid += 1;
+                }
+                if(numValid == 0){
+                    document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(1));
+                    document.querySelector('#general-progress-percent').innerHTML = "--";
+                }else{
+                    document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(avg/numValid));
+                    document.querySelector('#general-progress-percent').innerHTML = formatInteger(avg/numValid);
+                }
+
             });
             break;
     }
@@ -384,7 +419,8 @@ function setSignalProgress(location){
     switch(location){
         case "GENERAL":
             eel.calcOverallProgressByType("SIGNAL")().then((r) => {
-                updateProgress(0,360*r);
+                document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
+                document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("SIGNAL")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.sigInstall);
@@ -415,6 +451,41 @@ function setSignalProgress(location){
                 document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.breakdownTesting);
                 document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.preOpTesting);
+
+                let avg = 0;
+                let numValid = 0;
+                if(r.sigInstall > 0 || typeof r.sigInstall != 'undefined'){
+                    avg += r.sigInstall;
+                    numValid += 1;
+                }
+                if(r.JBInstall > 0 || typeof r.JBInstall != 'undefined'){
+                    avg += r.JBInstall;
+                    numValid += 1;
+                }
+                if(r.SMInstall > 0 || typeof r.SMInstall != 'undefined'){
+                    avg += r.SMInstall;
+                    numValid += 1;
+                }
+                if(r.LCInstall > 0 || typeof r.LCInstall != 'undefined'){
+                    avg += r.LCInstall;
+                    numValid += 1;
+                }
+                if(r.breakdownTesting > 0 || typeof r.breakdownTesting != 'undefined'){
+                    avg += r.breakdownTesting;
+                    numValid += 1;
+                }
+                if(r.preOpTesting > 0 || typeof r.preOpTesting != 'undefined'){
+                    avg += r.preOpTesting;
+                    numValid += 1;
+                }
+                if(numValid == 0){
+                    document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(1));
+                    document.querySelector('#general-progress-percent').innerHTML = "--";
+                }else{
+                    document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(avg/numValid));
+                    document.querySelector('#general-progress-percent').innerHTML = formatInteger(avg/numValid);
+                }
+
             });
             break;
     }
@@ -424,7 +495,8 @@ function setSwitchProgress(location){
     switch(location){
         case "GENERAL":
             eel.calcOverallProgressByType("SWITCH")().then((r) => {
-                updateProgress(0,360*r);
+                document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
+                document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("SWITCH")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.switchInstall);
@@ -464,7 +536,8 @@ function setWRUProgress(location){
     switch(location){
         case "GENERAL":
             eel.calcOverallProgressByType("WRU")().then((r) => {
-                updateProgress(0,360*r);
+                document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
+                document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("WRU")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.RUInstall);
@@ -508,7 +581,8 @@ function setZCaseProgress(location){
     switch(location){
         case "GENERAL":
             eel.calcOverallProgressByType("ZCase")().then((r) => {
-                updateProgress(0,360*r);
+                document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
+                document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("ZCase")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.caseInstall);
@@ -536,7 +610,8 @@ function setTOPBProgress(location){
     switch(location){
         case "GENERAL":
             eel.calcOverallProgressByType("TOPB")().then((r) => {
-                updateProgress(0,360*r);
+                document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
+                document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("ZCase")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.TOPBInstall);
@@ -605,6 +680,14 @@ function formatPercentForWidth(decimal){
     }
     const percent = Math.round(decimal * 100);
     return percent.toString() + "%";
+}
+
+function formatInteger(decimal) {
+    if (typeof decimal == 'undefined' || decimal < 0) {
+        return "--";
+    }
+    const percent = Math.round(decimal * 100);
+    return percent.toString();
 }
 
 function setColorIcon(a,b,c,d,e,f,g,h){
