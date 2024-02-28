@@ -438,7 +438,6 @@ window.onload = function() {
     };
 
     document.addEventListener('requestDraw', function(event) {
-        console.log("go");
         draw();
     });
 
