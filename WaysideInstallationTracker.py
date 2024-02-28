@@ -12,8 +12,8 @@ import eel.browsers
 #============================= REMOVE DURING DEBUGGING ====================================================
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
-#workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
-workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+#workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
 #================================================================================================
 #========================================================================================================================================================================
 #====================================================== CLASS DEFINITIONS, SEE GITHUB REPO FOR DETAILS ==================================================================
@@ -695,7 +695,7 @@ def getCableSpanProgressByStation(station):
                 total += CMRSObjectList[i].getProgress()
                 validCount += 1
     if validCount == 0:
-        return None
+        return -1
     return total/validCount
 
 
@@ -923,6 +923,8 @@ def calcGeneralProgressPerAttribute(objList):
     
     return activity_progress
 
+
+#returns dictionary
 @eel.expose
 def calcAttributeGeneralProgressByEquipType(equipmentType):
     match equipmentType:
@@ -981,6 +983,36 @@ def calcProgressByLocation(location, equipmentType):
             return average_dict_values(calcProgressByStation(location,ZCaseObjectList))
         case "TOPB":
             return average_dict_values(calcProgressByStation(location,TOPBObjectList))
+        case "GENERAL":
+            total = 0
+            numAttributes = 0
+            if getCableSpanProgressByStation(location) != None:
+                if getCableSpanProgressByStation(location) > 0:
+                    total += getCableSpanProgressByStation(location)
+                    numAttributes += 1
+            if average_dict_values(calcProgressByStation(location,AXCObjectList)) > 0:
+                total += average_dict_values(calcProgressByStation(location,AXCObjectList))
+                numAttributes += 1
+            if average_dict_values(calcProgressByStation(location,SignalObjectList)) > 0:
+                total += average_dict_values(calcProgressByStation(location,SignalObjectList))
+                numAttributes += 1
+            if average_dict_values(calcProgressByStation(location,SwitchObjectList)) > 0:
+                total += average_dict_values(calcProgressByStation(location,SwitchObjectList))
+                numAttributes += 1
+            if average_dict_values(calcProgressByStation(location,WRUObjectList)) > 0:
+                total += average_dict_values(calcProgressByStation(location,WRUObjectList))
+                numAttributes += 1
+            if average_dict_values(calcProgressByStation(location,ZCaseObjectList)) > 0:
+                total += average_dict_values(calcProgressByStation(location,ZCaseObjectList))
+                numAttributes += 1
+            if average_dict_values(calcProgressByStation(location,TOPBObjectList)) > 0:
+                total += average_dict_values(calcProgressByStation(location,TOPBObjectList))
+                numAttributes += 1
+            if numAttributes == 0:
+                return -1
+            return total/numAttributes
+
+
         case _:
             return -1 
 
@@ -1076,7 +1108,7 @@ initializeObjects()
 # WRUObjectList
 # ZCaseObjectList
 # TOPBObjectList
-
+print(calcProgressByLocation("CHURCH","GENERAL"))
 print("==================================\n\n\n")
 
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================

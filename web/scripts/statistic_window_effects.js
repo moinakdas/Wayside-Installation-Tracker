@@ -117,6 +117,181 @@ function setOverallProgress(location) {
             break;
     }
 }
+const NumToMode = ["GENERAL","CMRS","AXC","SIGNAL","SWITCH","WRU","ZCase","TOPB"];
+
+function interpolateColor(value) {
+    if(value == -1){
+        return "#898B8E";
+    }
+    const color1 = [205, 34, 34]; // Red
+    const color2 = [191, 166, 34]; // Yellow
+    const color3 = [42, 163, 23]; // Green
+    
+    let color;
+    if (value <= 0.5) {
+        // Interpolate between color1 and color2 for values <= 0.5
+        const newValue = value / 0.5;
+        color = interpolate(color1, color2, newValue);
+    } else {
+        // Interpolate between color2 and color3 for values > 0.5
+        const newValue = (value - 0.5) / 0.5;
+        color = interpolate(color2, color3, newValue);
+    }
+
+    // Format the color as rgb
+    return `rgb(${Math.round(color[0])},${Math.round(color[1])},${Math.round(color[2])})`;
+}
+
+function interpolate(color1, color2, value) {
+    // Calculate intermediate color components
+    const r = color1[0] + (color2[0] - color1[0]) * value;
+    const g = color1[1] + (color2[1] - color1[1]) * value;
+    const b = color1[2] + (color2[2] - color1[2]) * value;
+
+    return [r, g, b];
+}
+
+function assignColorsByMode(){
+    let church, fortham, prospect, seventh, fourth, smith, carroll, bergen, hoyt, fulton, clinton, classon, bedford, myrtle, flushing, broadway, metro, nassau, green, twentyfirst, courtsq;
+    let chufor, for15s, street15s7av, street7av4th, street4thsmi, smicar, carber, berhoy, hoyful, fulcli, clicla, clabed, bedmyr, myrflu, fluBro, broMet, metnas, nasgre, gretwentyfirst, twentfirstcou;
+
+    let promises = [
+        eel.calcProgressByLocation("CHURCH", NumToMode[currentMode])().then((r) => {
+            church = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("FORT HAMILTON", NumToMode[currentMode])().then((r) => {
+            fortham = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("15TH STREET PROSPECT PARK", NumToMode[currentMode])().then((r) => {
+            prospect = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("7TH AVENUE", NumToMode[currentMode])().then((r) => {
+            seventh = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("4TH 9TH STREET", NumToMode[currentMode])().then((r) => {
+            fourth = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("SMITH & 9TH STREET", NumToMode[currentMode])().then((r) => {
+            smith = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("CARROLL", NumToMode[currentMode])().then((r) => {
+            carroll = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("BERGEN", NumToMode[currentMode])().then((r) => {
+            bergen = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("HOYT SCHERMERHORN", NumToMode[currentMode])().then((r) => {
+            hoyt = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("CLINTON-WASHINGTON", NumToMode[currentMode])().then((r) => {
+            clinton = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("FULTON", NumToMode[currentMode])().then((r) => {
+            fulton = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("CLASSON", NumToMode[currentMode])().then((r) => {
+            classon = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("BEDFORD NOSTRAND", NumToMode[currentMode])().then((r) => {
+            bedford = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("MYRTLE AVE", NumToMode[currentMode])().then((r) => {
+            myrtle = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("FLUSHING", NumToMode[currentMode])().then((r) => {
+            flushing = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("BROADWAY", NumToMode[currentMode])().then((r) => {
+            broadway = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("METROPOLITAN", NumToMode[currentMode])().then((r) => {
+            metro = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("NASSAU", NumToMode[currentMode])().then((r) => {
+            nassau = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("GREENPOINT", NumToMode[currentMode])().then((r) => {
+            green = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("21ST STATION", NumToMode[currentMode])().then((r) => {
+            twentyfirst = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("COURT SQ", NumToMode[currentMode])().then((r) => {
+            courtsq = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("CHU-FOR", NumToMode[currentMode])().then((r) => {
+            chufor = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("CHU-FOR", NumToMode[currentMode])().then((r) => {
+            chufor = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("FOR-15S", NumToMode[currentMode])().then((r) => {
+            for15s = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("15S-7AV", NumToMode[currentMode])().then((r) => {
+            street15s7av = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("7AV-4TH", NumToMode[currentMode])().then((r) => {
+            street7av4th = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("4TH-SMI", NumToMode[currentMode])().then((r) => {
+            street4thsmi = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("SMI-CAR", NumToMode[currentMode])().then((r) => {
+            smicar = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("CAR-BER", NumToMode[currentMode])().then((r) => {
+            carber = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("BER-HOY", NumToMode[currentMode])().then((r) => {
+            berhoy = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("HOY-FUL", NumToMode[currentMode])().then((r) => {
+            hoyful = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("FUL-CLI", NumToMode[currentMode])().then((r) => {
+            fulcli = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("CLI-CLA", NumToMode[currentMode])().then((r) => {
+            clicla = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("CLA-BED", NumToMode[currentMode])().then((r) => {
+            clabed = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("BED-MYR", NumToMode[currentMode])().then((r) => {
+            bedmyr = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("MYR-FLU", NumToMode[currentMode])().then((r) => {
+            myrflu = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("FLU-BRO", NumToMode[currentMode])().then((r) => {
+            fluBro = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("BRO-MET", NumToMode[currentMode])().then((r) => {
+            broMet = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("MET-NAS", NumToMode[currentMode])().then((r) => {
+            metnas = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("NAS-GRE", NumToMode[currentMode])().then((r) => {
+            nasgre = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("GRE-21S", NumToMode[currentMode])().then((r) => {
+            gretwentyfirst = interpolateColor(r);
+        }),
+        eel.calcProgressByLocation("21S-COU", NumToMode[currentMode])().then((r) => {
+            twentfirstcou = interpolateColor(r);
+        })
+    ];
+    Promise.all(promises).then(() => {
+        console.log(church);
+        updateStationColors(church, fortham, prospect, seventh, fourth, smith, carroll, bergen, hoyt, fulton, clinton, classon, bedford, myrtle, flushing, broadway, metro, nassau, green, twentyfirst, courtsq);
+        updateTunnelColors(chufor, for15s, street15s7av, street7av4th, street4thsmi, smicar, carber, berhoy, hoyful, fulcli, clicla, clabed, bedmyr, myrflu, fluBro, broMet, metnas, nasgre, gretwentyfirst, twentfirstcou);
+        document.dispatchEvent(reqDraw);
+    });
+    
+}
+
 
 function setCMSProgress(location){
     switch(location){
@@ -437,6 +612,11 @@ function getCurrentMode(){
     return currentMode;
 }
 
+const reqDraw = new CustomEvent('requestDraw', {
+    bubbles: true,
+    cancelable: true,
+});
+
 function setMode(modeNum){
     switch(modeNum){
         case 0: // MAP
@@ -457,7 +637,9 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-title")[5].innerHTML = "Z-Cases";
             document.querySelectorAll(".single-stat-container")[6].style.display = "Block";
             document.querySelectorAll(".single-stat-title")[6].innerHTML = "Train Operator Push Buttons";
+            document.querySelectorAll("#subtitleHeader")[0].innerHTML = "Wayside Installation Progress";
             setOverallProgress("GENERAL");
+            assignColorsByMode();
             break;
         case 1: // CMS
             currentMode = 1;
@@ -474,6 +656,9 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-container")[4].style.display = "None";
             document.querySelectorAll(".single-stat-container")[5].style.display = "None";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            document.querySelectorAll("#subtitleHeader")[0].innerHTML = "CMS Installation Progress";
+            setCMSProgress("GENERAL");
+            assignColorsByMode();
             break;
         case 2: // AXLE COUNTER
             currentMode = 2;
@@ -491,7 +676,9 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-title")[4].innerHTML = "Pre-Operation Testing";
             document.querySelectorAll(".single-stat-container")[5].style.display = "None";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            document.querySelectorAll("#subtitleHeader")[0].innerHTML = "Axle Counter Installation Progress";
             setAXCProgress("GENERAL");
+            assignColorsByMode();
             break;
         case 3: // SIGNALS
             currentMode = 3;
@@ -510,7 +697,9 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-container")[5].style.display = "Block";
             document.querySelectorAll(".single-stat-title")[5].innerHTML = "Pre-Operation Testing";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            document.querySelectorAll("#subtitleHeader")[0].innerHTML = "Signal Installation Progress";
             setSignalProgress("GENERAL");
+            assignColorsByMode();
             break;
         case 4: // SWITCHES
             currentMode = 4;
@@ -529,7 +718,9 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-container")[5].style.display = "Block";
             document.querySelectorAll(".single-stat-title")[5].innerHTML = "Pre-Operation Testing";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            document.querySelectorAll("#subtitleHeader")[0].innerHTML = "Switch Installation Progress";
             setSwitchProgress("GENERAL");
+            assignColorsByMode();
             break;
         case 5: //WRUS
             currentMode = 5;
@@ -549,7 +740,9 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-title")[5].innerHTML = "Splitter Installation";
             document.querySelectorAll(".single-stat-container")[6].style.display = "Block";
             document.querySelectorAll(".single-stat-title")[6].innerHTML = "Fiber Cable Splicing";
+            document.querySelectorAll("#subtitleHeader")[0].innerHTML = "WRU Installation Progress";
             setWRUProgress("GENERAL");
+            assignColorsByMode();
             // MORE TO BE ADDED
             break;
         case 6: // Z CASE
@@ -566,7 +759,9 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-container")[4].style.display = "None";
             document.querySelectorAll(".single-stat-container")[5].style.display = "None";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            document.querySelectorAll("#subtitleHeader")[0].innerHTML = "Z-Case Installation Progress";
             setZCaseProgress("GENERAL");
+            assignColorsByMode();
             break;
         case 7: // TOPB
             currentMode = 7;
@@ -582,7 +777,9 @@ function setMode(modeNum){
             document.querySelectorAll(".single-stat-container")[4].style.display = "None";
             document.querySelectorAll(".single-stat-container")[5].style.display = "None";
             document.querySelectorAll(".single-stat-container")[6].style.display = "None";
+            document.querySelectorAll("#subtitleHeader")[0].innerHTML = "TOPB Installation Progress";
             setTOPBProgress("GENERAL");
+            assignColorsByMode();
             break;
     } 
 }
@@ -591,5 +788,6 @@ function setMode(modeNum){
 document.addEventListener("DOMContentLoaded", function() {
     setOverallProgress("GENERAL");
     setMode(0);
+    assignColorsByMode();
 });
 

@@ -218,6 +218,7 @@ body{
     left: 0;
     background-color: #21BF57;
     border-radius: 0.125vw;
+    transition: width 0.5s;
 }
 
 .percentage-label{
@@ -231,4 +232,16 @@ body{
     font-size: 1vw;
     line-height: 1vw;
     font-weight: 500;
+}
+
+#general-progress-container{
+    position: absolute;
+    top: 0%;
+    right: 0%;
+    width: 25%;
+    height: 100%;
+    background-color: yellow;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
