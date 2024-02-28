@@ -284,12 +284,24 @@ function assignColorsByMode(){
         })
     ];
     Promise.all(promises).then(() => {
-        console.log(church);
         updateStationColors(church, fortham, prospect, seventh, fourth, smith, carroll, bergen, hoyt, fulton, clinton, classon, bedford, myrtle, flushing, broadway, metro, nassau, green, twentyfirst, courtsq);
         updateTunnelColors(chufor, for15s, street15s7av, street7av4th, street4thsmi, smicar, carber, berhoy, hoyful, fulcli, clicla, clabed, bedmyr, myrflu, fluBro, broMet, metnas, nasgre, gretwentyfirst, twentfirstcou);
         document.dispatchEvent(reqDraw);
     });
     
+}
+
+function updateProgress(endAngle) {
+    console.log(endAngle);
+    startAngle = 0;
+    var radius = 2.7;
+    var circumference = 2 * Math.PI * radius;
+    var dashOffset = circumference * (1 - (endAngle - startAngle) / 360);
+
+    var progress = document.getElementById('progress-ring');
+    document.getElementById('progress-ring').style.strokeDasharray = (endAngle - startAngle) + ' ' + (360 - (endAngle - startAngle))
+    progress.setAttribute('stroke-dasharray', String(endAngle - startAngle) + 'vw');
+    progress.setAttribute('stroke-dashoffset', String(dashOffset) + "vw");
 }
 
 
@@ -315,7 +327,6 @@ function setCMSProgress(location){
             break;
         default:
             eel.getCMSProgressByStationAndType("mess",location)().then((r) => {
-                console.log(r);
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r);
             });
@@ -340,7 +351,6 @@ function setAXCProgress(location){
     switch(location){
         case "GENERAL":
             eel.calcAttributeGeneralProgressByEquipType("AXC")().then((r) => {
-                console.log(r.ACInstall);
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.ACInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.ACInstall);
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
@@ -354,9 +364,7 @@ function setAXCProgress(location){
             });
             break;
         default:
-            console.log("Axle Counter hard");
             eel.getEquipmentAttributesByStation(location,"AXC")().then((r) => {
-                console.log(r.ACInstall);
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.ACInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.ACInstall);
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
@@ -375,6 +383,9 @@ function setAXCProgress(location){
 function setSignalProgress(location){
     switch(location){
         case "GENERAL":
+            eel.calcOverallProgressByType("SIGNAL")().then((r) => {
+                updateProgress(0,360*r);
+            });
             eel.calcAttributeGeneralProgressByEquipType("SIGNAL")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.sigInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.sigInstall);
@@ -391,9 +402,7 @@ function setSignalProgress(location){
             });
             break;
         default:
-            console.log("Signal");
             eel.getEquipmentAttributesByStation(location,"SIGNAL")().then((r) => {
-                console.log(r);
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.sigInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.sigInstall);
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
@@ -414,6 +423,9 @@ function setSignalProgress(location){
 function setSwitchProgress(location){
     switch(location){
         case "GENERAL":
+            eel.calcOverallProgressByType("SWITCH")().then((r) => {
+                updateProgress(0,360*r);
+            });
             eel.calcAttributeGeneralProgressByEquipType("SWITCH")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.switchInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.switchInstall);
@@ -451,6 +463,9 @@ function setSwitchProgress(location){
 function setWRUProgress(location){
     switch(location){
         case "GENERAL":
+            eel.calcOverallProgressByType("WRU")().then((r) => {
+                updateProgress(0,360*r);
+            });
             eel.calcAttributeGeneralProgressByEquipType("WRU")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.RUInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.RUInstall);
@@ -492,6 +507,9 @@ function setWRUProgress(location){
 function setZCaseProgress(location){
     switch(location){
         case "GENERAL":
+            eel.calcOverallProgressByType("ZCase")().then((r) => {
+                updateProgress(0,360*r);
+            });
             eel.calcAttributeGeneralProgressByEquipType("ZCase")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.caseInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.caseInstall);
@@ -517,6 +535,9 @@ function setZCaseProgress(location){
 function setTOPBProgress(location){
     switch(location){
         case "GENERAL":
+            eel.calcOverallProgressByType("TOPB")().then((r) => {
+                updateProgress(0,360*r);
+            });
             eel.calcAttributeGeneralProgressByEquipType("ZCase")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.TOPBInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.TOPBInstall);
