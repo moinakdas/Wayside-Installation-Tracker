@@ -12,8 +12,8 @@ import eel.browsers
 #============================= REMOVE DURING DEBUGGING ====================================================
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
-workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
-#workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+#workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
 #================================================================================================
 #========================================================================================================================================================================
 #====================================================== CLASS DEFINITIONS, SEE GITHUB REPO FOR DETAILS ==================================================================
