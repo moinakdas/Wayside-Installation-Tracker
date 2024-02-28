@@ -726,12 +726,14 @@ def getTrayStatsByStation(station):
 
     return CMSStats
 
+#returns dictionary
 def calcProgressByStation(station, objList):
     activity_progress = {}
     count = {}
+    numValidEntries = 0
     
     for axc in objList:
-        if axc.location == station:
+        if axc.location == station or (axc.location != station and stationingToLocation(axc.stationing) == station):
             for activity_name in dir(axc.activities):
                 if not activity_name.startswith("__"):
                     value = getattr(axc.activities, activity_name).progress
@@ -743,6 +745,27 @@ def calcProgressByStation(station, objList):
         activity_progress[activity_name] /= count[activity_name]
     
     return activity_progress
+
+@eel.expose
+def getEquipmentAttributesByStation(location, equipmentType):
+    match equipmentType:
+        case "CMRS":
+            print("no")
+        case "AXC":
+            return calcProgressByStation(location,AXCObjectList)
+        case "SIGNAL":
+            return calcProgressByStation(location,SignalObjectList)
+        case "SWITCH":
+            return calcProgressByStation(location,SwitchObjectList)
+        case "WRU":
+            return calcProgressByStation(location,WRUObjectList)
+        case "ZCase":
+            return calcProgressByStation(location,ZCaseObjectList)
+        case "TOPB":
+            return calcProgressByStation(location,TOPBObjectList)
+        case _:
+            return -1
+
 
 @eel.expose
 def calcProgressByLocation(location, equipmentType):
@@ -763,13 +786,16 @@ def calcProgressByLocation(location, equipmentType):
             return average_dict_values(calcProgressByStation(location,TOPBObjectList))
         case _:
             return -1 
-        
+
 def average_dict_values(d):
     if not d:
-        return 0
+        return -1
     return sum(d.values()) / len(d)
 
-def statioingToLocation(stationing):
+def stationingToLocation(stationing):
+    if stationing == None:
+        return None
+    stationing = int(stationing)
     if stationing > 55696 and stationing < 56356:
         return "CHURCH"
     elif stationing < 58488:
@@ -779,7 +805,7 @@ def statioingToLocation(stationing):
     elif stationing < 62570:
         return "FOR-15S"
     elif stationing < 63230:
-        return "PROSPECT PARK"
+        return "15TH STREET PROSPECT PARK"
     elif stationing < 65396:
         return "15S-7AV"
     elif stationing < 66056:
@@ -787,7 +813,7 @@ def statioingToLocation(stationing):
     elif stationing < 68383:
         return "7AV-4TH"
     elif stationing < 69091:
-        return "4TH & 9TH"
+        return "4TH AVE"
     elif stationing < 70511:
         return "4TH-SMI"
     elif stationing < 71232:
@@ -803,25 +829,47 @@ def statioingToLocation(stationing):
     elif stationing < 95182: 
         return None               #STATIOINGS ARE INACCURATE HERE, INCLUDE WARNINGS
     elif stationing < 95842:
-        return "CLINTON WASHINGTON"
-    elif stationing < 95842:
-        return "CLINTON WASHINGTON"
-    elif stationing < 95842:
-        return "CLINTON WASHINGTON"
-    elif stationing < 95842:
-        return "CLINTON WASHINGTON"
-    elif stationing < 95842:
-        return "CLINTON WASHINGTON"
-    elif stationing < 95842:
-        return "CLINTON WASHINGTON"
-    elif stationing < 95842:
-        return "CLINTON WASHINGTON"
-    elif stationing < 95842:
-        return "CLINTON WASHINGTON"
-    elif stationing < 95842:
-        return "CLINTON WASHINGTON"
-    elif stationing < 95842:
-        return "CLINTON WASHINGTON"
+        return "CLINTON-WASHINGTON"
+    elif stationing < 97082:
+        return "CLI-CLA"
+    elif stationing < 97742:
+        return "CLASSON"
+    elif stationing < 98922:
+        return "CLA-BED"
+    elif stationing < 99582:
+        return "BEDFORD NOSTRAND"
+    elif stationing < 101747:
+        return "BED-MYR"
+    elif stationing < 102452:
+        return "MYRTLE AVE"
+    elif stationing < 103942:
+        return "MYR-FLU"
+    elif stationing < 104620:
+        return "FLUSHING"
+    elif stationing < 106052:
+        return "FLU-BRO"
+    elif stationing < 106712:
+        return "BROADWAY"
+    elif stationing < 113245:
+        return "BRO-MET"
+    elif stationing < 113950:
+        return None               #STATIOINGS ARE INACCURATE HERE, INCLUDE WARNINGS
+    elif stationing < 115700:
+        return "NAS-GRE"
+    elif stationing < 116432:
+        return "GREENPOINT"
+    elif stationing < 121133:
+        return "GRE-21S"
+    elif stationing < 121792:
+        return "21 STREET"
+    elif stationing < 122923:
+        return "21S-COU"
+    elif stationing < 123666:
+        return "COURT SQ"
+    elif stationing < 125065:
+        return "COU-QUE"
+    elif stationing < 125727:
+        return "QUEENS PLAZA"
 #============================================================================ CODE EXECUTION START =================================================================
 initializeObjects()
 # CMRSObjectList
@@ -832,13 +880,12 @@ initializeObjects()
 # ZCaseObjectList
 # TOPBObjectList
 
-print(average_dict_values(calcProgressByStation("CAR-BER",AXCObjectList)))
 print("==================================\n\n\n")
 
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
 eel.init('web')
 try:
-    eel.start("index.html",size=(960,540))
+    eel.start("index.html",size=(960*1.5,540*1.5))
 except (SystemExit, MemoryError, KeyboardInterrupt):
     os.system("taskkill /F /IM python.exe /T")
 

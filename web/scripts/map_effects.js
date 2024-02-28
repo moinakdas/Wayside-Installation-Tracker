@@ -93,6 +93,14 @@ window.onload = function() {
     let COU_QUE;
     let queensPlaza;
 
+    function truncateString(str) {
+        if (str.length <= 42) {
+            return str;
+        } else {
+            return str.substring(0, 39) + "...";
+        }
+    }
+    
     //let x and y be values from 0 to 1
     // 0 = left edge of basemap, 1 = right edge of basemap
     function strokePathAtCoordinates(ctx, path, x, y) {
@@ -126,6 +134,38 @@ window.onload = function() {
         return squarePath; // Return the Path2D object for later reference
     }
 
+    function drawLabel(ctx, x, y, text) {
+        const padding = 0.003 * window.innerWidth;
+        const fontSize = 0.015 * window.innerWidth;
+        const fontFamily = 'Zen Kaku Gothic Antique';
+    
+        ctx.font = `${fontSize}px ${fontFamily}`;
+        const textWidth = ctx.measureText(text).width;
+    
+        // Calculate the dimensions of the label box
+        const boxWidth = textWidth + 2 * padding;
+        const boxHeight = fontSize + 3 * padding;
+    
+        // Add a drop shadow
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+        ctx.shadowBlur = 25;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+    
+        // Draw the label box with drop shadow
+        ctx.fillStyle = '#272830';
+        ctx.fillRect(offsetX + (basemapImage.width * scale)*x + 0.015 * window.innerWidth, offsetY + (basemapImage.height * scale)*y, boxWidth, boxHeight);
+    
+        // Reset shadow settings
+        ctx.shadowColor = 'rgba(0, 0, 0, 0)';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 0;
+    
+        // Draw the text
+        ctx.fillStyle = 'white';
+        ctx.fillText(text, offsetX + (basemapImage.width * scale)*x + 0.015 * window.innerWidth + padding, offsetY + (basemapImage.height * scale)*y + fontSize + padding);
+    }
     function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(basemapImage, offsetX, offsetY, basemapImage.width * scale, basemapImage.height * scale);
@@ -141,6 +181,29 @@ window.onload = function() {
         
         strokePathAtCoordinates(ctx, crosstownLine, 0.406, 0.09) //draw crosstown Line Path
         
+        //EVERY LABEL
+        drawLabel(ctx, 0.4605, 0.824, "CHURCH AVE");
+        drawLabel(ctx,0.47195, 0.77, "FORT HAMILTON PKWY");
+        drawLabel(ctx, 0.461, 0.705, "PROSPECT PARK");
+        drawLabel(ctx, 0.456, 0.6616, "SEVENTH AVE");
+        drawLabel(ctx, 0.43, 0.638, "FOURTH-NINTH ST");
+        drawLabel(ctx, 0.41, 0.6115, "SMITH-9TH ST");
+        drawLabel(ctx, 0.4135, 0.565, "CARROLL ST");
+        drawLabel(ctx, 0.4274, 0.52, "BERGEN ST");
+        drawLabel(ctx, 0.44685226906829234, 0.509638583272769, "HOYT-SCHERMERHORN");
+        drawLabel(ctx, 0.477072007865878, 0.5155092312581219, "CLINTON-WASHINGTON AVE");
+        drawLabel(ctx, 0.5067579253020132, 0.5084055499478555, "FULTON STREET");
+        drawLabel(ctx, 0.5337708632940297, 0.5021698393240124, "CLASSON AVE");
+        drawLabel(ctx, 0.5540809704924948, 0.4627643005937757, "BEDFORD-NOSTRAND AVE");
+        drawLabel(ctx, 0.5510600799886568, 0.42366909843101247, "MYRTLE-WILLOUGHBY AVE");
+        drawLabel(ctx, 0.5503232495978614, 0.3821582773567048, "FLUSHING AVE STATION");
+        drawLabel(ctx, 0.5476359562620028, 0.33274281608682654, "BROADWAY");
+        drawLabel(ctx, 0.5480436606063197, 0.2504877611036734, "METROPOLITAN AVENUE");
+        drawLabel(ctx, 0.5375219517562342, 0.20603025615787235, "NASSAU AVENUE");
+        drawLabel(ctx, 0.534795900257654, 0.1521445385094818, "GREENPOINT AVE");
+        drawLabel(ctx, 0.5489780978293515, 0.1106850951575837, "TWENTY-FIRST ST STATION");
+        drawLabel(ctx, 0.5687257996856262, 0.0907398055017195, "COURT SQUARE");
+
         //EVERY. SINGLE. STATION.
         churchAvenue = drawCircle(ctx, 0.4605, 0.824, "#2AA317");
         fortHamiltonPkwy = drawCircle(ctx,0.47195, 0.77, "#2AA317");
@@ -185,6 +248,7 @@ window.onload = function() {
         NAS_GRE = drawSquare(ctx,0.5363837890255512, 0.18193551226217716,"red");
         GRE_21S = drawSquare(ctx,0.537492645776942, 0.12633570060956173,"red");
         TWE_COU = drawSquare(ctx,0.5594223484848484, 0.10027777777777777,"red");
+
     }
 
     function handleScroll(event) {
@@ -292,129 +356,170 @@ window.onload = function() {
         switch (true) {
             // Circle cases
             case ctx.isPointInPath(churchAvenue, x, y):
-                setOverallProgress("CHURCH");
+                setStatsByLocation("CHURCH");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Church Avenue Station Installation Progress");
                 break;
             case ctx.isPointInPath(fortHamiltonPkwy, x, y):
-                setOverallProgress("FORT HAMILTON");
+                setStatsByLocation("FORT HAMILTON");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Fort Hamilton Station Installation Progress");
                 break;
             case ctx.isPointInPath(ProspectPark, x, y):
-                setOverallProgress("15TH STREET PROSPECT PARK");
+                setStatsByLocation("15TH STREET PROSPECT PARK");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("15th Street Prospect Park Station Installation Progress");
                 break;
             case ctx.isPointInPath(seventhAve, x, y):
-                setOverallProgress("7TH AVENUE");
+                setStatsByLocation("7TH AVENUE");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("7th Avenue Station Installation Progress");
                 break;
             case ctx.isPointInPath(fourthNinthSt, x, y):
-                setOverallProgress("4 9TH STREET");
+                setStatsByLocation("4TH 9TH STREET");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("4th & 9th Street Station Installation Progress");
                 break;
             case ctx.isPointInPath(smith9thSt, x, y):
-                setOverallProgress("SMITH & 9TH STREET");
+                setStatsByLocation("SMITH & 9TH STREET");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Smith & 9th Street Station Installation Progress");
                 break;
             case ctx.isPointInPath(carrollSt, x, y):
-                setOverallProgress("CARROLL");
+                setStatsByLocation("CARROLL");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Carroll Street Station Installation Progress");
                 break;
             case ctx.isPointInPath(bergenSt, x, y):
-                setOverallProgress("BERGEN ST");
+                setStatsByLocation("BERGEN ST");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Bergen Street Station Installation Progress");
                 break;
             case ctx.isPointInPath(hoytSchermerhorn, x, y):
-                setOverallProgress("HOYT SCHERMERHORN");
+                setStatsByLocation("HOYT SCHERMERHORN");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Hoyt Schermerhorn Station Installation Progress");
                 break;
             case ctx.isPointInPath(clintonWashingtonAve, x, y):
-                setOverallProgress("CLINTON-WASHINGTON");
+                setStatsByLocation("CLINTON-WASHINGTON");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Clinton-Washington Station Installation Progress");
                 break;
             case ctx.isPointInPath(fultonStreet, x, y):
-                setOverallProgress("FULTON");
+                setStatsByLocation("FULTON");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Fulton Street Station Installation Progress");
                 break;
             case ctx.isPointInPath(classonAve, x, y):
-                setOverallProgress("CLASSON");
+                setStatsByLocation("CLASSON");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Classon Station Installation Progress");
                 break;
             case ctx.isPointInPath(bedfordNostrandAve, x, y):
-                setOverallProgress("BEDFORD NOSTRAND");
+                setStatsByLocation("BEDFORD NOSTRAND");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Bedford Nostrand Station Installation Progress");
                 break;
             case ctx.isPointInPath(myrtleWilloughbyAve, x, y):
-                setOverallProgress("MYRTLE AVE");
+                setStatsByLocation("MYRTLE AVE");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Myrtle Avenue Station Installation Progress");
                 break;
             case ctx.isPointInPath(flushingAveStation, x, y):
-                setOverallProgress("FLUSHING");
+                setStatsByLocation("FLUSHING");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Flushing Avenue Station Installation Progress");
                 break;
             case ctx.isPointInPath(broadway, x, y):
-                setOverallProgress("BROADWAY");
+                setStatsByLocation("BROADWAY");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Broadway Station Installation Progress");
                 break;
             case ctx.isPointInPath(metropolitanAvenue, x, y):
-                setOverallProgress("METROPOLITAN");
+                setStatsByLocation("METROPOLITAN");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Metropolitan Station Installation Progress");
                 break;
             case ctx.isPointInPath(nassauAvenue, x, y):
-                setOverallProgress("NASSAU");
+                setStatsByLocation("NASSAU");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Nassau Station Progress");
                 break;
             case ctx.isPointInPath(greenpointAve, x, y):
-                setOverallProgress("GREENPOINT");
+                setStatsByLocation("GREENPOINT");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Greenpoint Avenue Station Progress");
                 break;
             case ctx.isPointInPath(twentyFirstStStation, x, y):
-                setOverallProgress("21ST STATION");
+                setStatsByLocation("21ST STATION");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("21st Street Station Installation Progress");
                 break;
             case ctx.isPointInPath(courtSquare, x, y):
-                setOverallProgress("COURT SQ");
+                setStatsByLocation("COURT SQ");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Court Square Station Installation Progress");
                 break;
     
             // Square cases
             case ctx.isPointInPath(CHU_FOR, x, y):
-                setOverallProgress("CHU-FOR");
+                setStatsByLocation("CHU-FOR");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Church Avenue to Fort Hamilton Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(FOR_15S, x, y):
-                setOverallProgress("FOR-15S");
+                setStatsByLocation("FOR-15S");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Fort Hamilton to 15th Street Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(PRO_7AV, x, y):
-                setOverallProgress("15S-7AV");
+                setStatsByLocation("15S-7AV");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("15th Street to 7th Avenue Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(SEV_4TH, x, y):
-                setOverallProgress("7AV-4TH");
+                setStatsByLocation("7AV-4TH");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("7th Avenue to 4th & 9th Street Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(FOU_SMI, x, y):
-                setOverallProgress("4TH-SMI");
+                setStatsByLocation("4TH-SMI");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("4th & 9th Street to Smith & 9th Street Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(SMI_CAR, x, y):
-                setOverallProgress("SMI-CAR");
+                setStatsByLocation("SMI-CAR");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Smith & 9th Street to Carroll Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(CAR_BER, x, y):
-                setOverallProgress("CAR-BER");
+                setStatsByLocation("CAR-BER");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Carroll to Bergen Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(BER_HOY, x, y):
-                setOverallProgress("BER-HOY");
+                setStatsByLocation("BER-HOY");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Bergen to Hoyt-Schermerhorn Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(HOY_FUL, x, y):
-                setOverallProgress("HOY-FUL");
+                setStatsByLocation("HOY-FUL");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Hoyt-Schermerhorn to Fulton Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(FUL_CLI, x, y):
-                setOverallProgress("FUL-CLI");
+                setStatsByLocation("FUL-CLI");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Fulton to Clinton Washington Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(CLI_CLA, x, y):
-                setOverallProgress("CLI-CLA");
+                setStatsByLocation("CLI-CLA");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Clinton Washington to Classon Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(CLA_BED, x, y):
-                setOverallProgress("CLA-BED");
+                setStatsByLocation("CLA-BED");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Classon to Bedford Nostrand Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(BED_MYR, x, y):
-                setOverallProgress("BED-MYR");
+                setStatsByLocation("BED-MYR");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Bedford Nostrand to Myrtle Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(MYR_FLU, x, y):
-                setOverallProgress("MYR-FLU");
+                setStatsByLocation("MYR-FLU");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Myrtle to Flushing Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(FLU_BRO, x, y):
-                setOverallProgress("FLU-BRO");
+                setStatsByLocation("FLU-BRO");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Flushing to Broadway Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(BRO_MET, x, y):
-                setOverallProgress("BRO-MET");
+                setStatsByLocation("BRO-MET");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Broadway to Metropolitan Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(MET_NAS, x, y):
-                setOverallProgress("MET-NAS");
+                setStatsByLocation("MET-NAS");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Metropolitan to Nassau Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(NAS_GRE, x, y):
-                setOverallProgress("NAS-GRE");
+                setStatsByLocation("NAS-GRE");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Nassau to Greenpoint Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(GRE_21S, x, y):
-                setOverallProgress("GRE-21S");
+                setStatsByLocation("GRE-21S");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("Greenpoint to 21st Street Tunnel Installation Progress");
                 break;
             case ctx.isPointInPath(TWE_COU, x, y):
-                setOverallProgress("21S-COU");
+                setStatsByLocation("21S-COU");
+                document.querySelector('#subtitleHeader').innerHTML = truncateString("21st Street to Court Square Tunnel Installation Progress");
                 break;
         }
     });
