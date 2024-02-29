@@ -14,8 +14,8 @@ import ctypes
 #============================= REMOVE DURING DEBUGGING ====================================================
 import warnings
 warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
-#workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
-workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+#workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
 #================================================================================================
 #========================================================================================================================================================================
 #====================================================== CLASS DEFINITIONS, SEE GITHUB REPO FOR DETAILS ==================================================================
@@ -539,7 +539,6 @@ def initializeObjects():
 
 #============================================================================ USABLE FUNCTIONALITIES ===============================================================
 
-#CURRENTLY DOES NOT WORK FOR Z-CASES | DIVISION BY ZERO ERROR
 def calcOverallProgress(objList):
     #assumes objList contains all the same objLists
     #only includes objects with valid progresses in calculation

@@ -241,7 +241,7 @@ body{
     left: 0;
     background-color: #21BF57;
     border-radius: 0.125vw;
-    transition: width 0.5s;
+    transition: width 0.5s, background-color 0.5s;
 }
 
 .percentage-label{
@@ -275,18 +275,6 @@ body{
     font-weight: 400;
 }
 
-/* .progress {
-    z-index: 4000;
-}
-
-#progress-ring {
-    fill: none;
-    stroke: #21BF57; /* Progress bar color
-    stroke-width: 0.15vw; /* Thickness of the progress bar
-    stroke-linecap: round; /* Rounded line ends 
-    transition: stroke-dashoffset 0.3s ease; /* Animation effect
-} */
-
 .circular-progress {
     --size: 250px;
     --half-size: calc(var(--size) / 2);
@@ -315,7 +303,7 @@ body{
     transform: rotate(-90deg);
     transform-origin: var(--half-size) var(--half-size);
     stroke-dasharray: var(--dash) calc(var(--circumference) - var(--dash));
-    transition: stroke-dasharray 0.3s linear 0s;
+    transition: stroke-dasharray 0.5s linear 0s, stroke 0.5s linear;
     stroke: #21BF57;
 }
 
@@ -324,12 +312,3 @@ body{
     inherits: false;
     initial-value: 0;
 }
-
-/* @keyframes progress-animation {
-    from {
-        --progress: 0;
-    }
-    to {
-        --progress: 50;
-    }
-} */

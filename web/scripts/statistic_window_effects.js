@@ -6,39 +6,108 @@ eel.expose
 function setOverallProgress(location) {
     switch(location){
         case "GENERAL":
-            eel.calcOverallProgressByType("CMRS")().then((r) => {
-                document.querySelector('.percentage-label').innerHTML = formatPercent(r);
-                document.querySelector(".progress-bar").style.width = formatPercent(r);
+            let cmsProg = 0;
+            let axcProg = 0;
+            let sigProg = 0;
+            let switchProg = 0;
+            let wruProg = 0;
+            let zcaseProg = 0;
+            let topbProg = 0;
+            let promises = [
+                eel.calcOverallProgressByType("CMRS")().then((r) => {
+                    document.querySelector('.percentage-label').innerHTML = formatPercent(r);
+                    document.querySelector(".progress-bar").style.width = formatPercent(r);
+                    document.querySelector(".progress-bar").style.backgroundColor = interpolateColor(r);
+                    cmsProg = r;
+                }),
+                eel.calcOverallProgressByType("AXC")().then((r) => {
+                    document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[1].style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r);
+                    axcProg = r;
+                }),
+                eel.calcOverallProgressByType("SIGNAL")().then((r) => {
+                    document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[2].style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r);
+                    sigProg = r;
+                }),
+                eel.calcOverallProgressByType("SWITCH")().then((r) => {
+                    document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[3].style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r);
+                    switchProg = r;
+                }),
+                eel.calcOverallProgressByType("WRU")().then((r) => {
+                    document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[4].style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[4].style.backgroundColor = interpolateColor(r);
+                    wruProg = r;
+                }),
+                eel.calcOverallProgressByType("ZCase")().then((r) => {
+                    document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[5].style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[5].style.backgroundColor = interpolateColor(r);
+                    zcaseProg = r;
+                }),
+                eel.calcOverallProgressByType("TOPB")().then((r) => {
+                    document.querySelectorAll('.percentage-label')[6].innerHTML = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[6].style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[6].style.backgroundColor = interpolateColor(r);
+                    topbProg = r;
+                })
+            ];
+            Promise.all(promises).then(() => {
+                console.log(cmsProg)
+                console.log(axcProg)
+                console.log(sigProg)
+                console.log(switchProg)
+                console.log(wruProg)
+                console.log(zcaseProg)
+                console.log(topbProg)
+                total = 0
+                numValid = 0
+                if(cmsProg != -1 && typeof cmsProg != 'undefined'){
+                    total += cmsProg;
+                    numValid++;
+                }
+                if(axcProg != -1 && typeof axcProg != 'undefined'){
+                    total += axcProg;
+                    numValid++;
+                }
+                if(sigProg != -1 && typeof sigProg != 'undefined'){
+                    total += sigProg;
+                    numValid++;
+                }
+                if(switchProg != -1 && typeof switchProg != 'undefined'){
+                    total += switchProg;
+                    numValid++;
+                }
+                if(wruProg != -1 && typeof wruProg != 'undefined'){
+                    total += wruProg;
+                    numValid++;
+                }
+                if(zcaseProg != -1 && typeof zcaseProg != 'undefined'){
+                    total += zcaseProg;
+                    numValid++;
+                }
+                if(topbProg != -1 && typeof topbProg != 'undefined'){
+                    total += topbProg;
+                    numValid++;
+                }
+
+                document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(total/numValid));
+                document.querySelector('#general-progress-percent').innerHTML = formatInteger(total/numValid);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(total/numValid);
             });
-            eel.calcOverallProgressByType("AXC")().then((r) => {
-                document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r);
-                document.querySelectorAll(".progress-bar")[1].style.width = formatPercent(r);
-            });
-            eel.calcOverallProgressByType("SIGNAL")().then((r) => {
-                document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r);
-                document.querySelectorAll(".progress-bar")[2].style.width = formatPercent(r);
-            });
-            eel.calcOverallProgressByType("SWITCH")().then((r) => {
-                document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r);
-                document.querySelectorAll(".progress-bar")[3].style.width = formatPercent(r);
-            });
-            eel.calcOverallProgressByType("WRU")().then((r) => {
-                document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r);
-                document.querySelectorAll(".progress-bar")[4].style.width = formatPercent(r);
-            });
-            eel.calcOverallProgressByType("ZCase")().then((r) => {
-                document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r);
-                document.querySelectorAll(".progress-bar")[5].style.width = formatPercent(r);
-            });
-            eel.calcOverallProgressByType("TOPB")().then((r) => {
-                document.querySelectorAll('.percentage-label')[6].innerHTML = formatPercent(r);
-                document.querySelectorAll(".progress-bar")[6].style.width = formatPercent(r);
-            });
+            
+
             break;
         default:
             eel.calcProgressByLocation(location,"GENERAL")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.calcProgressByLocation(location,"CMRS")().then((r) => {
                 if( r == -1){
@@ -50,6 +119,7 @@ function setOverallProgress(location) {
                     document.querySelector('.single-stat-container').style.display = "block";
                     document.querySelector('.percentage-label').innerHTML = formatPercent(r);
                     document.querySelector(".progress-bar").style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r);
                 }
             });
             eel.calcProgressByLocation(location,"AXC")().then((r) => {
@@ -61,6 +131,7 @@ function setOverallProgress(location) {
                     document.querySelectorAll('.single-stat-container')[1].style.display = "block";
                     document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r);
                     document.querySelectorAll(".progress-bar")[1].style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r);
                 }           
             });
             eel.calcProgressByLocation(location,"SIGNAL")().then((r) => {
@@ -72,6 +143,7 @@ function setOverallProgress(location) {
                     document.querySelectorAll('.single-stat-container')[2].style.display = "block";
                     document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r);
                     document.querySelectorAll(".progress-bar")[2].style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r);
                 }              
             });
             eel.calcProgressByLocation(location,"SWITCH")().then((r) => {
@@ -83,6 +155,7 @@ function setOverallProgress(location) {
                     document.querySelectorAll('.single-stat-container')[3].style.display = "block";
                     document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r);
                     document.querySelectorAll(".progress-bar")[3].style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r);
                 }       
             });
             eel.calcProgressByLocation(location,"WRU")().then((r) => {
@@ -94,6 +167,7 @@ function setOverallProgress(location) {
                     document.querySelectorAll('.single-stat-container')[4].style.display = "block";
                     document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r);
                    document.querySelectorAll(".progress-bar")[4].style.width = formatPercent(r);
+                   document.querySelectorAll(".progress-bar")[4].style.backgroundColor = interpolateColor(r);
                 }        
             });
             eel.calcProgressByLocation(location,"ZCase")().then((r) => {
@@ -105,6 +179,7 @@ function setOverallProgress(location) {
                     document.querySelectorAll('.single-stat-container')[5].style.display = "block";
                     document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r);
                     document.querySelectorAll(".progress-bar")[5].style.width = formatPercent(r);
+                    document.querySelectorAll(".progress-bar")[5].style.backgroundColor = interpolateColor(r);
                 }             
             });
             eel.calcProgressByLocation(location,"TOPB")().then((r) => {
@@ -116,6 +191,7 @@ function setOverallProgress(location) {
                     document.querySelectorAll('.single-stat-container')[6].style.display = "block";
                     document.querySelectorAll('.percentage-label')[6].innerHTML = formatPercent(r);
                    document.querySelectorAll(".progress-bar")[6].style.width = formatPercent(r);
+                   document.querySelectorAll(".progress-bar")[6].style.backgroundColor = interpolateColor(r);
                 }   
             });
             break;
@@ -123,22 +199,26 @@ function setOverallProgress(location) {
 }
 const NumToMode = ["GENERAL","CMRS","AXC","SIGNAL","SWITCH","WRU","ZCase","TOPB"];
 
+function sigmoid(x, steepness = 4, midpoint = 0.5) {
+    return 1 / (1 + Math.exp(-steepness * (x - midpoint)));
+}
+
 function interpolateColor(value) {
-    if(value == -1){
+    if (value == -1) {
         return "#898B8E";
     }
     const color1 = [205, 34, 34]; // Red
     const color2 = [191, 166, 34]; // Yellow
     const color3 = [42, 163, 23]; // Green
-    
+
     let color;
     if (value <= 0.5) {
         // Interpolate between color1 and color2 for values <= 0.5
-        const newValue = value / 0.5;
+        const newValue = sigmoid(value / 0.5);
         color = interpolate(color1, color2, newValue);
     } else {
         // Interpolate between color2 and color3 for values > 0.5
-        const newValue = (value - 0.5) / 0.5;
+        const newValue = sigmoid((value - 0.5) / 0.5);
         color = interpolate(color2, color3, newValue);
     }
 
@@ -312,43 +392,57 @@ function updateProgress(endAngle) {
 function setCMSProgress(location){
     switch(location){
         case "GENERAL":
+            eel.calcOverallProgressByType("CMRS")().then((r) => {
+                document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
+                document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
+            });
             eel.getCMSProgressByCMSType("mess")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r);
             });
             eel.getCMSProgressByCMSType("15CMRS")().then((r) => {
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r);
             });
             eel.getCMSProgressByCMSType("24CMRS")().then((r) => {
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r);
             });
             eel.getCMSProgressByCMSType("tray")().then((r) => {
                 document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r);
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r);
+                document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r);
             });
             break;
         default:
             eel.calcProgressByLocation(location,"CMRS")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.getCMSProgressByStationAndType("mess",location)().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r);
             });
             eel.getCMSProgressByStationAndType("15CMRS",location)().then((r) => {
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r);
             });
             eel.getCMSProgressByStationAndType("24CMRS",location)().then((r) => {
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r);
             });
             eel.getCMSProgressByStationAndType("tray",location)().then((r) => {
                 document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r);
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r);
+                document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r);
             });
             break;
     }
@@ -361,32 +455,51 @@ function setAXCProgress(location){
             eel.calcOverallProgressByType("AXC")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress")[0].style.stroke = interpolateColor(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("AXC")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.ACInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.ACInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.ACInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.JBInstall);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.LCInstall);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.LCInstall);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.LCInstall);
+
                 document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.ECInstall);
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.ECInstall);
+                document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r.ECInstall);
+
                 document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[4].style.backgroundColor = interpolateColor(r.preOpTesting);
             });
             break;
         default:
             eel.getEquipmentAttributesByStation(location,"AXC")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.ACInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.ACInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.ACInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.JBInstall);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.LCInstall);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.LCInstall);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.LCInstall);
+
                 document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.ECInstall);
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.ECInstall);
+                document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r.ECInstall);
+
                 document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[4].style.backgroundColor = interpolateColor(r.preOpTesting);
 
                 let avg = 0;
                 let numValid = 0;
@@ -416,6 +529,7 @@ function setAXCProgress(location){
                 }else{
                     document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(avg/numValid));
                     document.querySelector('#general-progress-percent').innerHTML = formatInteger(avg/numValid);
+                    document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(avg/numValid);
                 }
 
             });
@@ -429,40 +543,59 @@ function setSignalProgress(location){
             eel.calcOverallProgressByType("SIGNAL")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("SIGNAL")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.sigInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.sigInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.sigInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.JBInstall);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.SMInstall);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.SMInstall);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.SMInstall);
+
                 document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.LCInstall);
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.LCInstall);
+                document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r.LCInstall);
+
                 document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.breakdownTesting);
                 document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.breakdownTesting);
+                document.querySelectorAll(".progress-bar")[4].style.backgroundColor = interpolateColor(r.breakdownTesting);
+
                 document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[5].style.backgroundColor = interpolateColor(r.preOpTesting);
             });
             break;
         default:
-            eel.calcProgressByLocation(location,"SIGNAL")().then((r) => {
-                document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
-                document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
-            });
             eel.getEquipmentAttributesByStation(location,"SIGNAL")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.sigInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.sigInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.sigInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.JBInstall);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.SMInstall);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.SMInstall);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.SMInstall);
+
                 document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.LCInstall);
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.LCInstall);
+                document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r.LCInstall);
+
                 document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.breakdownTesting);
                 document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.breakdownTesting);
+                document.querySelectorAll(".progress-bar")[4].style.backgroundColor = interpolateColor(r.breakdownTesting);
+
                 document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[5].style.backgroundColor = interpolateColor(r.preOpTesting);
 
                 let avg = 0;
                 let numValid = 0;
@@ -496,6 +629,7 @@ function setSignalProgress(location){
                 }else{
                     document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(avg/numValid));
                     document.querySelector('#general-progress-percent').innerHTML = formatInteger(avg/numValid);
+                    document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(avg/numValid);
                 }
 
             });
@@ -509,40 +643,65 @@ function setSwitchProgress(location){
             eel.calcOverallProgressByType("SWITCH")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("SWITCH")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.switchInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.switchInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.switchInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.JBInstall);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.SCInstall);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.SCInstall);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.SCInstall);
+
                 document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.LCInstall);
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.LCInstall);
+                document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r.LCInstall);
+
                 document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.breakdownTesting);
                 document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.breakdownTesting);
+                document.querySelectorAll(".progress-bar")[4].style.backgroundColor = interpolateColor(r.breakdownTesting);
+
                 document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[5].style.backgroundColor = interpolateColor(r.preOpTesting);
             });
             break;
         default:
             eel.calcProgressByLocation(location,"SWITCH")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.getEquipmentAttributesByStation(location,"SWITCH")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.switchInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.switchInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.switchInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.JBInstall);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.SCInstall);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.SCInstall);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.SCInstall);
+
                 document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.LCInstall);
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.LCInstall);
+                document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r.LCInstall);
+
                 document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.breakdownTesting);
                 document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.breakdownTesting);
+                document.querySelectorAll(".progress-bar")[4].style.backgroundColor = interpolateColor(r.breakdownTesting);
+
                 document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[5].style.backgroundColor = interpolateColor(r.preOpTesting);
+
             });
             break;
     }
@@ -554,53 +713,91 @@ function setWRUProgress(location){
             eel.calcOverallProgressByType("WRU")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("WRU")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.RUInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.RUInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.RUInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.JBInstall);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.FBInstall);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.FBInstall);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.FBInstall);
+
                 document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.antennaInstall);
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.antennaInstall);
+                document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r.antennaInstall);
+
                 document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.antCableInstall);
                 document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.antCableInstall);
+                document.querySelectorAll(".progress-bar")[4].style.backgroundColor = interpolateColor(r.antCableInstall);
+
                 document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.splitterInstall);
                 document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.splitterInstall);
+                document.querySelectorAll(".progress-bar")[5].style.backgroundColor = interpolateColor(r.splitterInstall);
+
                 document.querySelectorAll('.percentage-label')[6].innerHTML = formatPercent(r.FCSplicing);
                 document.querySelectorAll(".progress-bar")[6].style.width = formatPercentForWidth(r.FCSplicing);
+                document.querySelectorAll(".progress-bar")[6].style.backgroundColor = interpolateColor(r.FCSplicing);
+
                 document.querySelectorAll('.percentage-label')[7].innerHTML = formatPercent(r.FTesting);
                 document.querySelectorAll(".progress-bar")[7].style.width = formatPercentForWidth(r.FTesting);
+                document.querySelectorAll(".progress-bar")[7].style.backgroundColor = interpolateColor(r.FTesting);
+
                 document.querySelectorAll('.percentage-label')[8].innerHTML = formatPercent(r.PTesting);
                 document.querySelectorAll(".progress-bar")[8].style.width = formatPercentForWidth(r.PTesting);
+                document.querySelectorAll(".progress-bar")[8].style.backgroundColor = interpolateColor(r.PTesting);
+
             });
             break;
         default:
             eel.calcProgressByLocation(location,"WRU")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.getEquipmentAttributesByStation(location,"WRU")().then((r) => {
                 console.log(r);
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.RUInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.RUInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.RUInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.JBInstall);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.JBInstall);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.JBInstall);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.FBInstall);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.FBInstall);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.FBInstall);
+
                 document.querySelectorAll('.percentage-label')[3].innerHTML = formatPercent(r.antennaInstall);
                 document.querySelectorAll(".progress-bar")[3].style.width = formatPercentForWidth(r.antennaInstall);
+                document.querySelectorAll(".progress-bar")[3].style.backgroundColor = interpolateColor(r.antennaInstall);
+
                 document.querySelectorAll('.percentage-label')[4].innerHTML = formatPercent(r.antCableInstall);
                 document.querySelectorAll(".progress-bar")[4].style.width = formatPercentForWidth(r.antCableInstall);
+                document.querySelectorAll(".progress-bar")[4].style.backgroundColor = interpolateColor(r.antCableInstall);
+
                 document.querySelectorAll('.percentage-label')[5].innerHTML = formatPercent(r.splitterInstall);
                 document.querySelectorAll(".progress-bar")[5].style.width = formatPercentForWidth(r.splitterInstall);
+                document.querySelectorAll(".progress-bar")[5].style.backgroundColor = interpolateColor(r.splitterInstall);
+
                 document.querySelectorAll('.percentage-label')[6].innerHTML = formatPercent(r.FCSplicing);
                 document.querySelectorAll(".progress-bar")[6].style.width = formatPercentForWidth(r.FCSplicing);
+                document.querySelectorAll(".progress-bar")[6].style.backgroundColor = interpolateColor(r.FCSplicing);
+
                 document.querySelectorAll('.percentage-label')[7].innerHTML = formatPercent(r.FTesting);
                 document.querySelectorAll(".progress-bar")[7].style.width = formatPercentForWidth(r.FTesting);
+                document.querySelectorAll(".progress-bar")[7].style.backgroundColor = interpolateColor(r.FTesting);
+
                 document.querySelectorAll('.percentage-label')[8].innerHTML = formatPercent(r.PTesting);
                 document.querySelectorAll(".progress-bar")[8].style.width = formatPercentForWidth(r.PTesting);
+                document.querySelectorAll(".progress-bar")[8].style.backgroundColor = interpolateColor(r.PTesting);
+
             });
             break;
     }
@@ -612,28 +809,41 @@ function setZCaseProgress(location){
             eel.calcOverallProgressByType("ZCase")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("ZCase")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.caseInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.caseInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.caseInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.cableConnect);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.cableConnect);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.cableConnect);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.preOpTesting);
+
             });
             break;
         default:
             eel.calcProgressByLocation(location,"ZCase")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.getEquipmentAttributesByStation(location,"ZCase")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.caseInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.caseInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.caseInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.cableConnect);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.cableConnect);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.cableConnect);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.preOpTesting);
             });
             break;
     }
@@ -645,24 +855,40 @@ function setTOPBProgress(location){
             eel.calcOverallProgressByType("TOPB")().then((r) => {
                 document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
                 document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.calcAttributeGeneralProgressByEquipType("ZCase")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.TOPBInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.TOPBInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.TOPBInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.cableConnect);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.cableConnect);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.cableConnect);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.preOpTesting);
             });
             break;
         default:
+            eel.calcProgressByLocation(location,"TOPB")().then((r) => {
+                document.querySelector('.circular-progress').style.setProperty('--progress', formatInteger(r));
+                document.querySelector('#general-progress-percent').innerHTML = formatInteger(r);
+                document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
+            });
             eel.getEquipmentAttributesByStation(location,"TOPB")().then((r) => {
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.TOPBInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.TOPBInstall);
+                document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.TOPBInstall);
+
                 document.querySelectorAll('.percentage-label')[1].innerHTML = formatPercent(r.cableConnect);
                 document.querySelectorAll(".progress-bar")[1].style.width = formatPercentForWidth(r.cableConnect);
+                document.querySelectorAll(".progress-bar")[1].style.backgroundColor = interpolateColor(r.cableConnect);
+
                 document.querySelectorAll('.percentage-label')[2].innerHTML = formatPercent(r.preOpTesting);
                 document.querySelectorAll(".progress-bar")[2].style.width = formatPercentForWidth(r.preOpTesting);
+                document.querySelectorAll(".progress-bar")[2].style.backgroundColor = interpolateColor(r.preOpTesting);
             });
             break;
     }
