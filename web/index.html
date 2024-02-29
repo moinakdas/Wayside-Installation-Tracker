@@ -9,8 +9,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-color/2.1.2/jquery.color.min.js"></script>
     <script src="/eel.js"></script>
-    <script src = "scripts/map_effects.js"></script>
     <script src = "scripts/graphic_effects.js"></script>
+    <script src = "scripts/map_effects.js"></script>
     <script src = "scripts/statistic_window_effects.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Gilda+Display&family=Heebo:wght@100;200;300;400;500;600;700;800;900&family=Zen+Kaku+Gothic+Antique:wght@300;400;500;700;900&display=swap" rel="stylesheet">
@@ -88,6 +88,16 @@
             </div>
             <div class = "textHolder" id = "entryText8">
                 TOPB
+            </div>
+        </div>
+        <hr id = "navDivider">
+        <div class = "navBarEntry" id = "option9" data-highlight-color = "#8AF581" onclick="toggleFilterWindow();">
+            <div class = "imageHolder">
+                <img src = "images/icons/filter_icon.png" class = "entryIcon" style = "height: 1.9vw;">
+                <img src="images/icons/filter_icon_color.png" class="recoloredIcon" style="height: 1.9vw;" id = "filterIcon">
+            </div>
+            <div class = "textHolder" id = "filterLabel">
+                Filter
             </div>
         </div>
     </div>
@@ -171,6 +181,36 @@
                     <div class = "progress-bar"></div>
                 </div>
                 <div class = "percentage-label">50%</div>
+            </div>
+        </div>
+    </div>
+    <div id = "filter-window">
+        <div class = "filter-row-container">
+            <div class = "filter-option-container" id = "interlocking-1" onclick = "setFilter(0,0);">
+                Interlocking 1
+            </div>
+            <div class = "filter-option-container" id = "interlocking-2" onclick = "setFilter(0,1);">
+                Interlocking 2
+            </div>
+            <div class = "filter-option-container" id = "interlocking-3" onclick = "setFilter(0,2);">
+                Interlocking 3
+            </div>
+        </div>
+        <div class = "filter-row-container" style = "flex:0.8;">
+            <div class = "filter-option-container" style = "margin-top: 0;" id = "track-E1" onclick = "setFilter(1,0);">
+                E1
+            </div>
+            <div class = "filter-option-container" style = "margin-top: 0;" id = "track-E2" onclick = "setFilter(1,1);">
+                E2
+            </div>
+            <div class = "filter-option-container" style = "margin-top: 0;" id = "track-E3" onclick = "setFilter(1,2);">
+                E3
+            </div>
+            <div class = "filter-option-container" style = "margin-top: 0;" id = "track-E4" onclick = "setFilter(1,3);">
+                E4
+            </div>
+            <div class = "filter-option-container" style = "margin-top: 0;" id = "track-E5" onclick = "setFilter(1,4);">
+                E5
             </div>
         </div>
     </div>

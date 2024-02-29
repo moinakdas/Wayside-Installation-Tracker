@@ -58,13 +58,6 @@ function setOverallProgress(location) {
                 })
             ];
             Promise.all(promises).then(() => {
-                console.log(cmsProg)
-                console.log(axcProg)
-                console.log(sigProg)
-                console.log(switchProg)
-                console.log(wruProg)
-                console.log(zcaseProg)
-                console.log(topbProg)
                 total = 0
                 numValid = 0
                 if(cmsProg != -1 && typeof cmsProg != 'undefined'){
@@ -376,7 +369,6 @@ function assignColorsByMode(){
 }
 
 function updateProgress(endAngle) {
-    console.log(endAngle);
     startAngle = 0;
     var radius = 2.7;
     var circumference = 2 * Math.PI * radius;
@@ -761,7 +753,7 @@ function setWRUProgress(location){
                 document.querySelectorAll(".circular-progress circle.fg")[0].style.stroke = interpolateColor(r);
             });
             eel.getEquipmentAttributesByStation(location,"WRU")().then((r) => {
-                console.log(r);
+
                 document.querySelectorAll('.percentage-label')[0].innerHTML = formatPercent(r.RUInstall);
                 document.querySelectorAll(".progress-bar")[0].style.width = formatPercentForWidth(r.RUInstall);
                 document.querySelectorAll(".progress-bar")[0].style.backgroundColor = interpolateColor(r.RUInstall);

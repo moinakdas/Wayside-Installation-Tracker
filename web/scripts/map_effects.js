@@ -1,5 +1,6 @@
 let StationColors = ["CHURCHAV","FORTHAM","PROSPECTPARK","SEVENTHAVE","FOURTHNINTH","SMITH","CARROLL","BERGEN","HOYT","FULTON","CLINTONWASHINGTON","CLASSON","BEDFORD","MYRTLE","FLUSHING","BROADWAY","METROPOLITAN","NASSAU","GREENPOINT","TWENTYFIRST","COURTSQUARE"];
 let TunnelColors = ["CHU-FOR","FOR-15S","15S-7AV","7AV-4TH","4TH-SMI","SMI-CAR","CAR-BER","BER-HOY","HOY-FUL","FUL-CLI","CLI-CLA","CLA-BED","BED-MYR","MYR-FLU","FLU-BRO","BRO-MET","MET-NAS","NAS-GRE","GRE-21S","21S-COU"];
+let interlockingRules = getInterlockingVisibility(); 
 
 function updateStationColors(church, fortham, prospect, seventh, fourth, smith, carroll, bergen, hoyt, fulton, clinton, classon, bedford, myrtle, flushing, broadway, metro, nassau, green, twentyfirst, courtsq) {
     StationColors[0] = church;
@@ -163,67 +164,74 @@ window.onload = function() {
         ctx.restore(); // Restore the previous state of the context
     }
 
-    function drawCircle(ctx, x, y, color) {
-        let circlePath = new Path2D();
-        radius = window.innerWidth * 0.008 + scale*0.01;
-        circlePath.arc(offsetX + (basemapImage.width * scale)*x, offsetY + (basemapImage.height * scale)*y, radius, 0, Math.PI * 2);
-        ctx.fillStyle = color;
-        ctx.strokeStyle = '#FFFFFF'; // Set the border color to blue
-        ctx.lineWidth = window.innerWidth * 0.001; // Set the border width
-        ctx.fill(circlePath); // Fill the circle with the current fill style
-        ctx.stroke(circlePath);
-        return circlePath; // Return the Path2D object for later reference
+    function drawCircle(ctx, x, y, color,interlocking) {
+        if(!interlockingRules[interlocking]){
+            let circlePath = new Path2D();
+            radius = window.innerWidth * 0.008 + scale*0.01;
+            circlePath.arc(offsetX + (basemapImage.width * scale)*x, offsetY + (basemapImage.height * scale)*y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.strokeStyle = '#FFFFFF'; // Set the border color to blue
+            ctx.lineWidth = window.innerWidth * 0.001; // Set the border width
+            ctx.fill(circlePath); // Fill the circle with the current fill style
+            ctx.stroke(circlePath);
+            return circlePath; // Return the Path2D object for later reference
+        }
     }
 
-    function drawSquare(ctx, x, y, color) {
-        size = window.innerWidth * 0.016 + scale*0.02;
-        let squarePath = new Path2D();
-        squarePath.rect(offsetX + (basemapImage.width * scale)*x - size/2, offsetY + (basemapImage.height * scale)*y - size/2, size, size);
-        ctx.fillStyle = color;
-        ctx.strokeStyle = '#FFFFFF';
-        ctx.lineWidth = window.innerWidth * 0.001;
-        ctx.fill(squarePath); // Fill the square with the current fill style
-        ctx.stroke(squarePath);
-        return squarePath; // Return the Path2D object for later reference
+    function drawSquare(ctx, x, y, color,interlocking) {
+        if(!interlockingRules[interlocking]){
+            size = window.innerWidth * 0.016 + scale*0.02;
+            let squarePath = new Path2D();
+            squarePath.rect(offsetX + (basemapImage.width * scale)*x - size/2, offsetY + (basemapImage.height * scale)*y - size/2, size, size);
+            ctx.fillStyle = color;
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = window.innerWidth * 0.001;
+            ctx.fill(squarePath); // Fill the square with the current fill style
+            ctx.stroke(squarePath);
+            return squarePath; // Return the Path2D object for later reference
+        }
     }
 
-    function drawLabel(ctx, x, y, text) {
-        const padding = 0.005 * window.innerWidth;
-        const fontSize = 0.01 * window.innerWidth + (scale * 0.0005 * window.innerWidth);
-        const cornerRadius = 0.01 * window.innerWidth;
-        const fontFamily = 'Zen Kaku Gothic Antique';
-    
-        ctx.font = `${fontSize}px ${fontFamily}`;
-        const textWidth = ctx.measureText(text).width;
-    
-        // Calculate the dimensions of the label box
-        const boxWidth = textWidth + 3 * padding;
-        const boxHeight = fontSize + 2 * padding;
-    
-        // Add a drop shadow
-        ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
-        ctx.shadowBlur = 25;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-    
-        // Draw the label box with drop shadow
-        ctx.fillStyle = '#272830';
-        ctx.beginPath();
-        ctx.roundRect(offsetX + (basemapImage.width * scale)*x + 0.015 * window.innerWidth, offsetY + (basemapImage.height * scale)*y - boxHeight/2, boxWidth, boxHeight,cornerRadius);
-        ctx.fill();
-        // Reset shadow settings
-        ctx.shadowColor = 'rgba(0, 0, 0, 0)';
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetX = 0;
-        ctx.shadowOffsetY = 0;
-    
-        // Draw the text
-        ctx.fillStyle = 'white';
-        ctx.fillText(text, offsetX + (basemapImage.width * scale)*x + 0.015 * window.innerWidth + padding*0.8, offsetY + (basemapImage.height * scale)*y + fontSize + padding - boxHeight/2);
+    function drawLabel(ctx, x, y, text,interlocking) {
+        if(!interlockingRules[interlocking]){
+            const padding = 0.005 * window.innerWidth;
+            const fontSize = 0.01 * window.innerWidth + (scale * 0.0005 * window.innerWidth);
+            const cornerRadius = 0.01 * window.innerWidth;
+            const fontFamily = 'Zen Kaku Gothic Antique';
+        
+            ctx.font = `${fontSize}px ${fontFamily}`;
+            const textWidth = ctx.measureText(text).width;
+        
+            // Calculate the dimensions of the label box
+            const boxWidth = textWidth + 3 * padding;
+            const boxHeight = fontSize + 2 * padding;
+        
+            // Add a drop shadow
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.4)';
+            ctx.shadowBlur = 25;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+        
+            // Draw the label box with drop shadow
+            ctx.fillStyle = '#272830';
+            ctx.beginPath();
+            ctx.roundRect(offsetX + (basemapImage.width * scale)*x + 0.015 * window.innerWidth, offsetY + (basemapImage.height * scale)*y - boxHeight/2, boxWidth, boxHeight,cornerRadius);
+            ctx.fill();
+            // Reset shadow settings
+            ctx.shadowColor = 'rgba(0, 0, 0, 0)';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+        
+            // Draw the text
+            ctx.fillStyle = 'white';
+            ctx.fillText(text, offsetX + (basemapImage.width * scale)*x + 0.015 * window.innerWidth + padding*0.8, offsetY + (basemapImage.height * scale)*y + fontSize + padding - boxHeight/2);
+        }
     }
 
-    function drawLabel2(ctx, x, y, text) {
-        if(scale > 5){
+    function drawLabel2(ctx, x, y, text,interlocking) {
+
+        if(scale > 5 && !interlockingRules[interlocking]){
             const padding = 0.005 * window.innerWidth;
             const fontSize = 0.01 * window.innerWidth + (scale * 0.0005 * window.innerWidth);
             const cornerRadius = 0.01 * window.innerWidth;
@@ -277,93 +285,93 @@ window.onload = function() {
         strokePathAtCoordinates(ctx, crosstownLine, 0.406, 0.09) //draw crosstown Line Path
         
         //EVERY LABEL
-        drawLabel(ctx, 0.4605, 0.824, "CHURCH AVE");
-        drawLabel(ctx,0.47195, 0.77, "FORT HAMILTON PKWY");
-        drawLabel(ctx, 0.461, 0.705, "PROSPECT PARK");
-        drawLabel(ctx, 0.456, 0.6616, "SEVENTH AVE");
-        drawLabel(ctx, 0.43, 0.638, "FOURTH-NINTH ST");
-        drawLabel(ctx, 0.41, 0.6115, "SMITH-9TH ST");
-        drawLabel(ctx, 0.4135, 0.565, "CARROLL ST");
-        drawLabel(ctx, 0.4274, 0.52, "BERGEN ST");
-        drawLabel(ctx, 0.44685226906829234, 0.509638583272769, "HOYT-SCHERMERHORN");
-        drawLabel(ctx, 0.477072007865878, 0.5155092312581219, "CLINTON-WASHINGTON AVE");
-        drawLabel(ctx, 0.5067579253020132, 0.5084055499478555, "FULTON STREET");
-        drawLabel(ctx, 0.5337708632940297, 0.5021698393240124, "CLASSON AVE");
-        drawLabel(ctx, 0.5540809704924948, 0.4627643005937757, "BEDFORD-NOSTRAND AVE");
-        drawLabel(ctx, 0.5510600799886568, 0.42366909843101247, "MYRTLE-WILLOUGHBY AVE");
-        drawLabel(ctx, 0.5503232495978614, 0.3821582773567048, "FLUSHING AVE STATION");
-        drawLabel(ctx, 0.5476359562620028, 0.33274281608682654, "BROADWAY");
-        drawLabel(ctx, 0.5480436606063197, 0.2504877611036734, "METROPOLITAN AVENUE");
-        drawLabel(ctx, 0.5375219517562342, 0.20603025615787235, "NASSAU AVENUE");
-        drawLabel(ctx, 0.534795900257654, 0.1521445385094818, "GREENPOINT AVE");
-        drawLabel(ctx, 0.5489780978293515, 0.1106850951575837, "TWENTY-FIRST ST STATION");
-        drawLabel(ctx, 0.5687257996856262, 0.0907398055017195, "COURT SQUARE");
-        drawLabel2(ctx, 0.46491876904881685, 0.7956096815179841, "CHU-FOR");
-        drawLabel2(ctx, 0.46262310606060597, 0.7304966329966331, "FOR-15S");
-        drawLabel2(ctx, 0.4666761363636365, 0.6819528619528616, "15S-7AV");
-        drawLabel2(ctx, 0.4439107784375409, 0.6462633589804304, "7AV-4TH");
-        drawLabel2(ctx, 0.4192540759716212, 0.6238145286373771, "4TH-SMI");
-        drawLabel2(ctx, 0.40684346887084366, 0.5906400083650937, "SMI-CAR");
-        drawLabel2(ctx, 0.4206486742424242, 0.5413215488215486, "CAR-BER");
-        drawLabel2(ctx, 0.4345785982732891, 0.5005415269090395, "BER-HOY");
-        drawLabel2(ctx, 0.46314867424242434, 0.5171632996632995, "HOY-FUL");
-        drawLabel2(ctx, 0.49281063840626643, 0.5118752128418604, "FUL-CLI");
-        drawLabel2(ctx, 0.5212310606060606, 0.5051262626262628, "CLI-CLA");
-        drawLabel2(ctx, 0.5518268737289064, 0.4927547166001567, "CLA-BED");
-        drawLabel2(ctx, 0.5527888257575756, 0.4448653198653199, "BED-MYR");
-        drawLabel2(ctx, 0.5503361742424241, 0.4011952861952862, "MYR-FLU");
-        drawLabel2(ctx, 0.5498542902635165, 0.3611496197060289, "FLU-BRO");
-        drawLabel2(ctx, 0.5446458401866103, 0.2882566706042146, "BRO-MET");
-        drawLabel2(ctx, 0.5427119630064774, 0.23068039318498396, "MET-NAS");
-        drawLabel2(ctx, 0.5363837890255512, 0.18193551226217716, "NAS-GRE");
-        drawLabel2(ctx, 0.537492645776942, 0.12633570060956173, "GRE-21S");
-        drawLabel2(ctx, 0.5594223484848484, 0.10027777777777777, "21S-COU");
+        drawLabel(ctx, 0.4605, 0.824, "CHURCH AVE",0);
+        drawLabel(ctx,0.47195, 0.77, "FORT HAMILTON PKWY",0);
+        drawLabel(ctx, 0.461, 0.705, "PROSPECT PARK",0);
+        drawLabel(ctx, 0.456, 0.6616, "SEVENTH AVE",0);
+        drawLabel(ctx, 0.43, 0.638, "FOURTH-NINTH ST",0);
+        drawLabel(ctx, 0.41, 0.6115, "SMITH-9TH ST",0);
+        drawLabel(ctx, 0.4135, 0.565, "CARROLL ST",0);
+        drawLabel(ctx, 0.4274, 0.52, "BERGEN ST",0);
+        drawLabel(ctx, 0.44685226906829234, 0.509638583272769, "HOYT-SCHERMERHORN",1);
+        drawLabel(ctx, 0.477072007865878, 0.5155092312581219, "CLINTON-WASHINGTON AVE",1);
+        drawLabel(ctx, 0.5067579253020132, 0.5084055499478555, "FULTON STREET",1);
+        drawLabel(ctx, 0.5337708632940297, 0.5021698393240124, "CLASSON AVE",1);
+        drawLabel(ctx, 0.5540809704924948, 0.4627643005937757, "BEDFORD-NOSTRAND AVE",1);
+        drawLabel(ctx, 0.5510600799886568, 0.42366909843101247, "MYRTLE-WILLOUGHBY AVE",1);
+        drawLabel(ctx, 0.5503232495978614, 0.3821582773567048, "FLUSHING AVE STATION",1);
+        drawLabel(ctx, 0.5476359562620028, 0.33274281608682654, "BROADWAY",2);
+        drawLabel(ctx, 0.5480436606063197, 0.2504877611036734, "METROPOLITAN AVENUE",2);
+        drawLabel(ctx, 0.5375219517562342, 0.20603025615787235, "NASSAU AVENUE",2);
+        drawLabel(ctx, 0.534795900257654, 0.1521445385094818, "GREENPOINT AVE",2);
+        drawLabel(ctx, 0.5489780978293515, 0.1106850951575837, "TWENTY-FIRST ST STATION",2);
+        drawLabel(ctx, 0.5687257996856262, 0.0907398055017195, "COURT SQUARE",2);
+        drawLabel2(ctx, 0.46491876904881685, 0.7956096815179841, "CHU-FOR",0);
+        drawLabel2(ctx, 0.46262310606060597, 0.7304966329966331, "FOR-15S",0);
+        drawLabel2(ctx, 0.4666761363636365, 0.6819528619528616, "15S-7AV",0);
+        drawLabel2(ctx, 0.4439107784375409, 0.6462633589804304, "7AV-4TH",0);
+        drawLabel2(ctx, 0.4192540759716212, 0.6238145286373771, "4TH-SMI",0);
+        drawLabel2(ctx, 0.40684346887084366, 0.5906400083650937, "SMI-CAR",0);
+        drawLabel2(ctx, 0.4206486742424242, 0.5413215488215486, "CAR-BER",0);
+        drawLabel2(ctx, 0.4345785982732891, 0.5005415269090395, "BER-HOY",1);
+        drawLabel2(ctx, 0.46314867424242434, 0.5171632996632995, "HOY-FUL",1);
+        drawLabel2(ctx, 0.49281063840626643, 0.5118752128418604, "FUL-CLI",1);
+        drawLabel2(ctx, 0.5212310606060606, 0.5051262626262628, "CLI-CLA",1);
+        drawLabel2(ctx, 0.5518268737289064, 0.4927547166001567, "CLA-BED",1);
+        drawLabel2(ctx, 0.5527888257575756, 0.4448653198653199, "BED-MYR",1);
+        drawLabel2(ctx, 0.5503361742424241, 0.4011952861952862, "MYR-FLU",1);
+        drawLabel2(ctx, 0.5498542902635165, 0.3611496197060289, "FLU-BRO",2);
+        drawLabel2(ctx, 0.5446458401866103, 0.2882566706042146, "BRO-MET",2);
+        drawLabel2(ctx, 0.5427119630064774, 0.23068039318498396, "MET-NAS",2);
+        drawLabel2(ctx, 0.5363837890255512, 0.18193551226217716, "NAS-GRE",2);
+        drawLabel2(ctx, 0.537492645776942, 0.12633570060956173, "GRE-21S",2);
+        drawLabel2(ctx, 0.5594223484848484, 0.10027777777777777, "21S-COU",2);
 
         mode = getCurrentMode()
         //EVERY. SINGLE. STATION.
-        churchAvenue = drawCircle(ctx, 0.4605, 0.824, StationColors[0]);
-        fortHamiltonPkwy = drawCircle(ctx,0.47195, 0.77, StationColors[1]);
-        ProspectPark = drawCircle(ctx,0.461, 0.705, StationColors[2]);
-        seventhAve = drawCircle(ctx,0.456, 0.6616, StationColors[3]);
-        fourthNinthSt = drawCircle(ctx,0.43, 0.638, StationColors[4]);
-        smith9thSt = drawCircle(ctx,0.41, 0.6115, StationColors[5]);
-        carrollSt = drawCircle(ctx,0.4135, 0.565, StationColors[6]);
-        bergenSt = drawCircle(ctx,0.4274, 0.52, StationColors[7]);
-        hoytSchermerhorn = drawCircle(ctx,0.44685226906829234, 0.509638583272769, StationColors[8]);
-        clintonWashingtonAve = drawCircle(ctx,0.477072007865878, 0.5155092312581219, StationColors[9]);
-        fultonStreet = drawCircle(ctx,0.5067579253020132, 0.5084055499478555, StationColors[10]); // I love TCE
-        classonAve = drawCircle(ctx,0.5337708632940297, 0.5021698393240124, StationColors[11]);
-        bedfordNostrandAve = drawCircle(ctx,0.5540809704924948, 0.4627643005937757, StationColors[12]);
-        myrtleWilloughbyAve = drawCircle(ctx,0.5510600799886568, 0.42366909843101247, StationColors[13]);
-        flushingAveStation = drawCircle(ctx,0.5503232495978614, 0.3821582773567048, StationColors[14]);
-        broadway = drawCircle(ctx,0.5476359562620028, 0.33274281608682654, StationColors[15]);
-        metropolitanAvenue = drawCircle(ctx,0.5480436606063197, 0.2504877611036734, StationColors[16]);
-        nassauAvenue = drawCircle(ctx,0.5375219517562342, 0.20603025615787235, StationColors[17]);
-        greenpointAve = drawCircle(ctx,0.534795900257654, 0.1521445385094818, StationColors[18]);
-        twentyFirstStStation = drawCircle(ctx,0.5489780978293515, 0.1106850951575837, StationColors[19]);
-        courtSquare = drawCircle(ctx,0.5687257996856262, 0.0907398055017195, StationColors[20]);
+        churchAvenue = drawCircle(ctx, 0.4605, 0.824, StationColors[0],0);
+        fortHamiltonPkwy = drawCircle(ctx,0.47195, 0.77, StationColors[1],0);
+        ProspectPark = drawCircle(ctx,0.461, 0.705, StationColors[2],0);
+        seventhAve = drawCircle(ctx,0.456, 0.6616, StationColors[3],0);
+        fourthNinthSt = drawCircle(ctx,0.43, 0.638, StationColors[4],0);
+        smith9thSt = drawCircle(ctx,0.41, 0.6115, StationColors[5],0);
+        carrollSt = drawCircle(ctx,0.4135, 0.565, StationColors[6],0);
+        bergenSt = drawCircle(ctx,0.4274, 0.52, StationColors[7],0);
+        hoytSchermerhorn = drawCircle(ctx,0.44685226906829234, 0.509638583272769, StationColors[8],1);
+        clintonWashingtonAve = drawCircle(ctx,0.477072007865878, 0.5155092312581219, StationColors[9],1);
+        fultonStreet = drawCircle(ctx,0.5067579253020132, 0.5084055499478555, StationColors[10],1); // I love TCE
+        classonAve = drawCircle(ctx,0.5337708632940297, 0.5021698393240124, StationColors[11],1);
+        bedfordNostrandAve = drawCircle(ctx,0.5540809704924948, 0.4627643005937757, StationColors[12],1);
+        myrtleWilloughbyAve = drawCircle(ctx,0.5510600799886568, 0.42366909843101247, StationColors[13],1);
+        flushingAveStation = drawCircle(ctx,0.5503232495978614, 0.3821582773567048, StationColors[14],1);
+        broadway = drawCircle(ctx,0.5476359562620028, 0.33274281608682654, StationColors[15],2);
+        metropolitanAvenue = drawCircle(ctx,0.5480436606063197, 0.2504877611036734, StationColors[16],2);
+        nassauAvenue = drawCircle(ctx,0.5375219517562342, 0.20603025615787235, StationColors[17],2);
+        greenpointAve = drawCircle(ctx,0.534795900257654, 0.1521445385094818, StationColors[18],2);
+        twentyFirstStStation = drawCircle(ctx,0.5489780978293515, 0.1106850951575837, StationColors[19],2);
+        courtSquare = drawCircle(ctx,0.5687257996856262, 0.0907398055017195, StationColors[20],2);
 
         //man I should have billed more for this
-        CHU_FOR = drawSquare(ctx,0.46491876904881685, 0.7956096815179841,TunnelColors[0]);
-        FOR_15S = drawSquare(ctx,0.46262310606060597, 0.7304966329966331,TunnelColors[1]);
-        PRO_7AV = drawSquare(ctx,0.4666761363636365, 0.6819528619528616,TunnelColors[2]);
-        SEV_4TH = drawSquare(ctx,0.4439107784375409, 0.6462633589804304,TunnelColors[3]);
-        FOU_SMI = drawSquare(ctx,0.4192540759716212, 0.6238145286373771,TunnelColors[4]);
-        SMI_CAR = drawSquare(ctx,0.40684346887084366, 0.5906400083650937,TunnelColors[5]);
-        CAR_BER = drawSquare(ctx,0.4206486742424242, 0.5413215488215486,TunnelColors[6]);
-        BER_HOY = drawSquare(ctx,0.4345785982732891, 0.5005415269090395,TunnelColors[7]);
-        HOY_FUL = drawSquare(ctx,0.46314867424242434, 0.5171632996632995,TunnelColors[8]);
-        FUL_CLI = drawSquare(ctx,0.49281063840626643, 0.5118752128418604,TunnelColors[9]);
-        CLI_CLA = drawSquare(ctx,0.5212310606060606, 0.5051262626262628,TunnelColors[10]);
-        CLA_BED = drawSquare(ctx,0.5518268737289064, 0.4927547166001567,TunnelColors[11]);
-        BED_MYR = drawSquare(ctx,0.5527888257575756, 0.4448653198653199,TunnelColors[12]);
-        MYR_FLU = drawSquare(ctx,0.5503361742424241, 0.4011952861952862,TunnelColors[13]);
-        FLU_BRO = drawSquare(ctx,0.5498542902635165, 0.3611496197060289,TunnelColors[14]);
-        BRO_MET = drawSquare(ctx,0.5446458401866103, 0.2882566706042146,TunnelColors[15]);
-        MET_NAS = drawSquare(ctx,0.5427119630064774, 0.23068039318498396,TunnelColors[16]);
-        NAS_GRE = drawSquare(ctx,0.5363837890255512, 0.18193551226217716,TunnelColors[17]);
-        GRE_21S = drawSquare(ctx,0.537492645776942, 0.12633570060956173,TunnelColors[18]);
-        TWE_COU = drawSquare(ctx,0.5594223484848484, 0.10027777777777777,TunnelColors[19]);
+        CHU_FOR = drawSquare(ctx,0.46491876904881685, 0.7956096815179841,TunnelColors[0],0);
+        FOR_15S = drawSquare(ctx,0.46262310606060597, 0.7304966329966331,TunnelColors[1],0);
+        PRO_7AV = drawSquare(ctx,0.4666761363636365, 0.6819528619528616,TunnelColors[2],0);
+        SEV_4TH = drawSquare(ctx,0.4439107784375409, 0.6462633589804304,TunnelColors[3],0);
+        FOU_SMI = drawSquare(ctx,0.4192540759716212, 0.6238145286373771,TunnelColors[4],0);
+        SMI_CAR = drawSquare(ctx,0.40684346887084366, 0.5906400083650937,TunnelColors[5],0);
+        CAR_BER = drawSquare(ctx,0.4206486742424242, 0.5413215488215486,TunnelColors[6],0);
+        BER_HOY = drawSquare(ctx,0.4345785982732891, 0.5005415269090395,TunnelColors[7],1);
+        HOY_FUL = drawSquare(ctx,0.46314867424242434, 0.5171632996632995,TunnelColors[8],1);
+        FUL_CLI = drawSquare(ctx,0.49281063840626643, 0.5118752128418604,TunnelColors[9],1);
+        CLI_CLA = drawSquare(ctx,0.5212310606060606, 0.5051262626262628,TunnelColors[10],1);
+        CLA_BED = drawSquare(ctx,0.5518268737289064, 0.4927547166001567,TunnelColors[11],1);
+        BED_MYR = drawSquare(ctx,0.5527888257575756, 0.4448653198653199,TunnelColors[12],1);
+        MYR_FLU = drawSquare(ctx,0.5503361742424241, 0.4011952861952862,TunnelColors[13],1);
+        FLU_BRO = drawSquare(ctx,0.5498542902635165, 0.3611496197060289,TunnelColors[14],2);
+        BRO_MET = drawSquare(ctx,0.5446458401866103, 0.2882566706042146,TunnelColors[15],2);
+        MET_NAS = drawSquare(ctx,0.5427119630064774, 0.23068039318498396,TunnelColors[16],2);
+        NAS_GRE = drawSquare(ctx,0.5363837890255512, 0.18193551226217716,TunnelColors[17],2);
+        GRE_21S = drawSquare(ctx,0.537492645776942, 0.12633570060956173,TunnelColors[18],2);
+        TWE_COU = drawSquare(ctx,0.5594223484848484, 0.10027777777777777,TunnelColors[19],2);
 
     }
 
@@ -438,6 +446,11 @@ window.onload = function() {
     };
 
     document.addEventListener('requestDraw', function(event) {
+        draw();
+    });
+
+    document.addEventListener('reqInterlockingUpdate', function(event) {
+        getInterlockingVisibility();
         draw();
     });
 
