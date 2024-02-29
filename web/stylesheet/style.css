@@ -172,13 +172,36 @@ body{
 
 #statistics-container{
     position: absolute;
-    height: 70%;
+    height: 65%;
     width: 100%;
     left: 0%;
-    bottom: 0%;
+    bottom: 5%;
     display: flex;
     align-items: center;
     flex-direction: column;
+    overflow-y: scroll;
+    scrollbar-color: transparent;
+    scrollbar-width: 0.1vw;
+}
+
+::-webkit-scrollbar {
+    width: 0.1vw;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: transparent; 
+    border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: transparent; 
 }
 
 .single-stat-container{
@@ -272,7 +295,7 @@ body{
     --circumference: calc(var(--radius) * pi * 2);
     --dash: calc((var(--progress) * var(--circumference)) / 100);
     --progress: 75;
-    animation: progress-animation 0.75s ease 0s 1 forwards;
+    animation: progress-animation 1s ease 0s 1 forwards;
 }
 
 .circular-progress circle {

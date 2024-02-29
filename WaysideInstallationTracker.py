@@ -8,6 +8,8 @@ import sys
 from sys import exit
 import os
 import eel.browsers
+import ctypes
+
 
 #============================= REMOVE DURING DEBUGGING ====================================================
 import warnings
@@ -1112,9 +1114,13 @@ print(calcProgressByLocation("CHURCH","GENERAL"))
 print("==================================\n\n\n")
 
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
+if __name__ == "__main__":   
+    if 'win' in sys.platform:
+        ctypes.windll.shcore.SetProcessDpiAwareness(1)
+
 eel.init('web')
 try:
-    eel.start("index.html",size=(960*1.5,540*1.5),icon="web\\images\\icons\\WIPLogo.png")
+    eel.start("index.html",size=(960*1.5,540*1.5))
 except (SystemExit, MemoryError, KeyboardInterrupt):
     os.system("taskkill /F /IM python.exe /T")
 
