@@ -2,6 +2,11 @@
 The Wayside Installation Tracker is a program used to track the installation of various pieces of wayside equipment for Crosstown Partners under contract S-48012. It analyzes a spreadsheet tabulating the installation of each piece of equipment and provides a high level overview of project progress per installation type. It also organizes said data over different categories (i.e. overall progress can be displayed by station & tunnel, interlocking, or track number).
 
 # Install
+Use the [git](https://git-scm.com/) tool to clone this repository.
+
+```bash
+git clone https://github.com/moinakdas/Wayside-Installation-Tracker
+```
 
 # Class Structure
 This program currently supports seven different types of equipment:
@@ -117,7 +122,7 @@ The Activity classes for all equipment reference the `BinProgress` class. This c
 | Attribute | Description |
 |-----------|-------------|
 |`date`| `(string)` Date of reference task completion, written in `MM-DD-YYYY` format |
-|`progress`| `(int)` progress of current task, typically binary where `0` = not completed, `1` = completed |
+|`progress`| `(float)` progress of current task, typically binary where `0` = not completed, `1` = completed |
 
 ## Axle Counter
 ### General Definitions
@@ -142,6 +147,13 @@ The `AxleCounterActivities` class represents the installation progress of the Ax
 |`LCInstall`|`(BinProgress)` Whether Line Cable was installed |
 |`ECInstall`|`(BinProgress)` Whether Express Cable was installed |
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
+
+### Functions
+
+| Function Name | Description |
+|-----------|------------|
+|`getProgress()`|`(float)` current installation progress of equipment object |
+
 
 ## Signal
 ### General Definitions
@@ -168,6 +180,12 @@ The `SignalActivities` class represents the installation progress of the Signal 
 |`breakdownTesting`|`(BinProgress)` Whether Breakdown Testing was performed |
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
 
+### Functions
+
+| Function Name | Description |
+|-----------|------------|
+|`getProgress()`|`(float)` current installation progress of equipment object |
+
 ## Switch
 ### General Definitions
 Switch inherits from the `Equipment` class. It's attributes are shown below.
@@ -192,6 +210,12 @@ The `SwitchActivities` class represents the installation progress of the Switch 
 |`LCInstall`|`(BinProgress)` Whether Line Cable was installed |
 |`breakdownTesting`|`(BinProgress)` Whether Breakdown Testing was performed |
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
+
+### Functions
+
+| Function Name | Description |
+|-----------|------------|
+|`getProgress()`|`(float)` current installation progress of equipment object |
 
 ## Wayside Radio Unit (WRU)
 ### General Definitions
@@ -221,6 +245,12 @@ The `WRUActivities` class represents the installation progress of the WRU (`"WRU
 |`FTesting`|`(BinProgress)` Whether Fiber Testing was performed|
 |`PTesting`|`(BinProgress)` Whether Power Testing was performed|
 
+### Functions
+
+| Function Name | Description |
+|-----------|------------|
+|`getProgress()`|`(float)` current installation progress of equipment object |
+
 ## Z-Case (Zcase)
 ### General Definitions
 ZCase inherits from the `Equipment` class. It's attributes are shown below.
@@ -233,7 +263,6 @@ ZCase inherits from the `Equipment` class. It's attributes are shown below.
 |`activities`| `**VARIES**` Represented by its own class depending on `type` |
 |`notes`|`(string)` Any notes taken about specific installation |
 
-
 ### ZCase Activities
 
 | Attribute | Defintions |
@@ -241,6 +270,12 @@ ZCase inherits from the `Equipment` class. It's attributes are shown below.
 |`caseInstall`|`(BinProgress)` Whether Z-Case was installed |
 |`cableConnect`|`(BinProgress)` Whether cable connection/termination was performed |
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed|
+
+### Functions
+
+| Function Name | Description |
+|-----------|------------|
+|`getProgress()`|`(float)` current installation progress of equipment object |
 
 ## Train Operator Push Button (TOPB)
 ### General Definitions
@@ -254,7 +289,6 @@ TOPB inherits from the `Equipment` class. It's attributes are shown below.
 |`activities`| `**VARIES**` Represented by its own class depending on `type` |
 |`notes`|`(string)` Any notes taken about specific installation |
 
-
 ### TOPB Activities
 
 | Attribute | Defintions |
@@ -263,12 +297,17 @@ TOPB inherits from the `Equipment` class. It's attributes are shown below.
 |`cableConnect`|`(BinProgress)` Whether cable connection/termination was performed |
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed|
 
-### Examples
-The following contains an example of how the `Equipment` class may be referenced
-```python
-#Let AXC001 be an axle counter initialized as Equipment
+### Functions
 
-AXC001.type = "AXC"                                   #Equipment is an Axle Counter
+| Function Name | Description |
+|-----------|------------|
+|`getProgress()`|`(float)` current installation progress of equipment object |
+
+## Examples
+The following contains an example of how the `AXC` class may be referenced
+```python
+#Let AXC001 be an axle counter initialized as AXC
+
 AXC001.stationing = 71288                             #Axle Counter is stationed at 712+88
 AXC001.track = "E1"                                   #Axle Counter is on track E1
 AXC001.location = "BERGEN ST"                         #Axle Counter is located in the Bergen Street Station
@@ -281,14 +320,35 @@ AXC001.activities.LCInstall.date = 03-16-2024         #Line Cable was installed 
 AXC001.activities.preOpTesting.progress = 0           #Pre-Operation testing not completed
 AXC001.activities.preOpTesting.date = None            #No date availiable as testing not completed
 AXC001.notes = "Pre-Op Testing delayed"               #Note made on specific axle counter installation
+print(AXC001.getProgress())                           #will print the current progress of Axle Counter Installation (0.75)
 ```
 ## Library Operation
 
-The script takes care of taking data from the properly formatted spreadsheet and internalizing it within its own class structure. It generates a series of arrays, one for each equipment type (one array corresponds to a sheet in the workbook).
+### General Approach
+The script takes care of taking data from the properly formatted spreadsheet and internalizing it within its own class structure. It generates a series of arrays, one for each equipment type (one array corresponds to a sheet in the workbook, each element in the array corresponds to a single object of the specified equipment type).
 
-Each array is then sorted by the stationing of the equipment mentioned (lowest stationing -> highest stationing) using MergeSort. This allows for binary search to be utilized when searching for equipment by location.
+The names of these lists are as follows:
+- CMRSObjectList
+- AXCObjectList
+- SignalObjectList
+- SwitchObjectList
+- WRUObjectList
+- ZCaseObjectList
+- TOPBObjectList
+
+Using a loop, it is possible to iterate through these equipment arrays to perform any necessary calculation
+
+
+### Front-Facing Functions
+Several Functions are written to provide output directly to the front-end of the program. They are denoted with a `@eel.expose` directly above their definition.
 
 | Function Name | Description |
 |---------------|-------------|
-|`searchStationing(equipArray,start,end)`| Takes in the sorted list of equipment to search through (`equipArray`), a `(int) start` stationing, and an `(int) end` stationing. Returns a list of entries from the given array that lie between the start and end stationing. 
+|`calcOverallProgressByType(equipmentType)`| Takes in a `string` equipment type (`CMRS`,`AXC`,`SIGNAL`,`SWITCH`,`WRU`,`ZCase`,`TOPB`) and returns the average progress among all objects in the corroesponding object list `float` |
+|`getCMSProgressByCMSType(cmsType)`| Takes in a `string` CMS type (`mess`,`15CMRS`,`24CMRS`,`tray`) and returns the average progress among all objects of that CMS type `float`|
+|`getCMSProgressByStationAndType(cmsType,Station)`| Takes in a `string` CMS type (`mess`,`15CMRS`,`24CMRS`,`tray`) and a `string` Station/Tunnel Name returns the average progress among all objects of that CMS type in that station `float`|
+|`getEquipmentAttributesByStation(equipmentType)`| Takes in a `string` equipment type (`CMRS`,`AXC`,`SIGNAL`,`SWITCH`,`WRU`,`ZCase`,`TOPB`) and returns a dictionary with all the attributes of that equipment type averaged along the entire array`<DICTIONARY>`|
+|`calcAttributeGeneralProgressByEquipType(location, equipmentType)`| Takes in a `string` Station/Tunnel name and a `string` equipment type (`CMRS`,`AXC`,`SIGNAL`,`SWITCH`,`WRU`,`ZCase`,`TOPB`) and returns a dictionary of the average progress per activity at the station/tunnel`<DICTIONARY>`|
+|`calcProgressByLocation(location, equipmentType)`| Takes in a `string` Station/Tunnel name and a `string` equipment type (`CMRS`,`AXC`,`SIGNAL`,`SWITCH`,`WRU`,`ZCase`,`TOPB`) and returns the progress of the equipment type within the station `float` Returns -1 if internal error|
+
 
