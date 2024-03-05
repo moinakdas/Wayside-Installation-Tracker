@@ -13,7 +13,7 @@ This program currently supports seven different types of equipment:
 - Z-Cases
 - TOPBs
 
-Each piece of equipment is represented within the code as its own class. Class definitions and attrivutes are listed below.
+Each piece of equipment is represented within the code as its own class. Class definitions and attributes are listed below.
 
 ## CMRS & Cables
 ### General Definitions
@@ -111,26 +111,26 @@ Mess001.notes = "INSTALLATION PROJECTED EARLY"          #Note made for specified
 ```
 The above example shows these values being defined. In practice, these values will be read and used in various calculations within the program.
 
-## Equipment
-### General Definitions
-Axle Counters, Signals, Switches, WRUs, Z-Cases, and TOPBs are represented by the `Equipment` class. It's attributes are shown below.
-
-| Attribute | Defintions |
-|-----------|------------|
-|`type`| `(string)` Type of equipment installed (i.e. `"AXC"`,`"SIGNAL"`,`"SWITCH"`,`"WRU"`,`ZCASE`,`"TOPB"`)|
-|`stationing`|`(int)` Stationing of referenced equipment. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
-|`track`|`(string)` The track the equipment is being installed on |
-|`location`| `(string)` The station/tunnel name that the equipment is being installed on |
-|`activities`| `**VARIES**` Represented by its own class depending on `type` |
-|`notes`|`(string)` Any notes taken about specific installation |
-
 ### BinProgress Class
-The Activity classes listed below reference the `BinProgress` class. This class serves as a container for the total and installed quantity of material. Its definition is below.
+The Activity classes for all equipment reference the `BinProgress` class. This class serves as a container for the total and installed quantity of material. Its definition is below.
 
 | Attribute | Description |
 |-----------|-------------|
 |`date`| `(string)` Date of reference task completion, written in `MM-DD-YYYY` format |
 |`progress`| `(int)` progress of current task, typically binary where `0` = not completed, `1` = completed |
+
+## Axle Counter
+### General Definitions
+AXC inherits from the `Equipment` class. It's attributes are shown below.
+
+| Attribute | Defintions |
+|-----------|------------|
+|`stationing`|`(int)` Stationing of referenced equipment. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
+|`track`|`(string)` The track the equipment is being installed on |
+|`location`| `(string)` The station/tunnel name that the equipment is being installed on |
+|`activities`| `**VARIES**` Represented by its own class depending on `type` |
+|`notes`|`(string)` Any notes taken about specific installation |
+|`REFDWG`|`(string)` Name of the Drawing Showing the Axle Counter |
 
 ### Axle Counter Activities
 The `AxleCounterActivities` class represents the installation progress of the Axle Counter (`"AXC"`) type of equipment. Each attribute in turn is represented by the `BinProgress` class. Its attributes are shown below.
@@ -140,8 +140,21 @@ The `AxleCounterActivities` class represents the installation progress of the Ax
 |`ACInstall`|`(BinProgress)` Whether Axle Counter was installed |
 |`JBInstall`|`(BinProgress)` Whether Junction Box was installed |
 |`LCInstall`|`(BinProgress)` Whether Line Cable was installed |
-|`breakdownTesting`|`(BinProgress)` Whether Breakdown Testing was performed |
+|`ECInstall`|`(BinProgress)` Whether Express Cable was installed |
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
+
+## Signal
+### General Definitions
+Signal inherits from the `Equipment` class. It's attributes are shown below.
+
+| Attribute | Defintions |
+|-----------|------------|
+|`stationing`|`(int)` Stationing of referenced equipment. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
+|`track`|`(string)` The track the equipment is being installed on |
+|`location`| `(string)` The station/tunnel name that the equipment is being installed on |
+|`activities`| `**VARIES**` Represented by its own class depending on `type` |
+|`notes`|`(string)` Any notes taken about specific installation |
+|`signalType`|`(string)` Type of Signal (i.e. HOME, APPROACH, REVERSE) |
 
 ### Signal Activities
 The `SignalActivities` class represents the installation progress of the Signal (`"SIGNAL"`) type of equipment. Each attribute in turn is represented by the `BinProgress` class.Its attributes are shown below.
@@ -150,9 +163,23 @@ The `SignalActivities` class represents the installation progress of the Signal 
 |-----------|------------|
 |`sigInstall`|`(BinProgress)` Whether Signal was installed |
 |`JBInstall`|`(BinProgress)` Whether Junction Box was installed |
-|`SMInstall`|`(BinProgress)` |
+|`SMInstall`|`(BinProgress)` Whether Switch Machine was installed|
 |`LCInstall`|`(BinProgress)` Whether Line Cable was installed |
+|`breakdownTesting`|`(BinProgress)` Whether Breakdown Testing was performed |
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
+
+## Switch
+### General Definitions
+Switch inherits from the `Equipment` class. It's attributes are shown below.
+
+| Attribute | Defintions |
+|-----------|------------|
+|`stationing`|`(int)` Stationing of referenced equipment. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
+|`track`|`(string)` The track the equipment is being installed on |
+|`location`| `(string)` The station/tunnel name that the equipment is being installed on |
+|`activities`| `**VARIES**` Represented by its own class depending on `type` |
+|`notes`|`(string)` Any notes taken about specific installation |
+|`name`|`(string)` Name of Signal |
 
 ### Switch Activities
 The `SwitchActivities` class represents the installation progress of the Switch (`"SWITCH"`) type of equipment. Each attribute in turn is represented by the `BinProgress` class. Its attributes are shown below.
@@ -166,6 +193,18 @@ The `SwitchActivities` class represents the installation progress of the Switch 
 |`breakdownTesting`|`(BinProgress)` Whether Breakdown Testing was performed |
 |`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed |
 
+## Wayside Radio Unit (WRU)
+### General Definitions
+WRU inherits from the `Equipment` class. It's attributes are shown below.
+
+| Attribute | Defintions |
+|-----------|------------|
+|`stationing`|`(int)` Stationing of referenced equipment. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
+|`track`|`(string)` The track the equipment is being installed on |
+|`location`| `(string)` The station/tunnel name that the equipment is being installed on |
+|`activities`| `**VARIES**` Represented by its own class depending on `type` |
+|`notes`|`(string)` Any notes taken about specific installation |
+
 ### WRU Activities 
 
 The `WRUActivities` class represents the installation progress of the WRU (`"WRU"`) type of equipment. Each attribute in turn is represented by the `BinProgress` class. Its attributes are shown below.
@@ -174,15 +213,55 @@ The `WRUActivities` class represents the installation progress of the WRU (`"WRU
 |-----------|------------|
 |`RUInstall`|`(BinProgress)` Whether switch was installed |
 |`JBInstall`|`(BinProgress)` Whether Junction Box was installed |
-|`FBInstall`|`(BinProgress)`|
-|`antennaInstall`|`(BinProgress)`|
-|`antCableInstall`|`(BinProgress)`|
-|`splitterInstall`|`(BinProgress)`|
-|`FCSplice`|`(BinProgress)` |
-|`FTesting`|`(BinProgress)` |
-|`PTesting`|`(BinProgress)` |
+|`FBInstall`|`(BinProgress)` Whether Fiber Box was installed|
+|`antennaInstall`|`(BinProgress)` Whether Antenna was installed|
+|`antCableInstall`|`(BinProgress)` Whether Antenna Cable was installed|
+|`splitterInstall`|`(BinProgress)` Whether Splitter was installed|
+|`FCSplice`|`(BinProgress)` Whether Fiber Cable was spliced|
+|`FTesting`|`(BinProgress)` Whether Fiber Testing was performed|
+|`PTesting`|`(BinProgress)` Whether Power Testing was performed|
+
+## Z-Case (Zcase)
+### General Definitions
+ZCase inherits from the `Equipment` class. It's attributes are shown below.
+
+| Attribute | Defintions |
+|-----------|------------|
+|`stationing`|`(int)` Stationing of referenced equipment. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
+|`track`|`(string)` The track the equipment is being installed on |
+|`location`| `(string)` The station/tunnel name that the equipment is being installed on |
+|`activities`| `**VARIES**` Represented by its own class depending on `type` |
+|`notes`|`(string)` Any notes taken about specific installation |
+
+
+### ZCase Activities
+
+| Attribute | Defintions |
+|-----------|------------|
+|`caseInstall`|`(BinProgress)` Whether Z-Case was installed |
+|`cableConnect`|`(BinProgress)` Whether cable connection/termination was performed |
+|`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed|
+
+## Train Operator Push Button (TOPB)
+### General Definitions
+TOPB inherits from the `Equipment` class. It's attributes are shown below.
+
+| Attribute | Defintions |
+|-----------|------------|
+|`stationing`|`(int)` Stationing of referenced equipment. NOTE: Do NOT use a "+" as a delimiter when writing stationings. Only use integer values (i.e. `"588+88"` --> `58888`)|
+|`track`|`(string)` The track the equipment is being installed on |
+|`location`| `(string)` The station/tunnel name that the equipment is being installed on |
+|`activities`| `**VARIES**` Represented by its own class depending on `type` |
+|`notes`|`(string)` Any notes taken about specific installation |
+
 
 ### TOPB Activities
+
+| Attribute | Defintions |
+|-----------|------------|
+|`TOPBInstall`|`(BinProgress)` Whether TOPB was installed |
+|`cableConnect`|`(BinProgress)` Whether cable connection/termination was performed |
+|`preOpTesting`|`(BinProgress)` Whether Pre-Operation Testing was performed|
 
 ### Examples
 The following contains an example of how the `Equipment` class may be referenced
