@@ -1,22 +1,26 @@
 # ========================== IMPORT STATEMENTS =============================================================
+import sys
+
+logfile = open('program_output.txt', 'w')
+sys.stdout = logfile
+sys.stderr = logfile
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 from openpyxl import Workbook
-
 import eel
-import sys
 from sys import exit
 import os
 import eel.browsers
 import ctypes
-
-
 #============================= REMOVE DURING DEBUGGING ====================================================
 import warnings
-warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
-workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
-#workbook = load_workbook(filename="C:\\classwork\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
-#================================================================================================
+#warnings.filterwarnings('ignore', category=UserWarning, module='openpyxl')
+#workbook = load_workbook(filename="C:\\Personal\\Wayside-Installation-Tracker\\48012-Progress-Tracker.xlsx",  data_only=True)
+current_directory = os.path.abspath(__file__).replace("\\dist\\WaysideInstallationTracker\\_internal\\WaysideInstallationTracker.py","")
+file_path = current_directory + "\\48012-Progress-Tracker.xlsx"
+
+workbook = load_workbook(filename=file_path,  data_only=True)
+
 #========================================================================================================================================================================
 #====================================================== CLASS DEFINITIONS, SEE GITHUB REPO FOR DETAILS ==================================================================
 #========================================================================================================================================================================
@@ -161,11 +165,6 @@ class CableSpan:
                         or (progress := self.activities.cablesPulled.getProgress()) is None \
                         or (progress := self.activities.CMRSInstall15) is None:
                     return -1
-                #print(self.activities.colClamp.getProgress())
-                #print(self.activities.stationBrackets.getProgress())
-                #print(self.activities.grounding.getProgress())
-                #print(self.activities.obsBracket.getProgress())
-                #print(self.activities.cablesPulled.getProgress())
 
                 return (self.activities.CMRSInstall15.getProgress() + self.activities.colClamp.getProgress() + self.activities.stationBrackets.getProgress() + self.activities.grounding.getProgress() +
                         self.activities.obsBracket.getProgress() + self.activities.cablesPulled.getProgress()) / 6
@@ -551,7 +550,7 @@ def calcOverallProgress(objList):
                     validCount += 1
                     totalProgress += objList[i].getProgress()
 
-    print(str(validCount) + " OF " + str(len(objList)) + " ENTRIES SUCCESSFULL ")
+    #print(str(validCount) + " OF " + str(len(objList)) + " ENTRIES SUCCESSFULL ")
     if validCount == 0:
         return 0
     return totalProgress/validCount    
@@ -1102,22 +1101,14 @@ def stationingToLocation(stationing):
         return "QUEENS PLAZA"
 #============================================================================ CODE EXECUTION START =================================================================
 initializeObjects()
-# CMRSObjectList
-# AXCObjectList
-# SignalObjectList
-# SwitchObjectList
-# WRUObjectList
-# ZCaseObjectList
-# TOPBObjectList
-print(calcProgressByLocation("CHURCH","GENERAL"))
-print("==================================\n\n\n")
 
 #============================================================================= INITIALIZE PYTHON EEL WINDOW ======================================
 if __name__ == "__main__":   
     if 'win' in sys.platform:
         ctypes.windll.shcore.SetProcessDpiAwareness(1)
 
-eel.init('web')
+web_path = current_directory + "\\web"
+eel.init(web_path)
 try:
     eel.start("index.html",size=(960*1.5,540*1.5))
 except (SystemExit, MemoryError, KeyboardInterrupt):

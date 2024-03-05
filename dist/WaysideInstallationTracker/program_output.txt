@@ -1,0 +1,1 @@
+openpyxl\worksheet\_reader.py:329: UserWarning: Slicer List extension is not supported and will be removed
