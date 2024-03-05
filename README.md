@@ -10,7 +10,7 @@ git clone https://github.com/moinakdas/Wayside-Installation-Tracker
 
 # Class Structure
 This program currently supports seven different types of equipment:
-- [CMRS & Cables](##CMRS-&-Cables)
+- [CMRS & Cables](#c-m-r-s---c-a-b-l-e-s)
 - [Axle Counters]()
 - [Signals]
 - [Switches]
