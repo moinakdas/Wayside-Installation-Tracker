@@ -10,13 +10,13 @@ git clone https://github.com/moinakdas/Wayside-Installation-Tracker
 
 # Class Structure
 This program currently supports seven different types of equipment:
-- [CMRS & Cables](#c-m-r-s---c-a-b-l-e-s)
-- [Axle Counters]()
-- [Signals]
-- [Switches]
-- [WRUs]
-- [Z-Cases]
-- [TOPBs]
+- CMRS & Cables
+- Axle Counters
+- Signals
+- Switches
+- WRUs
+- Z-Cases
+- TOPBs
 
 Each piece of equipment is represented within the code as its own class. Class definitions and attributes are listed below.
 
