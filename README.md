@@ -1,6 +1,8 @@
 # Intro
 The Wayside Installation Tracker is a program used to track the installation of various pieces of wayside equipment for Crosstown Partners under contract S-48012. It analyzes a spreadsheet tabulating the installation of each piece of equipment and provides a high level overview of project progress per installation type. It also organizes said data over different categories (i.e. overall progress can be displayed by station & tunnel, interlocking, or track number).
 
+![alt text](https://github.com/moinakdas/Wayside-Installation-Tracker/blob/main/WITSampleImage.png?raw=true)
+
 # Install
 Use the [git](https://git-scm.com/) tool to clone this repository.
 
